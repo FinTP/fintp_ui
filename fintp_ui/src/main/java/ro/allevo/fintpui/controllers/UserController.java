@@ -58,6 +58,7 @@ public class UserController {
 	public String root()
 	{
 		logger.info("/ requested");
+		
 		return "index";
 	}
 
@@ -71,6 +72,4 @@ public class UserController {
 		users.add(new User("Kevin", "Crocker"));
 		model.addAttribute("users", users);
 	}
-
-
 }

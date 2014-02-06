@@ -1,3 +1,14 @@
-<div id="footer">
-	<p>Powered by FinTP</p>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core"  
+xmlns:spring="http://www.springframework.org/tags" 
+xmlns:tiles="http://tiles.apache.org/tags-tiles" 
+xmlns:jsp="http://java.sun.com/JSP/Page" id="site-footer">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<nav>
+		<ul>
+			<li><a href="#" class="inactive">© 2014 Allevo</a></li>
+			<li class="right"><a href="#">API</a></li>
+			<li class="right"><a href="http://www.fintp.org/blogs">Blog</a></li>
+			<li class="right"><a href="#">About</a></li>
+		</ul>
+	</nav>
 </div>
