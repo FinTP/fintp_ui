@@ -1,0 +1,59 @@
+<div xmlns:c="http://java.sun.com/jsp/jstl/core"  
+	xmlns:spring="http://www.springframework.org/tags" 
+	xmlns:tiles="http://tiles.apache.org/tags-tiles" 
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:security="http://www.springframework.org/security/tags"
+	id="site-header">
+		
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+
+	<c:url value="/images/banner_green.png" var="headerImage" />
+	<c:set var="selectedLocale" value="${pageContext.response.locale}" />
+	<c:set var="locales" value="${fn:split('ro,en', ',')}" scope="application" />
+	
+	<nav>
+		<ul>
+		
+			<li class="main-menu"><a href="queues.htm">  <spring:message code="header.menuQueues"/></a></li>
+			<li class="main-menu"><a href="payments.htm"><spring:message code="header.menuPayments"/></a>
+				<ul>
+					<li><a href="#"><spring:message code="header.menuRTGS"/></a></li>
+					<li><a href="#"><spring:message code="header.menuACH"/></a></li>
+				</ul>
+			</li>
+			<li class="main-menu"><a href="reports"><spring:message code="header.menuReports"/></a>
+				<ul>
+					<li><a href="#"><spring:message code="header.menuMessages"/></a></li>
+					<li><a href="#"><spring:message code="header.menuBatches"/></a></li>
+					<li><a href="#"><spring:message code="header.menuEvents"/></a></li>
+					<li><a href="#"><spring:message code="header.menuLogs"/></a></li>
+				</ul>
+			</li>
+			<li class="main-menu"><a href="liquidity"><spring:message code="header.menuLiquidity"/></a></li>
+			<li class="right">
+				<div class="localeSelector">
+					<select id="languageSelector" onChange="changeLocale(this);">
+						<option value="${selectedLocale}" selected="selected">${selectedLocale}</option>
+						<c:forEach items="${locales}" var="locale">
+							<c:if test="${locale != selectedLocale}">
+								<option value="${locale}">${locale}</option>
+							</c:if>
+						</c:forEach>
+					</select>
+				</div>
+			</li>
+			<li class="right">
+				<security:authorize access="isAuthenticated()">
+					<a href="#" class="inactive"><security:authentication property="principal.username" /></a>
+					<ul>
+						<li>
+						<a href="logout.htm" title="logout"><spring:message code="header.logoutText"/></a>
+						</li>
+					</ul>
+				</security:authorize>
+				<security:authorize access="! isAuthenticated()"><spring:message code="header.notAuthenticatedText"/></security:authorize>
+			</li>
+		</ul>
+	</nav>
+</div>

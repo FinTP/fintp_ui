@@ -1,0 +1,31 @@
+<div xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
+
+
+	<c:choose>
+		<c:when test="${empty queues}">
+			<spring:message code="payments.noPayments" />
+		</c:when>
+		<c:otherwise>
+			<table>
+				<tbody>
+					<tr>
+						<th>Name</th>
+						<th>Description</th>
+						<th>Holdstatus</th>
+					</tr>
+				<c:forEach var="queue" items="${queues}">
+					<tr>
+						<td><c:out value="${queue.name}" /></td>
+						<td><c:out value="${queue.description}" /></td>
+						<td><c:out value="${queue.holdstatus}" /></td>
+					</tr>				
+			</c:forEach>
+			</tbody>
+			</table>
+		</c:otherwise>
+	</c:choose>
+
+</div>

@@ -1,0 +1,53 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<!-- static resource mapping for style sheets, etc. -->
+    <mvc:resources mapping="/scripts/**" location="/WEB-INF/scripts/" />
+    
+	<!-- Scans the classpath of this application for @Components to deploy as beans -->
+	<context:component-scan base-package="ro.allevo.fintpui.controllers" />
+
+	<!-- Configures the @Controller programming model -->
+	<mvc:annotation-driven />
+	
+	<!-- Internalization and localization support -->
+	<bean id="messageSource"
+  		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+  		<property name="basename" value="classpath:messages" />
+  		<property name="defaultEncoding" value="UTF-8"/>
+	</bean>
+
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+	    <property name="cookieName" value="fintpSiteLanguage"/>
+    	<property name="defaultLocale" value="en" /> 
+    	<property name="cookieMaxAge" value="604800"/>        
+	</bean>
+	
+	<!-- Changes the locale when a 'lang' request parameter is sent; e.g. /?lang=de -->
+	<mvc:interceptors>
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+			<property name="paramName" value="lang"/>
+		</bean>
+	</mvc:interceptors>
+
+	<!-- Resolves view names to protected .jsp resources within the /WEB-INF/view directory -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
+		<property name="prefix" value="/WEB-INF/view/jsp/"/>
+		<property name="suffix" value=".jspx"/>
+		<property name="order" value="1"/>
+	</bean>
+	
+	
+	<bean id="fintpService" class="ro.allevo.fintpui.services.FintpService">
+   		<property name="url" value="http://localhost:8080/fintpWebServices/api"></property>   
+   </bean>
+   <bean id="queuesController" class="ro.allevo.fintpui.controllers.QueuesController">
+ 		<property name="fintpService" ref="fintpService"/>  
+   </bean>
+
+</beans>

@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 public class RestClient extends RestTemplate{
 
-	public RestClient(final String username, final String password){
+public RestClient(final String username, final String password){
 		
 		SimpleClientHttpRequestFactory s = new SimpleClientHttpRequestFactory(){
 			@Override
