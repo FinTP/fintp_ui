@@ -15,7 +15,12 @@
 	<nav>
 		<ul>
 		
-			<li class="main-menu"><a href="queues.htm">  <spring:message code="header.menuQueues"/></a></li>
+			<li class="main-menu"><a href="queues">  <spring:message code="header.menuQueues"/></a>
+				<ul>
+					<li><a href="queues.htm"><spring:message code="header.menuQueues"/></a></li>
+					<li><a href="queuesAJAX.htm"><spring:message code="header.menuQueuesAJAX"/></a></li>
+				</ul>	
+			</li>
 			<li class="main-menu"><a href="payments.htm"><spring:message code="header.menuPayments"/></a>
 				<ul>
 					<li><a href="#"><spring:message code="header.menuRTGS"/></a></li>

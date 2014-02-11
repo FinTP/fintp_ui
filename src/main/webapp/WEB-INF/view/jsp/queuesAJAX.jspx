@@ -1,0 +1,16 @@
+<div xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
+
+	<table>
+		<tbody id="queuesTable">
+			<tr>
+				<th>Name</th>
+				<th>Description</th>
+				<th>Holdstatus</th>
+			</tr>
+		</tbody>
+	</table>
+
+</div>
