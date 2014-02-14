@@ -28,7 +28,7 @@
     	</session-management>
     </http>
  
-	<authentication-manager>
+	<authentication-manager erase-credentials="false">
 	  <authentication-provider>
 		<user-service>
 			<user name="admin" password="admin" authorities="ROLE_USER" />

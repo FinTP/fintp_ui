@@ -8,6 +8,9 @@ public class Queue {
 	private Integer holdstatus;
 	private String connector;
 	private String type;
+	private Integer priority;
+	
+	
 	public String getName() {
 		return name;
 	}
@@ -37,5 +40,11 @@ public class Queue {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public Integer getPriority() {
+		return priority;
+	}
+	public void setPriority(Integer priority) {
+		this.priority = priority;
 	}
 }
