@@ -1,16 +1,14 @@
 var urlRoot = "http://localhost:8080/fintpWebServices/api/";
 var refreshSeconds = 30;
+var timeOut = refreshSeconds * 1000;
 
 
 $(function() {
 	ajaxGetQueues();
-	(function poll(){
-		setTimeout(function(){
-			console.log("update");
-			ajaxGetQueues();
-		}, refreshSeconds * 1000);
-	})();
-	
+	setInterval(function() {
+		console.log("update");
+		ajaxGetQueues();
+	}, timeOut);
 });
 
 function ajaxGetQueues(){
@@ -30,7 +28,6 @@ function ajaxGetQueues(){
 			console.log(response);
 			var numbers = response.numbers;
 			for(var index = 0; index < numbers.length; index++){
-				console.log("index " + index + " : " + numbers[index]);
 				$("#queuesTable tr:nth-child("+ (index + 2) +") td:nth-child(4)").text(numbers[index]);
 			}
 		},
