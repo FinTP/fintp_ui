@@ -18,7 +18,8 @@
 		<intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
 		<form-login login-page="/login.htm"
         	login-processing-url="/j_spring_security_check"
-        	authentication-failure-url="/accessdenied.htm" default-target-url="/payments.htm" />
+        	authentication-failure-url="/accessdenied.htm" 
+        	default-target-url="/queues.htm" />
 		<logout logout-url="/j_spring_security_logout"
         	logout-success-url="/payments.htm" delete-cookies="JSESSIONID"
         	invalidate-session="true" />

@@ -1,0 +1,178 @@
+<div xmlns:c="http://java.sun.com/jsp/jstl/core"  
+xmlns:spring="http://www.springframework.org/tags" 
+xmlns:tiles="http://tiles.apache.org/tags-tiles" 
+xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
+<spring:url value="/style" var="styleUrl" />
+<link href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" rel="stylesheet"/>
+<link href="${styleUrl}/sort.css" rel="stylesheet"/>
+<link href="${styleUrl}/paginator.css" rel="stylesheet"/>
+<link href="${styleUrl}/reports.css" rel="stylesheet"/>
+<spring:url var="jquery_js_url" value="/scripts/jquery/jquery-1.10.1.js" />
+<script src="${jquery_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+<spring:url var="jquery_ui_url" value="/scripts/jquery/jquery-ui.js" />
+<script src="${jquery_ui_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+<spring:url var="sort_script_url" value="/scripts/sort.js" />
+<script src="${sort_script_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+<spring:url var="prime_ui_url" value="/scripts/prime-ui/prime-ui-0.9.5.js" />	
+<script src="${prime_ui_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+<spring:url var="prime_paginator_url" value="/scripts/prime-ui/paginator.js" />	
+<script src="${prime_paginator_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+<spring:url var="paginator_url" value="/scripts/paginator.js" />	
+<script src="${paginator_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+
+
+<h2>Messages Report</h2>
+
+<!-- PAGINATOR -->
+
+<label>Number of items per page</label>
+<select id="itemsPerPage">
+	<option>5</option>
+	<option>10</option>
+	<option>20</option>
+	<option>25</option>
+	<option>50</option>
+	<option selected="selected">100</option>
+</select>
+Total: <span id="total">${total}</span>
+<div id="paginatorLocation">
+	<div id="paginator"/>
+</div>
+
+<table class="reportsTable">
+		<thead>
+			<tr>
+				<th class="sortable">
+					Time
+					<input type="hidden" name="insertdate" value=""/>
+<!-- 					<span class="sortable-icon"></span> -->
+				</th>
+				<th class="sortable">
+					Message type
+					<input type="hidden" name="msgtype" value=""/>
+<!-- 					<span class="sortable-icon"></span> -->
+				</th>
+				<th class="sortable">
+					Sender 
+					<input type="hidden" name="sender" value=""/>
+<!-- 					<span class="sortable-icon"></span> -->
+				</th>
+				<th class="sortable">
+					Receiver
+					<input type="hidden" name="receiver" value=""/>
+<!-- 					<span class="sortable-icon"></span> -->
+				</th>
+				<th class="sortable">
+					Reference
+					<input type="hidden" name="trn" value=""/>
+<!-- 					<span class="sortable-icon"></span> -->
+				</th>
+				<th class="sortable">
+					Value <br />Date
+					<input type="hidden" name="valuedate" value=""/>
+<!-- 					<span class="sortable-icon"></span> -->
+				</th>
+				<th class="sortable">
+					Amount
+					<input type="hidden" name="amount" value=""/>
+<!-- 					<span class="sortable-icon"></span> -->
+				</th>
+				<th class="sortable">
+					Currency
+					<input type="hidden" name="currency" value=""/>
+<!-- 					<span class="sortable-icon"></span> -->
+				</th>
+				<th class="sortable">
+					Debtor <br /> Account
+					<input type="hidden" name="dbtaccount" value=""/>
+<!-- 					<span class="sortable-icon"></span> -->
+				</th>
+				<th class="sortable">
+					Debtor Customer Name
+					<input type="hidden" name="dbtcustname" value=""/>
+<!-- 					<span class="sortable-icon"></span> -->
+				</th>
+				<th class="sortable">
+					Ordering <br />Bank
+					<input type="hidden" name="ordbank" value=""/>
+<!-- 					<span class="sortable-icon"></span> -->
+				</th>
+				<th class="sortable">
+					Beneficiary <br />Bank
+					<input type="hidden" name="benbank" value=""/>
+<!-- 					<span class="sortable-icon"></span> -->
+				</th>
+				<th class="sortable">
+					Creditor <br />Account
+					<input type="hidden" name="cdtaccount" value=""/>
+<!-- 					<span class="sortable-icon"></span> -->
+				</th>
+				<th class="sortable">
+					Credit <br />Customer <br />Name
+					<input type="hidden" name="cdtcustname" value=""/>
+<!-- 					<span class="sortable-icon"></span> -->
+				</th>
+				<th class="sortable">
+					Service
+					<input type="hidden" name="service" value=""/>
+<!-- 					<span class="sortable-icon"></span> -->
+				</th>
+				<th class="sortable">
+					Direction
+					<input type="hidden" name="direction" value=""/>
+<!-- 					<span class="sortable-icon"></span> -->
+				</th>
+				<th class="sortable">
+					Status
+					<input type="hidden" name="state" value=""/>	
+<!-- 					<span class="sortable-icon"></span> -->
+				</th>
+				<th class="sortable">
+					BatchID
+					<input type="hidden" name="batchid" value=""/>
+<!-- 					<span class="sortable-icon"></span> -->
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach var="message" items="${messages}">
+				<tr>
+					<td><c:out value="${message.insertdate}" /></td>
+					<td><c:out value="${message.msgtype}" /></td>
+					<td><c:out value="${message.sender}" /></td>
+					<td><c:out value="${message.receiver}" /></td>
+					<td><c:out value="${message.trn}" /></td>
+					<td><c:out value="${message.valuedate}" /></td>
+					<td><c:out value="${message.amount}" /></td>
+					<td><c:out value="${message.currency}" /></td>
+					<td><c:out value="${message.dbtaccount}" /></td>
+					<td><c:out value="${message.dbtcustname}" /></td>
+					<td><c:out value="${message.ordbank}" /></td>
+					<td><c:out value="${message.benbank}" /></td>
+					<td><c:out value="${message.cdtaccount}" /></td>
+					<td><c:out value="${message.cdtcustname}" /></td>
+					<td><c:out value="${message.service}" /></td>
+					<td><c:out value="${message.direction}" /></td>
+					<td><c:out value="${message.state}" /></td>
+					<td><c:out value="${message.batchid}" /></td>
+				</tr>				
+			</c:forEach>
+		</tbody>
+</table>
+<form action="reports.htm" method="post" id="mainForm">
+	<input name="businessArea" type="hidden" value="${param.businessArea}"/>
+	<input name="interval" type="hidden" value="${param.interval}"/>
+	<input name="startDate" type="hidden" value="${param.startDate}"/>
+	<input name="endDate" type="hidden"  value="${param.endDate}"/>
+	<input name="messageTypes" type="hidden"  value="${param.messageTypes}"/>
+	<input name="sender" type="hidden"  value="${param.sender}"/>
+	<input name="receiver" type="hidden"  value="${param.receiver}"/>
+	<input name="trn" type="hidden"  value="${param.trn}"/>
+	<input name="valueDate" type="hidden"  value="${param.valueDate}"/>
+	<input name="batchID" type="hidden"  value="${param.batchID}"/>
+	<input name="orderField" id="orderField" type="hidden"  value="${orderField}"/>
+	<input name="order" id="order" type="hidden"  value="${order}"/>
+	<input name="limit" id="limit" type="hidden"  value="${limit}"/>
+	<input name="offset" id="offset" type="hidden"  value="${offset}"/>
+</form>
+</div>

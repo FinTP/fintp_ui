@@ -2,6 +2,14 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:tiles="http://tiles.apache.org/tags-tiles"
 	xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
+	
+	<spring:url value="/scripts/locale.js" var="locale_js_url" />
+	<script src="${locale_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+	<spring:url var="jquery_js_url" value="/scripts/jquery/jquery-1.10.1.js" />
+	<script src="${jquery_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+	<spring:url var="queues_js_url" value="/scripts/queuesDynamic.js" />
+	<script src="${queues_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+		
 	<c:choose>
 		<c:when test="${empty queues}">
 			<spring:message code="payments.noPayments" />

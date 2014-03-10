@@ -44,12 +44,18 @@
 	
 	<bean id="cacheManager" class="ro.allevo.fintpui.utils.ApplicationCacheManager">
 	</bean>
-	
+	<bean id="jdbcClient" class="ro.allevo.fintpui.utils.JdbcClient">
+		<property name = "driver" value="jdbc:postgresql://193.1.1.208:5432/pgdev"></property>
+		<property name="user" value="finuiuser"></property>
+		<property name="password" value="fincfg"></property>
+	</bean>
 	<bean id="fintpService" class="ro.allevo.fintpui.services.FintpService">
    		<property name="url" value="http://localhost:8080/fintpWebServices/api"></property>   
    </bean>
    <bean id="queuesController" class="ro.allevo.fintpui.controllers.QueuesController">
  		<property name="fintpService" ref="fintpService"/>  
    </bean>
+   
+   
 
 </beans>
