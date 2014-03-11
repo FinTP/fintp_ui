@@ -81,7 +81,7 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 	<div id="paginator"/>
 </div>
 
-<table class="reportsTable">
+<table class="reportsTable jtable">
 		<thead>
 			<tr>
 				<th class="sortable">

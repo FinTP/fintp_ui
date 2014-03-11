@@ -2,20 +2,20 @@
 	table-layout: fixed;
 	width: 100%;
 	overflow: scroll;
-	border-collapse: collapse;
+	background-color:  #efefef;
 }
+
 
 .reportsTable td,th {
 	overflow: hidden;
-	border: 1px solid white;
-	border-left: 1px solid white;
-	border-right: 1px solid white;
-	border-bottom: 1px solid white;
-	border-top: 1px solid white;
+	border: 1px solid #efefef;
 	text-align: center;
 }
 
-.reportsTable tr:nth-child(odd){ background-color:#efefef; }
+.reportsTable tr:nth-child(odd){ 
+	background-color:white; 
+	border: 1px solid white;
+	border-color: white;}
 
 
 .reportsTable th {
