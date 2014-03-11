@@ -7,6 +7,8 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 <link href="${styleUrl}/sort.css" rel="stylesheet"/>
 <link href="${styleUrl}/paginator.css" rel="stylesheet"/>
 <link href="${styleUrl}/reports.css" rel="stylesheet"/>
+<spring:url value="/scripts/locale.js" var="locale_js_url" />
+<script src="${locale_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 <spring:url var="jquery_js_url" value="/scripts/jquery/jquery-1.10.1.js" />
 <script src="${jquery_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 <spring:url var="jquery_ui_url" value="/scripts/jquery/jquery-ui.js" />
@@ -21,11 +23,49 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 <script src="${paginator_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 
 
-<h2>Messages Report</h2>
+<h2><spring:message code="reports.title"/></h2>
 
-<!-- PAGINATOR -->
+<!-- SEARCH CRITERIA -->
+<b><spring:message code="reports.criteria"/></b>
+	<spring:message code="reports.businessArea"/>: <b>${param.businessArea}</b>; 
+	<c:choose>
+		<c:when test="${param.interval eq 'interval'}">
+			<spring:message code="reports.interval" arguments="${param.startDate},${param.endDate}" />
+		</c:when>
+		<c:otherwise>
+			<b><spring:message code="reports.current" /></b>
+		</c:otherwise>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.messageTypes}">
+			<spring:message code="reports.headerMsgtype"/>: <b>${param.messageTypes}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.sender}">
+			<spring:message code="reports.headerSender"/>: <b>${param.sender}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.receiver}">
+			<spring:message code="reports.headerReceiver"/>: <b>${param.receiver}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.trn}">
+			<spring:message code="reports.headerTrn"/>: <b>${param.trn}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.valueDate}">
+			<spring:message code="reports.headerValuedate"/>: <b>${param.valueDate}</b>; 
+		</c:when>
+	</c:choose>
+	
+	<br />
 
-<label>Number of items per page</label>
+	<!-- PAGINATOR -->
+<b><label><spring:message code="reports.nbItems"/></label></b>
 <select id="itemsPerPage">
 	<option>5</option>
 	<option>10</option>
@@ -34,7 +74,9 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 	<option>50</option>
 	<option selected="selected">100</option>
 </select>
-Total: <span id="total">${total}</span>
+<br/>
+<b>Total: </b><span id="total">${total}</span>
+
 <div id="paginatorLocation">
 	<div id="paginator"/>
 </div>
@@ -43,92 +85,92 @@ Total: <span id="total">${total}</span>
 		<thead>
 			<tr>
 				<th class="sortable">
-					Time
+					<spring:message code="reports.headerTime"/>
 					<input type="hidden" name="insertdate" value=""/>
 <!-- 					<span class="sortable-icon"></span> -->
 				</th>
 				<th class="sortable">
-					Message type
+					<spring:message code="reports.headerMsgtype"/>
 					<input type="hidden" name="msgtype" value=""/>
 <!-- 					<span class="sortable-icon"></span> -->
 				</th>
 				<th class="sortable">
-					Sender 
+					<spring:message code="reports.headerSender"/>
 					<input type="hidden" name="sender" value=""/>
 <!-- 					<span class="sortable-icon"></span> -->
 				</th>
 				<th class="sortable">
-					Receiver
+					<spring:message code="reports.headerReceiver"/>
 					<input type="hidden" name="receiver" value=""/>
 <!-- 					<span class="sortable-icon"></span> -->
 				</th>
 				<th class="sortable">
-					Reference
+					<spring:message code="reports.headerTrn"/>
 					<input type="hidden" name="trn" value=""/>
 <!-- 					<span class="sortable-icon"></span> -->
 				</th>
 				<th class="sortable">
-					Value <br />Date
+					<spring:message code="reports.headerValuedate"/>
 					<input type="hidden" name="valuedate" value=""/>
 <!-- 					<span class="sortable-icon"></span> -->
 				</th>
 				<th class="sortable">
-					Amount
+					<spring:message code="reports.headerAmount"/>
 					<input type="hidden" name="amount" value=""/>
 <!-- 					<span class="sortable-icon"></span> -->
 				</th>
 				<th class="sortable">
-					Currency
+					<spring:message code="reports.headerCurrency"/>
 					<input type="hidden" name="currency" value=""/>
 <!-- 					<span class="sortable-icon"></span> -->
 				</th>
 				<th class="sortable">
-					Debtor <br /> Account
+					<spring:message code="reports.headerDbtaccount"/>
 					<input type="hidden" name="dbtaccount" value=""/>
 <!-- 					<span class="sortable-icon"></span> -->
 				</th>
 				<th class="sortable">
-					Debtor Customer Name
+					<spring:message code="reports.headerDbtcustname"/>
 					<input type="hidden" name="dbtcustname" value=""/>
 <!-- 					<span class="sortable-icon"></span> -->
 				</th>
 				<th class="sortable">
-					Ordering <br />Bank
+					<spring:message code="reports.headerOrdbank"/>
 					<input type="hidden" name="ordbank" value=""/>
 <!-- 					<span class="sortable-icon"></span> -->
 				</th>
 				<th class="sortable">
-					Beneficiary <br />Bank
+					<spring:message code="reports.headerBenbank"/>
 					<input type="hidden" name="benbank" value=""/>
 <!-- 					<span class="sortable-icon"></span> -->
 				</th>
 				<th class="sortable">
-					Creditor <br />Account
+					<spring:message code="reports.headerCdtaccount"/>
 					<input type="hidden" name="cdtaccount" value=""/>
 <!-- 					<span class="sortable-icon"></span> -->
 				</th>
 				<th class="sortable">
-					Credit <br />Customer <br />Name
+					<spring:message code="reports.headerCdtcustname"/>
 					<input type="hidden" name="cdtcustname" value=""/>
 <!-- 					<span class="sortable-icon"></span> -->
 				</th>
 				<th class="sortable">
-					Service
+					<spring:message code="reports.headerService"/>
 					<input type="hidden" name="service" value=""/>
 <!-- 					<span class="sortable-icon"></span> -->
 				</th>
 				<th class="sortable">
-					Direction
+					<spring:message code="reports.headerDirection"/>
 					<input type="hidden" name="direction" value=""/>
 <!-- 					<span class="sortable-icon"></span> -->
 				</th>
 				<th class="sortable">
-					Status
+					<spring:message code="reports.headerState"/>
 					<input type="hidden" name="state" value=""/>	
 <!-- 					<span class="sortable-icon"></span> -->
 				</th>
 				<th class="sortable">
-					BatchID
+					<spring:message code="reports.headerBatchid"/>
 					<input type="hidden" name="batchid" value=""/>
 <!-- 					<span class="sortable-icon"></span> -->
 				</th>
@@ -159,7 +201,7 @@ Total: <span id="total">${total}</span>
 			</c:forEach>
 		</tbody>
 </table>
-<form action="reports.htm" method="post" id="mainForm">
+<form action="reports.htm" method="get" id="mainForm">
 	<input name="businessArea" type="hidden" value="${param.businessArea}"/>
 	<input name="interval" type="hidden" value="${param.interval}"/>
 	<input name="startDate" type="hidden" value="${param.startDate}"/>
@@ -173,6 +215,6 @@ Total: <span id="total">${total}</span>
 	<input name="orderField" id="orderField" type="hidden"  value="${orderField}"/>
 	<input name="order" id="order" type="hidden"  value="${order}"/>
 	<input name="limit" id="limit" type="hidden"  value="${limit}"/>
-	<input name="offset" id="offset" type="hidden"  value="${offset}"/>
+	<input name="offset" id="offset" type="hidden"  value="${offset}"/>	
 </form>
 </div>

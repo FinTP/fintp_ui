@@ -29,7 +29,7 @@ public class ReportsController {
 	@Autowired
 	private JdbcClient client;
 	
-	@RequestMapping(method=RequestMethod.POST)
+	@RequestMapping(method=RequestMethod.GET)
 	public String printResults(
 			ModelMap map,
 			@RequestParam(value = "businessArea", required = true) String businessArea,

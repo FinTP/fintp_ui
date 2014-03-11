@@ -14,7 +14,7 @@
 	<script src="${reports_script_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 	
 
-	<form action="reports.htm" method="post">
+	<form action="reports.htm" method="get">
 		
 		<table>
 			<tbody>
