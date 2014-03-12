@@ -1,29 +1,33 @@
-.reportsTable {
-	table-layout: fixed;
-	width: 100%;
-	overflow: scroll;
+.fintpTable{
 	background-color:  #efefef;
 }
 
 
-.reportsTable td{
+
+.fintpTable td,th {
 	overflow: hidden;
-	border: 1px solid #efefef;
-/* 	text-align: center; */
+	padding-left: 3px;
+	padding-right: 3px;
 }
 
-.reportsTable th{
-	overflow: hidden;
+.fintpTable td{
+	border: 1px solid #efefef;
+}
+
+.fintpTable th{
 	border: 0;
 }
 
+.centered{
+	text-align: center;
+}
 
-.reportsTable tr:nth-child(odd){ 
+.fintpTable tr:nth-child(odd){ 
 	background-color:white; 
-	border: 0;}
+}
 
 
-.reportsTable th {
+.fintpTable th {
 	background: -o-linear-gradient(bottom, #757575 5%, #b2b2b2 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #666666
 		), color-stop(1, #b2b2b2));
@@ -34,5 +38,6 @@
 	background-color: #757575;
 	text-align: center;
 	font-weight: bold;
+	color: white;
 }
 
