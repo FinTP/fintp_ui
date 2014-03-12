@@ -29,19 +29,18 @@
 				</tr>
 				<tr>
 					<td class="title"><b>Date</b></td>
-					<td><input type="radio" name="interval" value="current"
-						checked="checked"> Current Day</input> <br /> <input type="radio"
-						name="interval" value="interval">Interval</input></td>
+					<td>
+						<input type="radio" name="interval" value="current"> 
+							Current Day</input> <br /> 
+						<input type="radio"
+							name="interval" value="interval" checked="checked">Interval</input>
+					</td>
 					<td>
 						<div id="intervalPicker">
-							<span class="disabled">Start Date: </span>
-							<input type="text"
-								id="startDate" disabled="disabled"
-								name = "startDate" /> <br /> 
-							<span class="disabled">End Date: </span>
-							<input type="text"
-								id="endDate" disabled="disabled" 
-								name ="endDate"/>
+							<span>Start Date: </span>
+							<input type="text" id="startDate" name = "startDate" /> <br /> 
+							<span>End Date: </span>
+							<input type="text" id="endDate" name ="endDate"/>
 						</div>
 					</td>
 				</tr>
