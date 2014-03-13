@@ -179,24 +179,42 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 		<tbody>
 			<c:forEach var="message" items="${messages}">
 				<tr>
-					<td><c:out value="${message.insertdate}" /></td>
-					<td><c:out value="${message.msgtype}" /></td>
-					<td><c:out value="${message.sender}" /></td>
-					<td><c:out value="${message.receiver}" /></td>
-					<td><c:out value="${message.trn}" /></td>
-					<td><c:out value="${message.valuedate}" /></td>
-					<td><c:out value="${message.amount}" /></td>
-					<td><c:out value="${message.currency}" /></td>
-					<td><c:out value="${message.dbtaccount}" /></td>
-					<td><c:out value="${message.dbtcustname}" /></td>
-					<td><c:out value="${message.ordbank}" /></td>
-					<td><c:out value="${message.benbank}" /></td>
-					<td><c:out value="${message.cdtaccount}" /></td>
-					<td><c:out value="${message.cdtcustname}" /></td>
-					<td><c:out value="${message.service}" /></td>
-					<td><c:out value="${message.direction}" /></td>
-					<td><c:out value="${message.state}" /></td>
-					<td><c:out value="${message.batchid}" /></td>
+					<td><a href="view.htm?id=${message.correlid}">
+						<c:out value="${message.insertdate}" /></a></td>
+					<td><a href="view.htm?id=${message.correlid}"> 
+						<c:out value="${message.msgtype}" /></a></td>
+					<td><a href="view.htm?id=${message.correlid}"> 
+						<c:out value="${message.sender}" /></a></td>
+					<td><a href="view.htm?id=${message.correlid}">
+						<c:out value="${message.receiver}" /></a></td>
+					<td><a href="view.htm?id=${message.correlid}">
+						<c:out value="${message.trn}" /></a></td>
+					<td><a href="view.htm?id=${message.correlid}">
+						<c:out value="${message.valuedate}" /></a></td>
+					<td><a href="view.htm?id=${message.correlid}">
+						<c:out value="${message.amount}" /></a></td>
+					<td><a href="view.htm?id=${message.correlid}">
+						<c:out value="${message.currency}" /></a></td>
+					<td><a href="view.htm?id=${message.correlid}">
+						<c:out value="${message.dbtaccount}" /></a></td>
+					<td><a href="view.htm?id=${message.correlid}">
+						<c:out value="${message.dbtcustname}" /></a></td>
+					<td><a href="view.htm?id=${message.correlid}">
+						<c:out value="${message.ordbank}" /></a></td>
+					<td><a href="view.htm?id=${message.correlid}">
+						<c:out value="${message.benbank}" /></a></td>
+					<td><a href="view.htm?id=${message.correlid}">
+						<c:out value="${message.cdtaccount}" /></a></td>
+					<td><a href="view.htm?id=${message.correlid}">
+						<c:out value="${message.cdtcustname}" /></a></td>
+					<td><a href="view.htm?id=${message.correlid}">
+						<c:out value="${message.service}" /></a></td>
+					<td><a href="view.htm?id=${message.correlid}">
+						<c:out value="${message.direction}" /></a></td>
+					<td><a href="view.htm?id=${message.correlid}">
+						<c:out value="${message.state}" /></a></td>
+					<td><a href="view.htm?id=${message.correlid}">
+						<c:out value="${message.batchid}" /></a></td>
 				</tr>				
 			</c:forEach>
 		</tbody>

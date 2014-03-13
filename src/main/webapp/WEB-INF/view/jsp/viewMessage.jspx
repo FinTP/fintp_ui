@@ -1,0 +1,91 @@
+<div xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
+
+<spring:url value="/style" var="styleUrl" />
+<link href="${styleUrl}/fintpTable.css" rel="stylesheet"/>
+	
+	<h3>Message details</h3>
+	<table class="fintpTable">
+		<tbody>
+			<tr>
+				<td><b><spring:message code="reports.headerTime"/></b></td>
+				<td id="insertdate">${message.insertdate}</td>
+			</tr>
+			<tr>
+				<td><b><spring:message code="reports.headerMsgtype"/></b></td>
+				<td id="msgtype">${message.msgtype}</td>
+			</tr>
+			<tr>
+				<td><b><spring:message code="reports.headerSender"/></b></td>
+				<td id="sender">${message.sender}</td>
+			</tr>
+			<tr>
+				<td><b><spring:message code="reports.headerReceiver"/></b></td>
+				<td id="receiver">${message.receiver}</td>
+			</tr>
+			<tr>
+				<td><b><spring:message code="reports.headerTrn"/></b></td>
+				<td id="trn">${message.trn}</td>
+			</tr>
+			<tr>
+				<td><b><spring:message code="reports.headerValuedate"/></b></td>
+				<td id="valuedate">${message.valuedate}</td>
+			</tr>
+			<tr>
+				<td><b><spring:message code="reports.headerAmount"/></b></td>
+				<td id="amount">${message.amount}</td>
+			</tr>
+			<tr>
+				<td><b><spring:message code="reports.headerCurrency"/></b></td>
+				<td id="currency">${message.currency}</td>
+			</tr>
+			<tr>
+				<td><b><spring:message code="reports.headerDbtaccount"/></b></td>
+				<td id="dbtaccount">${message.dbtaccount}</td>
+			</tr>
+			<tr>
+				<td><b><spring:message code="reports.headerDbtcustname"/></b></td>
+				<td id="dbtcustname">${message.dbtcustname}</td>
+			</tr>
+			<tr>
+				<td><b><spring:message code="reports.headerOrdbank"/></b></td>
+				<td id="ordbank">${message.ordbank}</td>
+			</tr>
+			<tr>
+				<td><b><spring:message code="reports.headerBenbank"/></b></td>
+				<td id="benbank">${message.benbank}</td>
+			</tr>
+			<tr>
+				<td><b><spring:message code="reports.headerCdtaccount"/></b></td>
+				<td id="cdtaccount">${message.cdtaccount}</td>
+			</tr>
+			<tr>
+				<td><b><spring:message code="reports.headerCdtcustname"/></b></td>
+				<td id="cdtcustname">${message.cdtcustname}</td>
+			</tr>
+			<tr>
+				<td><b><spring:message code="reports.headerService"/></b></td>
+				<td id="service">${message.service}</td>
+			</tr>
+			<tr>
+				<td><b><spring:message code="reports.headerDirection"/></b></td>
+				<td id="direction">${message.direction}</td>
+			</tr>
+			<tr>
+				<td><b><spring:message code="reports.headerState"/></b></td>
+				<td id="state">${message.state}</td>
+			</tr>
+			<tr>
+				<td><b><spring:message code="reports.headerBatchid"/></b></td>
+				<td id="batchid">${message.batchid}</td>
+			</tr>
+			<tr>
+				<td style="vertical-align: top;"><b>Payload: </b></td>
+				<td id="payload">${message.payload}</td>
+			</tr>
+		</tbody>
+	</table>
+
+</div>

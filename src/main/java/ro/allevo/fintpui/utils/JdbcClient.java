@@ -1,5 +1,8 @@
 package ro.allevo.fintpui.utils;
 
+import java.io.File;
+import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -12,6 +15,7 @@ import java.util.Date;
 import java.util.Map;
 
 import ro.allevo.fintpui.model.MessageReportInstance;
+import ro.allevo.fintpui.services.FintpService;
 
 public class JdbcClient {
 
@@ -155,7 +159,23 @@ public class JdbcClient {
 		return reportInstances;
 	}
 	
-
+	public MessageReportInstance getReport(String correlId) throws SQLException{
+		String whereClause = " where correlid = '" + correlId + "'";
+		ResultSet resultSet = performGenericQuery(
+				MessageReportInstance.reportsProjection, whereClause, "", "");
+		if(!resultSet.next()){
+			return null;
+		}else{
+			String payload = getPayload(correlId);
+			String path = getClass().getClassLoader()
+					.getResource(FintpService.NESTED_TABLES_XSLT).getPath();
+			String friendlyPayload = FintpService.applyXSLT(payload, path);
+			MessageReportInstance result = new MessageReportInstance(resultSet);
+			result.setPayload(friendlyPayload);
+			return result;
+		}
+	}
+	
 	
 	public ArrayList<String> getFTMessageTypes() throws SQLException{
 		ArrayList<String> result = new ArrayList<>();
@@ -167,4 +187,24 @@ public class JdbcClient {
 		return result;
 	}
 	
+	private String getPayload(String correlId){
+		
+		String query = "select payload "
+				+ "from feedbackagg "
+				+ "where correlid = '"+correlId+"'";
+		Statement statement;
+		try {
+			statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(query);
+			if(!resultSet.next()){
+				 return null;
+			}else{
+				return resultSet.getString("payload");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 }

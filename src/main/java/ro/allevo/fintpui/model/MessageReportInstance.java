@@ -24,6 +24,7 @@ public class MessageReportInstance {
 	private String state;
 	private String batchid;
 	private String correlid;
+	private String payload;
 	
 	//select clause
 	public static final String reportsProjection = "select  insertdate,msgtype,sender,receiver,trn,valuedate,amount,currency,"
@@ -213,5 +214,15 @@ public class MessageReportInstance {
 	public void setCorrelid(String correlid) {
 		this.correlid = correlid;
 	}
+
+	public String getPayload() {
+		return payload;
+	}
+
+	public void setPayload(String payload) {
+		this.payload = payload;
+	}
+
+	
 	
 }
