@@ -17,7 +17,7 @@ public class FintpService {
 	public static String NESTED_TABLES_XSLT = "nestedTables.xslt";
 
 	public Queue[] getQueues() {
-		RestTemplate client = new RestClient("admin", "admin");
+		RestTemplate client = new RestClient();
 		String newUrl = url + "/queues";
 		Queues queuesJSON = client.getForObject(newUrl, Queues.class);
 		return queuesJSON.getQueues();
