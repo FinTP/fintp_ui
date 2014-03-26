@@ -1,27 +1,40 @@
 package ro.allevo.fintpui.utils;
 
-import java.io.File;
-import java.io.InputStream;
-import java.net.URISyntaxException;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
+
+import oracle.jdbc.OracleTypes;
 
 import ro.allevo.fintpui.model.MessageReportInstance;
 import ro.allevo.fintpui.services.FintpService;
 
 public class JdbcClient {
 
+	private static final String FT_MESSAGES_QUERY = "select distinct friendlyname from fincfg.msgtypes where businessarea = 'Funds Transfer'";
+	private static final String BIC_CODES_QUERY = "select bic from fincfg.biccodes";
+	private static final String CURRENCIES_QUERY = "select currency from fincfg.currencies";
+	private static final String STATES_QUERY = "select status from fincfg.reportingtxstates";
+	private static final String USERS_NAMES_QUERY = "select username from fincfg.users";
+	private static final String USERS_IDS_QUERY = "select userid from fincfg.users";
+	
+	private final ArrayList<String> services = new ArrayList<>(Arrays.asList("ROL", "FinCopy", "TGT"));  
+	private final ArrayList<String> directions = new ArrayList<>(Arrays.asList("Incoming", "Outgoing"));
+ 	
 	private String user;
 	private String password;
 	private String driver;
+	private String url;
 	private Connection connection;
 	public String getUser() {
 		return user;
@@ -41,11 +54,17 @@ public class JdbcClient {
 	public void setDriver(String driver) {
 		this.driver = driver;
 	}
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
 	
 	public void establishConnection(){
 		try {
-			Class.forName("org.postgresql.Driver");
-			connection = DriverManager.getConnection(driver, user, password);
+			Class.forName(driver);
+			connection = DriverManager.getConnection(url, user, password);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -71,91 +90,178 @@ public class JdbcClient {
 
 	}
 	
-	public String count(String tableName, String whereClause) throws SQLException{
-		String query = "select count(*) from " + tableName + " " + whereClause;
-		ResultSet resultSet = connection.createStatement().executeQuery(query);
-		if(resultSet.next()){
-			return resultSet.getString(1);
-		}else{
-			return "0";
-		}
-	}
+	public ArrayList<MessageReportInstance> getReportsByStroedProcedure(Map<String,String> requestParameters, StringBuilder total) throws ParseException{
+		SimpleDateFormat html5Format = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm");
+		SimpleDateFormat dbFormat = new SimpleDateFormat("dd MM yyyy hh:mm:ss");
+		SimpleDateFormat dbFormatDateOnly = new SimpleDateFormat("dd MM yyyy");
+		//TODO: change valueDateFormat or html5Format to pe the same
+		SimpleDateFormat valueDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+		SimpleDateFormat valueDateDBFormat = new SimpleDateFormat("yyMMdd");
+		String minDate = null, maxDate = null;
 	
-	public ArrayList<MessageReportInstance> getReports(Map<String,String> requestParameters, StringBuilder total) throws ParseException, SQLException{
-		SimpleDateFormat databaseFormat = new SimpleDateFormat("yyMMdd");
-		SimpleDateFormat pageInputFormat = new SimpleDateFormat("MM/dd/yyyy");
-		SimpleDateFormat insertDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		
-		//building where clause
-		String whereClause = "";
 		if (requestParameters.get("interval").equals("current")) {
-			
-			whereClause+= "where date_trunc( 'day', insertdate ) = '"
-					+new SimpleDateFormat("yyMMdd").format(new Date()) +"'";
+			//if current date is selected, pass as arguments the beggining and ending of current day
+			minDate = dbFormatDateOnly.format(new Date()) + " 00:00:00";
+			maxDate = dbFormatDateOnly.format(new Date()) + " 23:59:59";
 		}else{
-			whereClause+= "where date_trunc( 'day', insertdate ) >= '"
-					+insertDateFormat.format(pageInputFormat.parse(requestParameters.get("startDate")))
-					+"' and date_trunc( 'day', insertdate ) <= '" 
-					+insertDateFormat.format(pageInputFormat.parse(requestParameters.get("endDate"))) 
-					+"'";
+			minDate = dbFormat.format(html5Format.parse(requestParameters.get("startDate")));
+			maxDate = dbFormat.format(html5Format.parse(requestParameters.get("endDate")));
 		}
-		if(!requestParameters.get("messageTypes").equals("")){
-			whereClause+= " and msgtype = '" + requestParameters.get("messageTypes")+ "' ";
-		}
-		if(!requestParameters.get("sender").equals("")){
-			whereClause+= " and lower(sender) like lower('%" + requestParameters.get("sender")+ "%') ";
-		}
-		if(!requestParameters.get("receiver").equals("")){
-			whereClause+= " and lower(receiver) like lower('%" + requestParameters.get("receiver").equals("") + "%') ";
-		}
-		if(!requestParameters.get("trn").equals("")){
-			whereClause+= " and lower(trn) like lower('%" +requestParameters.get("trn")+ "%') ";
-		}
-		if (!requestParameters.get("valueDate").equals("")) {
-			String valueDateFormat= databaseFormat.format(pageInputFormat.parse(requestParameters.get("valueDate")));
-			whereClause+= " and valuedate = '" + valueDateFormat+ "' ";
-		}
-		if(!requestParameters.get("batchID").equals("")){
-			whereClause+= " and lower(batchid) like lower('%" +requestParameters.get("batchID")+ "%') ";
-		}
-		
-		String orderField, order, limit, offset;
-		if(requestParameters.containsKey("orderField"))
-			orderField = requestParameters.get("orderField");
-		else
-			orderField = "insertdate";
-		
-		if(requestParameters.containsKey("order"))
-			order = requestParameters.get("order");
-		else
-			order = "desc";
-		
-		if(requestParameters.containsKey("limit"))
-			limit = requestParameters.get("limit");
-		else
-			limit = "100";
-		
-		if(requestParameters.containsKey("offset"))
-			offset = requestParameters.get("offset");
-		else
-			offset = "0";
-		
-		//build order by clause
-		String orderByClause = "order by " + orderField + " " + order;
-		
-		//TODO: different limit clause for Oracle
-		//build limit clause
-		String limitClause = "limit " + limit + " offset " + offset;
-		
-		ResultSet resultSet = performGenericQuery(
-				MessageReportInstance.reportsProjection, whereClause, orderByClause, limitClause);
+
 		ArrayList<MessageReportInstance> reportInstances = new ArrayList<>();
-		while(resultSet.next()){
-			reportInstances.add(new MessageReportInstance(resultSet));
+		String procedure = getProcedureCallString("findata.getftpayments", 26);
+		
+		try {
+			connection.setAutoCommit(false);
+			CallableStatement statement = connection.prepareCall(procedure);
+			statement.setString(1, minDate);
+			statement.setString(2, maxDate);
+			if(!requestParameters.get("messageTypes").equals("")){
+				statement.setString(3, requestParameters.get("messageTypes"));
+			}else{
+				statement.setNull(3, Types.VARCHAR);
+			}
+			if(!requestParameters.get("sender").equals("")){
+				statement.setString(4, requestParameters.get("sender"));
+			}else{
+				statement.setNull(4, Types.VARCHAR);
+			}
+			if(!requestParameters.get("receiver").equals("")){
+				statement.setString(5, requestParameters.get("receiver"));
+			}else{
+				statement.setNull(5, Types.VARCHAR);
+			}
+			if(!requestParameters.get("trn").equals("")){
+				statement.setString(6, requestParameters.get("trn"));
+			}else{
+				statement.setNull(6, Types.VARCHAR);
+			}
+			if (!requestParameters.get("valueDate").equals("")) {
+				String valueDate= valueDateDBFormat.format(valueDateFormat.parse(requestParameters.get("valueDate")));
+				statement.setString(7, valueDate);
+			}else{
+				statement.setNull(7, Types.VARCHAR);
+			}
+			if (!requestParameters.get("minAmount").equals("")) {
+				statement.setLong(8,
+						Long.parseLong(requestParameters.get("minAmount")));
+			}else{
+				statement.setNull(8, Types.NUMERIC);
+			}
+			if (!requestParameters.get("maxAmount").equals("")) {
+				statement.setDouble(9,
+						Double.parseDouble(requestParameters.get("maxAmount")));
+			}else{
+				statement.setNull(9, Types.NUMERIC);
+			}
+			if(!requestParameters.get("currency").equals("")){
+				statement.setString(10, requestParameters.get("currency"));
+			}else{
+				statement.setNull(10, Types.VARCHAR);
+			}
+			if(!requestParameters.get("dbtaccount").equals("")){
+				statement.setString(11, requestParameters.get("dbtaccount"));
+			}else{
+				statement.setNull(11, Types.VARCHAR);
+			}
+			if(!requestParameters.get("dbtcustname").equals("")){
+				statement.setString(12, requestParameters.get("dbtcustname"));
+			}else{
+				statement.setNull(12, Types.VARCHAR);
+			}
+			if(!requestParameters.get("ordbank").equals("")){
+				statement.setString(13, requestParameters.get("ordbank"));
+			}else{
+				statement.setNull(13, Types.VARCHAR);
+			}
+			if(!requestParameters.get("benbank").equals("")){
+				statement.setString(14, requestParameters.get("benbank"));
+			}else{
+				statement.setNull(14, Types.VARCHAR);
+			}
+			if(!requestParameters.get("cdtaccount").equals("")){
+				statement.setString(15, requestParameters.get("cdtaccount"));
+			}else{
+				statement.setNull(15, Types.VARCHAR);
+			}
+			if(!requestParameters.get("cdtcustname").equals("")){
+				statement.setString(16, requestParameters.get("cdtcustname"));
+			}else{
+				statement.setNull(16, Types.VARCHAR);
+			}
+			if(!requestParameters.get("service").equals("")){
+				statement.setString(17, requestParameters.get("service"));
+			}else{
+				statement.setNull(17, Types.VARCHAR);
+			}
+			if(!requestParameters.get("direction").equals("")){
+				statement.setString(18, requestParameters.get("direction"));
+			}else{
+				statement.setNull(18, Types.VARCHAR);
+			}
+			if(!requestParameters.get("state").equals("")){
+				statement.setString(19, requestParameters.get("state"));
+			}else{
+				statement.setNull(19, Types.VARCHAR);
+			}
+			if(!requestParameters.get("batchID").equals("")){
+				statement.setString(20, requestParameters.get("batchID"));
+			}else{
+				statement.setNull(20, Types.VARCHAR);
+			}
+
+			//TODO: send userid
+			
+			statement.setNull(21, Types.VARCHAR);
+			
+			if(requestParameters.containsKey("orderField")
+					&& requestParameters.get("orderField")!=null){
+				statement.setString(22, requestParameters.get("orderField"));
+			}else{
+				statement.setNull(22, Types.VARCHAR);
+			}
+			if(requestParameters.containsKey("order")
+					&& requestParameters.get("order")!=null){
+				statement.setString(23, requestParameters.get("order"));
+			}else{
+				statement.setNull(23, Types.VARCHAR);
+			}
+			if (requestParameters.get("offset")!=null) {
+				statement.setInt(24,
+						Integer.parseInt(requestParameters.get("offset")));
+			} else {
+				statement.setNull(24, Types.INTEGER);
+			}
+			if (requestParameters.get("limit")!=null) {
+				statement.setInt(25,
+						Integer.parseInt(requestParameters.get("limit")));
+			} else {
+				statement.setNull(25, Types.INTEGER);
+			}
+			if (driver.contains("oracle")){
+				statement.registerOutParameter(26, OracleTypes.CURSOR);
+			}else{
+				statement.registerOutParameter(26, Types.OTHER);
+			}
+			statement.execute();
+			ResultSet resultSet = (ResultSet) statement.getObject(26);
+			boolean gotTotal = false;
+			while(resultSet.next()){
+				reportInstances.add(new MessageReportInstance(resultSet));
+				if(!gotTotal){
+					total.append(resultSet.getInt("rnummax"));
+					gotTotal=true;
+				}
+			}
+			connection.setAutoCommit(true);
+			System.out.println(statement);
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
 		}
-		
-		total.append((count("findata.repstatft", whereClause)));
-		
+		System.out.println(reportInstances.size());
 		return reportInstances;
 	}
 	
@@ -178,13 +284,45 @@ public class JdbcClient {
 	
 	
 	public ArrayList<String> getFTMessageTypes() throws SQLException{
+		return getDistinctTypes(FT_MESSAGES_QUERY, "friendlyname");
+	}
+	
+	public ArrayList<String> getBicCodes() throws SQLException{
+		return getDistinctTypes(BIC_CODES_QUERY, "bic");
+	}
+	
+	public ArrayList<String> getCurrencies() throws SQLException{
+		return getDistinctTypes(CURRENCIES_QUERY, "currency");
+	}
+	
+	public ArrayList<String> getStates() throws SQLException{
+		return getDistinctTypes(STATES_QUERY, "status");
+	}
+	
+	public ArrayList<String> getUserNames() throws SQLException{
+		return getDistinctTypes(USERS_NAMES_QUERY, "username");
+	}
+	
+	public ArrayList<String> getUserIds() throws SQLException{
+		return getDistinctTypes(USERS_IDS_QUERY, "userid");
+	}
+	
+	private ArrayList<String> getDistinctTypes(String query, String columnName) throws SQLException {
 		ArrayList<String> result = new ArrayList<>();
-		String query = "select distinct friendlyname from fincfg.msgtypes where businessarea = 'Funds Transfer'";
 		ResultSet resultSet = connection.createStatement().executeQuery(query);
 		while (resultSet.next()) {
-			result.add(resultSet.getString("friendlyname"));
+			result.add(resultSet.getString(columnName));
 		}
 		return result;
+	}
+	
+	private String getProcedureCallString(String procedureName, int nbArguments){
+		String questionMarks="";
+		for(int i = 0;i < nbArguments-1; i++){
+			questionMarks+="?,";
+		}
+		questionMarks+="?";
+		return "{call " + procedureName + "("+ questionMarks + ")}";
 	}
 	
 	private String getPayload(String correlId){
@@ -207,4 +345,12 @@ public class JdbcClient {
 		
 		return null;
 	}
+	public ArrayList<String> getServices() {
+		return services;
+	}
+	public ArrayList<String> getDirections() {
+		return directions;
+	}
+
+	
 }
