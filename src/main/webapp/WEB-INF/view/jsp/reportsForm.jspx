@@ -181,10 +181,10 @@
 				</tr>
 				<tr>
 					<td class="title"><b>User</b></td>
-					<td><select id="state" name="state">
+					<td><select id="userid" name="userid">
 							<option selected="selected"></option>
 							<c:set var="userid" value="${userNames[i.index]}"></c:set>
-							<c:forEach var="state" items="${userIds}" varStatus="i">
+							<c:forEach items="${userIds}" varStatus="i">
 								<option value="${userIds[i.index]}">	
 									<c:out value="${userNames[i.index]}"/>
 								</option>

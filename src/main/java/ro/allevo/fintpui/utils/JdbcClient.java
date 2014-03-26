@@ -210,9 +210,11 @@ public class JdbcClient {
 				statement.setNull(20, Types.VARCHAR);
 			}
 
-			//TODO: send userid
-			
-			statement.setNull(21, Types.VARCHAR);
+			if(!requestParameters.get("userid").equals("")){
+				statement.setString(21, requestParameters.get("userid"));
+			}else{
+				statement.setNull(21, Types.VARCHAR);
+			}
 			
 			if(requestParameters.containsKey("orderField")
 					&& requestParameters.get("orderField")!=null){
