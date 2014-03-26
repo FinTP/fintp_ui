@@ -51,7 +51,8 @@ public class ReportsController {
 
 		client.establishConnection();
 		StringBuilder total = new StringBuilder();
-		ArrayList<MessageReportInstance> reportInstances = client.getReports(allRequestParams, total);
+		ArrayList<MessageReportInstance> reportInstances = client.getReportsByStroedProcedure(allRequestParams, total);
+		
 		client.closeConnection();
 		
 		map.addAttribute("messages", reportInstances);

@@ -45,9 +45,14 @@
 	<bean id="cacheManager" class="ro.allevo.fintpui.utils.ApplicationCacheManager">
 	</bean>
 	<bean id="jdbcClient" class="ro.allevo.fintpui.utils.JdbcClient">
-		<property name = "driver" value="jdbc:postgresql://193.1.1.208:5432/pgdev"></property>
-		<property name="user" value="finuiuser"></property>
-		<property name="password" value="fincfg"></property>
+		<property name = "driver" value="org.postgresql.Driver"/>
+		<property name = "url" value="jdbc:postgresql://193.1.1.208:5432/pgdev"/>
+		<property name="user" value="finuiuser"/>
+		<property name="password" value="fincfg"/>
+<!-- 		<property name = "driver" value="oracle.jdbc.OracleDriver"/> -->
+<!-- 		<property name = "url" value="jdbc:oracle:thin:@193.1.1.175:1521:fintpce"/> -->
+<!-- 		<property name="user" value="findata"/> -->
+<!-- 		<property name="password" value="findata"/> -->
 	</bean>
 	<bean id="fintpService" class="ro.allevo.fintpui.services.FintpService">
    		<property name="url" value="http://localhost:8080/fintpWebServices/api"></property>   

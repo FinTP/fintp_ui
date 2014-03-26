@@ -61,6 +61,51 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 			<spring:message code="reports.headerValuedate"/>: <b>${param.valueDate}</b>; 
 		</c:when>
 	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.valueDate}">
+			<spring:message code="reports.headerValuedate"/>: <b>${param.valueDate}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.valueDate}">
+			<spring:message code="reports.headerValuedate"/>: <b>${param.valueDate}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.valueDate}">
+			<spring:message code="reports.headerValuedate"/>: <b>${param.valueDate}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.valueDate}">
+			<spring:message code="reports.headerValuedate"/>: <b>${param.valueDate}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.valueDate}">
+			<spring:message code="reports.headerValuedate"/>: <b>${param.valueDate}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.valueDate}">
+			<spring:message code="reports.headerValuedate"/>: <b>${param.valueDate}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.valueDate}">
+			<spring:message code="reports.headerValuedate"/>: <b>${param.valueDate}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.valueDate}">
+			<spring:message code="reports.headerValuedate"/>: <b>${param.valueDate}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.valueDate}">
+			<spring:message code="reports.headerValuedate"/>: <b>${param.valueDate}</b>; 
+		</c:when>
+	</c:choose>
 	
 	<br />
 
@@ -229,6 +274,18 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 	<input name="receiver" type="hidden"  value="${param.receiver}"/>
 	<input name="trn" type="hidden"  value="${param.trn}"/>
 	<input name="valueDate" type="hidden"  value="${param.valueDate}"/>
+	<input name="minAmount" type="hidden"  value="${param.minAmount}"/>
+	<input name="maxAmount" type="hidden"  value="${param.maxAmount}"/>
+	<input name="currency" type="hidden"  value="${param.currency}"/>
+	<input name="dbtaccount" type="hidden"  value="${param.dbtaccount}"/>
+	<input name="dbtcustname" type="hidden"  value="${param.dbtcustname}"/>
+	<input name="cdtaccount" type="hidden"  value="${param.cdtaccount}"/>
+	<input name="cdtcustname" type="hidden"  value="${param.cdtcustname}"/>
+	<input name="benbank" type="hidden"  value="${param.benbank}"/>
+	<input name="ordbank" type="hidden"  value="${param.ordbank}"/>
+	<input name="service" type="hidden"  value="${param.service}"/>
+	<input name="direction" type="hidden"  value="${param.direction}"/>
+	<input name="state" type="hidden"  value="${param.state}"/>
 	<input name="batchID" type="hidden"  value="${param.batchID}"/>
 	<input name="orderField" id="orderField" type="hidden"  value="${orderField}"/>
 	<input name="order" id="order" type="hidden"  value="${order}"/>

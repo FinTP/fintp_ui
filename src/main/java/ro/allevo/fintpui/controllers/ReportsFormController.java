@@ -29,6 +29,14 @@ public class ReportsFormController {
 			dbClient.establishConnection();
 			ArrayList<String> messageTypes = dbClient.getFTMessageTypes();
 			model.addAttribute("messageTypes", messageTypes);
+			model.addAttribute("states", dbClient.getStates());
+			model.addAttribute("bicCodes", dbClient.getBicCodes());
+			model.addAttribute("currencies", dbClient.getCurrencies());
+			model.addAttribute("directions",dbClient.getDirections());
+			model.addAttribute("services", dbClient.getServices());
+			model.addAttribute("userIds", dbClient.getUserIds());
+			model.addAttribute("userNames", dbClient.getUserNames());
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally{
