@@ -209,6 +209,11 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
+		<repository>
+			<id>fintp</id>
+			<name>Internal FinTP repository</name>
+			<url>file://\\193.1.1.102\repository</url>
+		</repository>
 	</repositories>
 
 	<build>
@@ -216,7 +221,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>3.1</version>
 				<configuration>
 					<source>${java-version}</source>
 					<target>${java-version}</target>
