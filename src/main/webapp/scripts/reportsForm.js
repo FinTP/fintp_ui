@@ -1,6 +1,6 @@
 $(function() {
-	$("#startDate").datepicker();
-	$("#endDate").datepicker();
+	//$("#startDate").datepicker();
+	//$("#endDate").datepicker();
 	$("#valueDate").datepicker();
 	$("input[name='interval']").change(function() {
 		if (this.value == "interval") {

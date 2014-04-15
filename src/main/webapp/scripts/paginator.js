@@ -31,6 +31,5 @@ function loadPaginator(){
 }
 
 function computeOffset(){
-	console.log("curr page : " + currentPage);
 	offset = (currentPage - 1) * $("#limit").val();
 }

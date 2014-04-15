@@ -6,9 +6,24 @@ var timeOut = refreshSeconds * 1000;
 $(function() {
 	ajaxGetQueues();
 	setInterval(function() {
-		console.log("update");
 		ajaxGetQueues();
 	}, timeOut);
+	
+	//open buttons
+	$("button.view").each(function(){
+		$(this).button({ icons: { primary: "ui-icon-folder-open" } });
+		$(this).click(function(){
+			var queueName = $(this).parent().parent().find("td").first().text();
+			document.location.href = "./queues/"+ queueName+".htm";
+			
+		});
+	});
+	$("button.edit").each(function(){
+		$(this).button({ icons: { primary: "ui-icon-pencil" }, disabled: true });
+	});
+	$("button.delete").each(function(){
+		$(this).button({ icons: { primary: "ui-icon-trash" }, disabled : true });
+	});
 });
 
 function ajaxGetQueues(){
@@ -25,7 +40,6 @@ function ajaxGetQueues(){
 		dataType : 'json',
 		async : true,
 		success : function(response) {
-			console.log(response);
 			var numbers = response.numbers;
 			for(var index = 0; index < numbers.length; index++){
 				$("#queuesTable tr:nth-child("+ (index + 2) +") td:nth-child(4)").text(numbers[index]);
