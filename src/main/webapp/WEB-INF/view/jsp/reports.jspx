@@ -62,50 +62,81 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 		</c:when>
 	</c:choose>
 	<c:choose>
-		<c:when test="${!empty param.valueDate}">
-			<spring:message code="reports.headerValuedate"/>: <b>${param.valueDate}</b>; 
+		<c:when test="${!empty param.amount}">
+			<spring:message code="reports.headerAmount"/>: <b>${param.amount}</b>; 
 		</c:when>
 	</c:choose>
 	<c:choose>
-		<c:when test="${!empty param.valueDate}">
-			<spring:message code="reports.headerValuedate"/>: <b>${param.valueDate}</b>; 
+		<c:when test="${!empty param.currency}">
+			<spring:message code="reports.headerCurrency"/>: <b>${param.currency}</b>; 
 		</c:when>
 	</c:choose>
 	<c:choose>
-		<c:when test="${!empty param.valueDate}">
-			<spring:message code="reports.headerValuedate"/>: <b>${param.valueDate}</b>; 
+		<c:when test="${!empty param.batchID}">
+			<spring:message code="reports.headerBatchid"/>: <b>${param.batchID}</b>; 
 		</c:when>
 	</c:choose>
 	<c:choose>
-		<c:when test="${!empty param.valueDate}">
-			<spring:message code="reports.headerValuedate"/>: <b>${param.valueDate}</b>; 
+		<c:when test="${!empty param.dbtaccount}">
+			<spring:message code="reports.headerDbtaccount"/>: <b>${param.dbtaccount}</b>; 
 		</c:when>
 	</c:choose>
 	<c:choose>
-		<c:when test="${!empty param.valueDate}">
-			<spring:message code="reports.headerValuedate"/>: <b>${param.valueDate}</b>; 
+		<c:when test="${!empty param.dbtcustname}">
+			<spring:message code="reports.headerDbtcustname"/>: <b>${param.dbtcustname}</b>; 
 		</c:when>
 	</c:choose>
 	<c:choose>
-		<c:when test="${!empty param.valueDate}">
-			<spring:message code="reports.headerValuedate"/>: <b>${param.valueDate}</b>; 
+		<c:when test="${!empty param.ordbank}">
+			<spring:message code="reports.headerOrdbank"/>: <b>${param.ordbank}</b>; 
 		</c:when>
 	</c:choose>
 	<c:choose>
-		<c:when test="${!empty param.valueDate}">
-			<spring:message code="reports.headerValuedate"/>: <b>${param.valueDate}</b>; 
+		<c:when test="${!empty param.cdtaccount}">
+			<spring:message code="reports.headerCdtaccount"/>: <b>${param.cdtaccount}</b>; 
 		</c:when>
 	</c:choose>
 	<c:choose>
-		<c:when test="${!empty param.valueDate}">
-			<spring:message code="reports.headerValuedate"/>: <b>${param.valueDate}</b>; 
+		<c:when test="${!empty param.cdtcustname}">
+			<spring:message code="reports.headerCdtcustname"/>: <b>${param.cdtcustname}</b>; 
 		</c:when>
 	</c:choose>
 	<c:choose>
-		<c:when test="${!empty param.valueDate}">
-			<spring:message code="reports.headerValuedate"/>: <b>${param.valueDate}</b>; 
+		<c:when test="${!empty param.benbank}">
+			<spring:message code="reports.headerBenbank"/>: <b>${param.benbank}</b>; 
 		</c:when>
 	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.service}">
+			<spring:message code="reports.headerService"/>: <b>${param.service}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.direction}">
+			<spring:message code="reports.headerDirection"/>: <b>${param.direction}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.state}">
+			<spring:message code="reports.headerState"/>: <b>${param.state}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.userid}">
+			User id: <b>${param.userid}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.minAmount}">
+			<spring:message code="reportsForm.min"/>: <b>${param.minAmount}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.maxAmount}">
+			<spring:message code="reportsForm.max"/>: <b>${param.maxAmount}</b>; 
+		</c:when>
+	</c:choose>
+	
 	
 	<br />
 
@@ -287,6 +318,7 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 	<input name="direction" type="hidden"  value="${param.direction}"/>
 	<input name="state" type="hidden"  value="${param.state}"/>
 	<input name="batchID" type="hidden"  value="${param.batchID}"/>
+	<input name="userid" type="hidden" value="${param.userid}"/> 
 	<input name="orderField" id="orderField" type="hidden"  value="${orderField}"/>
 	<input name="order" id="order" type="hidden"  value="${order}"/>
 	<input name="limit" id="limit" type="hidden"  value="${limit}"/>

@@ -24,15 +24,16 @@
         	logout-success-url="/payments.htm" delete-cookies="JSESSIONID"
         	invalidate-session="true" />
         	
-        <session-management invalid-session-url="/login.htm">
-        	<concurrency-control max-sessions="1" error-if-maximum-exceeded="true" />
-    	</session-management>
+<!--         <session-management invalid-session-url="/login.htm"> -->
+<!--         	<concurrency-control max-sessions="2" error-if-maximum-exceeded="true"/> -->
+<!--     	</session-management> -->
     </http>
  
 	<authentication-manager erase-credentials="false">
 	  <authentication-provider>
 		<user-service>
 			<user name="admin" password="admin" authorities="ROLE_USER" />
+			<user name="remus" password="remus" authorities="ROLE_USER" />
 		</user-service>
 	  </authentication-provider>
 	</authentication-manager>

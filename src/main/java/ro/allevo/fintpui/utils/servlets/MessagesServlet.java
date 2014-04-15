@@ -1,0 +1,133 @@
+package ro.allevo.fintpui.utils.servlets;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriBuilder;
+
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+
+import ro.allevo.fintpui.services.FintpService;
+
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientHandlerException;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.UniformInterfaceException;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
+import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
+
+@WebServlet("/messagesDynamic")
+public class MessagesServlet extends HttpServlet {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8669485266566590384L;
+
+	@Autowired
+	private ServletsHelper servletsHelper;
+
+	@Override
+	public void init(ServletConfig config) throws ServletException{
+		super.init(config);
+		SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,
+				config.getServletContext());
+	}
+	
+	@Override
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+
+		String queueName = request.getParameter("queue");
+		String type = request.getParameter("type");
+		String page = request.getParameter("page");
+		String pageSize = request.getParameter("pageSize");
+		String[] groupFieldsNames = request
+				.getParameterValues("groupFieldsNames[]");
+		String[] groupFieldsValues = request
+				.getParameterValues("groupFieldsValues[]");
+		String sortField = request.getParameter("sortField");
+		String sortOrder = request.getParameter("sortOrder");
+
+		boolean isTotalRequested = Boolean.parseBoolean(request
+				.getParameter("isTotalRequested"));
+
+		final Client client = servletsHelper.getAPIClient();
+		JSONObject responseData = new JSONObject();
+		try {
+			responseData = getTableInfo(client, queueName, type, page,
+					pageSize, sortField, sortOrder, isTotalRequested, groupFieldsNames, groupFieldsValues);
+
+			response.getWriter().println(responseData.toString());
+			response.getWriter().flush();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public JSONObject getTableInfo(Client client, String queueName,
+			String type, String page, String pageSize, String sortField, String sortOrder,
+			boolean isTotalRequested, String[] groupFieldsNames,
+			String[] groupFieldsValues) throws ClientHandlerException,
+			UniformInterfaceException, JSONException {
+		URI uri = UriBuilder
+				.fromPath(servletsHelper.getUrl())
+				.path("queues").path(queueName).path("messages")
+				.queryParam("type", type).build();
+		if (isTotalRequested) {
+			uri = UriBuilder.fromUri(uri).queryParam("filter", "t").build();
+		}
+		if (page != null) {
+			uri = UriBuilder.fromUri(uri).queryParam("page", page).build();
+		}
+		if (pageSize != null) {
+			uri = UriBuilder.fromUri(uri).queryParam("page_size", pageSize)
+					.build();
+		}
+		if(sortField != null && !sortField.equals("")){
+			uri = UriBuilder.fromUri(uri).queryParam("sort_field", sortField)
+					.build();
+		}
+		if(sortOrder != null && !sortOrder.equals("")){
+			uri = UriBuilder.fromUri(uri).queryParam("sort_order", sortOrder)
+					.build();
+		}
+		if (groupFieldsNames != null) {
+			for (int i = 0; i < groupFieldsValues.length; i++) {
+				uri = UriBuilder
+						.fromUri(uri)
+						.queryParam("filter_" + groupFieldsNames[i],
+								groupFieldsValues[i]).build();
+			}
+		}
+
+		WebResource webResource = client.resource(uri.toString());
+		ClientResponse response = webResource
+				.accept(MediaType.APPLICATION_JSON)
+				.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+		JSONObject responseEntity = response.getEntity(JSONObject.class);
+
+		return responseEntity;
+	}
+
+}

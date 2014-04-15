@@ -1,5 +1,6 @@
 package ro.allevo.fintpui.utils;
 
+import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -17,6 +18,7 @@ import java.util.Map;
 import oracle.jdbc.OracleTypes;
 
 import ro.allevo.fintpui.model.MessageReportInstance;
+import ro.allevo.fintpui.model.MessagesGroup;
 import ro.allevo.fintpui.services.FintpService;
 
 public class JdbcClient {
@@ -85,9 +87,7 @@ public class JdbcClient {
 			throws SQLException {
 		String query = selectClause + " " + whereClause + " " + orderClause
 				+ " " + limitClause;
-		System.out.println(query);
 		return connection.createStatement().executeQuery(query);
-
 	}
 	
 	public ArrayList<MessageReportInstance> getReportsByStroedProcedure(Map<String,String> requestParameters, StringBuilder total) throws ParseException{
@@ -143,14 +143,14 @@ public class JdbcClient {
 				statement.setNull(7, Types.VARCHAR);
 			}
 			if (!requestParameters.get("minAmount").equals("")) {
-				statement.setLong(8,
-						Long.parseLong(requestParameters.get("minAmount")));
+				statement.setBigDecimal(8,
+						new BigDecimal(requestParameters.get("minAmount")));
 			}else{
 				statement.setNull(8, Types.NUMERIC);
 			}
 			if (!requestParameters.get("maxAmount").equals("")) {
-				statement.setDouble(9,
-						Double.parseDouble(requestParameters.get("maxAmount")));
+				statement.setBigDecimal(9,
+						new BigDecimal(requestParameters.get("maxAmount")));
 			}else{
 				statement.setNull(9, Types.NUMERIC);
 			}
@@ -215,7 +215,7 @@ public class JdbcClient {
 			}else{
 				statement.setNull(21, Types.VARCHAR);
 			}
-			
+		
 			if(requestParameters.containsKey("orderField")
 					&& requestParameters.get("orderField")!=null){
 				statement.setString(22, requestParameters.get("orderField"));
@@ -256,14 +256,10 @@ public class JdbcClient {
 				}
 			}
 			connection.setAutoCommit(true);
-			System.out.println(statement);
-			
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			
 		}
-		System.out.println(reportInstances.size());
 		return reportInstances;
 	}
 	
@@ -307,6 +303,64 @@ public class JdbcClient {
 	
 	public ArrayList<String> getUserIds() throws SQLException{
 		return getDistinctTypes(USERS_IDS_QUERY, "userid");
+	}
+	
+	public ArrayList<String> getTableHeaders(String messageType, String reason,
+			ArrayList<String> headerFieldNames){
+		ArrayList<String> headers = new ArrayList<>();
+		String procedure = getProcedureCallString("findata.getgroupsheaderformtqueue", 3);
+		try {
+			connection.setAutoCommit(false);
+			CallableStatement statement = connection.prepareCall(procedure);
+			statement.setString(1, messageType);
+			statement.setString(2, reason);
+			if (driver.contains("oracle")){
+				statement.registerOutParameter(3, OracleTypes.CURSOR);
+			}else{
+				statement.registerOutParameter(3, Types.OTHER);
+			}
+			statement.execute();
+			ResultSet resultSet = (ResultSet) statement.getObject(3);
+			while(resultSet.next()){
+				headers.add(resultSet.getString(1));
+				if(headerFieldNames != null)
+					headerFieldNames.add(resultSet.getString(2));
+				
+			}
+			connection.setAutoCommit(true);
+			
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		return headers;
+	}
+	
+	public ArrayList<MessagesGroup> getGroups(String queue, String messageType){
+		ArrayList<MessagesGroup> groups = new ArrayList<>();
+		String procedure = getProcedureCallString("findata.getgroupsformtqueue", 3);
+		try {
+			connection.setAutoCommit(false);
+			CallableStatement statement = connection.prepareCall(procedure);
+			statement.setString(1, queue);
+			statement.setString(2, messageType);
+			if (driver.contains("oracle")){
+				statement.registerOutParameter(3, OracleTypes.CURSOR);
+			}else{
+				statement.registerOutParameter(3, Types.OTHER);
+			}
+			statement.execute();
+			ResultSet resultSet = (ResultSet) statement.getObject(3);
+		
+			while(resultSet.next()){
+				groups.add( new MessagesGroup(resultSet));
+			}
+			connection.setAutoCommit(true);
+			
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return groups;
 	}
 	
 	private ArrayList<String> getDistinctTypes(String query, String columnName) throws SQLException {

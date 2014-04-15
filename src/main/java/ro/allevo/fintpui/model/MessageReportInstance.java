@@ -3,6 +3,8 @@ package ro.allevo.fintpui.model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.sun.xml.bind.v2.runtime.RuntimeUtil.ToStringAdapter;
+
 public class MessageReportInstance {
 
 	private String insertdate;
@@ -223,6 +225,8 @@ public class MessageReportInstance {
 		this.payload = payload;
 	}
 
-	
+	public String toString(){
+		return "correlid " + correlid;
+	}
 	
 }

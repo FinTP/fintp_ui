@@ -1,0 +1,164 @@
+<div xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
+
+	<spring:url value="/style" var="styleUrl" />
+	<link href="${styleUrl}/jquery/jquery-ui-1.10.4.custom.css"
+		rel="stylesheet" />
+	<link href="${styleUrl}/paginator.css" rel="stylesheet"/>
+	<link href="${styleUrl}/fintpTable.css" rel="stylesheet" />
+	<link href="${styleUrl}/sort.css" rel="stylesheet" />
+	
+
+	<spring:url value="/scripts/locale.js" var="locale_js_url" />
+	<spring:url var="jquery_js_url"
+		value="/scripts/jquery/jquery-1.10.1.js" />
+	<spring:url var="jquery_ui_url" value="/scripts/jquery/jquery-ui.js" />
+	<spring:url var="queue_script_url" value="/scripts/queue.js" />
+	<spring:url var="prime_ui_url" value="/scripts/prime-ui/prime-ui-0.9.5.js" />	
+	<spring:url var="prime_paginator_url" value="/scripts/prime-ui/paginator.js" />	
+	<spring:url var="paginator_url" value="/scripts/paginatorMulti.js" />	
+	<spring:url var="sort_url" value="/scripts/sort2.js" />
+	
+	<script src="${locale_js_url}" type="text/javascript">
+	<!-- required for FF3 and Opera -->
+	</script>
+	
+	<script src="${jquery_js_url}" type="text/javascript">
+	<!-- required for FF3 and Opera -->
+	</script>
+	
+	<script src="${jquery_ui_url}" type="text/javascript">
+	<!-- required for FF3 and Opera -->
+	</script>
+	
+	<script src="${queue_script_url}" type="text/javascript">
+	<!-- required for FF3 and Opera -->
+	</script>
+	
+	<script src="${prime_ui_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+	<script src="${prime_paginator_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+	<script src="${paginator_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+	<script src="${sort_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+			
+
+	<h3 id="queueName" >${queueName}</h3>
+	<span > <spring:message code="reports.nbItems"/> 
+		<select id="itemsPerPage">
+			<option>1</option>
+			<option>5</option>
+			<option>10</option>
+			<option>20</option>
+			<option>25</option>
+			<option>50</option>
+			<option selected="selected">100</option>
+		</select>
+	</span>
+	<c:choose>
+		<c:when test="${empty messageTypes}">
+			<spring:message code="queue.noMessages" />
+		</c:when>
+		<c:otherwise>
+			<div id="tabs">
+				<ul>
+					<c:forEach var="messageType" items="${messageTypes}">
+						<li><a href="#tabs-${messageType}">${messageType}</a></li>
+					</c:forEach>
+				</ul>
+				<c:forEach var="messageType" items="${messageTypes}">
+					<c:set var="groupsList" value="${groupsMap[messageType]}"></c:set>
+					<c:choose>
+
+						<c:when test="${empty groupsList}">
+							<div id="tabs-${messageType}">
+								Total:<span class = "total">0</span> 
+								<input type="hidden" name = "total" value = "0"/>
+								<input type="hidden" name = "page" value = "1"/>
+								<input type="hidden" name = "sortField"/>
+								<input type="hidden" name = "sortOrder"/>
+								
+								<table class="fintpTable notGroupable">
+									<input type="hidden" name="messageType" value="${messageType}" />
+									<thead>
+										<tr>
+											<th/>
+											<c:forEach var="tableHeader" items="${headers[messageType]}"
+												varStatus="loop">
+												<th class = "sortable">${tableHeader} <input type="hidden" name="field"
+													value="${columns[messageType][loop.index]}" />
+													<input type = "hidden" name="sortOrder" />
+													<span class="sortable-icon"></span>
+												</th>
+											</c:forEach>
+										</tr>
+									</thead>
+									<tbody>
+
+									</tbody>
+								</table>
+								<br/>
+								
+								<span  class="paginator">TEXT</span>
+							</div>
+						</c:when>
+
+						<c:otherwise>
+							<div id="tabs-${messageType}">
+
+								<div class="accordion">
+									<c:forEach var="group" items="${groupsMap[messageType]}">
+										<h3>
+											<input type="checkbox" /> ${group.fields} 
+											<b>Total </b>:${group.count} 
+											<b>Total amount</b>: ${group.totalAmount}
+										</h3>
+										<div id="${group.groupKey}">
+											<input type="hidden" name = "total" value = "${group.count}"/>
+											<input type="hidden" name = "page" value = "1"/>
+											<input type="hidden" name = "sortField"/>
+											<input type="hidden" name = "sortOrder"/>
+											
+											<ul class = "groupFields" style="display: none;">
+												<c:forEach var="groupFieldName" items="${groupFieldNames[messageType]}">
+													<li><c:out value="${groupFieldName}"></c:out></li>
+												</c:forEach>
+											</ul>
+											<ul class = "groupValues" style="display: none;">
+												<c:forEach var="groupFieldValue" items="${group.fields}">
+													<li><c:out value="${groupFieldValue}"></c:out></li>
+												</c:forEach>
+											</ul>
+											<table class="fintpTable groupable">
+												<input type="hidden" name="messageType" value="${messageType}" />
+												<thead>
+													<tr>
+														<th></th>
+														<c:forEach var="tableHeader"
+															items="${headers[messageType]}"
+															varStatus="loop">
+															<th class="sortable">${tableHeader} <input type="hidden" name="field"
+																value="${columns[messageType][loop.index]}" />
+																<input type = "hidden" name="sortOrder" />
+																<span class="sortable-icon"></span>
+															</th>
+														</c:forEach>
+													</tr>
+												</thead>
+												<tbody>
+													
+												</tbody>
+											</table>
+											<br/>
+											<span  class="paginator">TEXT</span>
+										</div>
+									</c:forEach>
+								</div>
+							</div>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</div>
+		</c:otherwise>
+	</c:choose>
+</div>

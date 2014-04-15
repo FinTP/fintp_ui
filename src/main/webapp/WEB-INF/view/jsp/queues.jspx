@@ -5,11 +5,17 @@
 	
 	<spring:url value="/style" var="styleUrl" />
 	<link href="${styleUrl}/fintpTable.css" rel="stylesheet"/>
+	<link href="${styleUrl}/jquery/jquery-ui-1.10.4.custom.css"
+		rel="stylesheet" />
+	
 	<spring:url value="/scripts/locale.js" var="locale_js_url" />
-	<script src="${locale_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 	<spring:url var="jquery_js_url" value="/scripts/jquery/jquery-1.10.1.js" />
-	<script src="${jquery_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+	<spring:url var="jquery_ui_url" value="/scripts/jquery/jquery-ui.js" />
 	<spring:url var="queues_js_url" value="/scripts/queuesDynamic.js" />
+	
+	<script src="${locale_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+	<script src="${jquery_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+	<script src="${jquery_ui_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 	<script src="${queues_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 		
 	<c:choose>
@@ -24,6 +30,8 @@
 						<th>Description</th>
 						<th>Holdstatus</th>
 						<th>Number of messages</th>
+						<th>Actions</th>
+						
 					</tr>
 				<c:forEach var="queue" items="${queues}">
 					<tr>
@@ -31,6 +39,11 @@
 						<td><c:out value="${queue.description}" /></td>
 						<td class="centered"><c:out value="${queue.holdstatus}" /></td>
 						<td class="centered"></td>
+						<td>
+							<button class="view"></button>
+							<button class="edit"></button>
+							<button class="delete"></button>
+						</td>
 						
 					</tr>				
 				</c:forEach>

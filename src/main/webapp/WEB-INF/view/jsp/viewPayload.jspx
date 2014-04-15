@@ -1,0 +1,18 @@
+<div xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
+
+	<spring:url value="/style" var="styleUrl" />
+	<link href="${styleUrl}/fintpTable.css" rel="stylesheet" />
+	<c:choose>
+		<c:when test="${empty payload}">
+			No payload available for the given id and type.
+		</c:when>
+		<c:otherwise>
+			<spring:message code="payloadView.messageId"/>: ${param.id}<br/>
+			<spring:message code="payloadView.messageType"/>: ${param.type}<br/>
+			${payload}
+		</c:otherwise>
+	</c:choose>
+</div>

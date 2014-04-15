@@ -1,8 +1,12 @@
 .fintpTable{
 	background-color:  #efefef;
+	font-family: Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 24px;
+	margin-left: auto;
+	margin-right: auto;
+	width:75%;
 }
-
-
 
 .fintpTable td,th {
 	overflow: hidden;
@@ -39,5 +43,11 @@
 	text-align: center;
 	font-weight: bold;
 	color: white;
+}
+
+.pui-paginator{
+	margin-left: auto;
+	margin-right: auto;
+	width:75%;
 }
 

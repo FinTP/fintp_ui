@@ -2,10 +2,12 @@
  * Servlet that receives a list with queues names 
  * and responds with the number of messages contained in them.
  */
-package ro.allevo.fintpui.utils;
+package ro.allevo.fintpui.utils.servlets;
 
 import java.io.IOException;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.ws.rs.core.MediaType;
 
@@ -17,9 +19,13 @@ import net.sf.ehcache.config.CacheConfiguration;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+
+import ro.allevo.fintpui.utils.ApplicationCacheManager;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -32,10 +38,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/queuesDynamic")
-public class QueuesDynamicData extends HttpServlet {
+public class QueuesServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
+	@Autowired
+	private ServletsHelper servletsHelper;
+	
+	@Override
+	public void init(ServletConfig config) throws ServletException{
+		super.init(config);
+		SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,
+				config.getServletContext());
+	}
 
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -46,15 +61,7 @@ public class QueuesDynamicData extends HttpServlet {
 			JSONArray queueNames = requestData.getJSONArray("queues");
 			JSONObject responseData = new JSONObject();
 			JSONArray numberOfMessagesList = new JSONArray();
-			final ClientConfig cc = new DefaultClientConfig();
-			final Client client = Client.create(cc);
-			Authentication authentication = SecurityContextHolder.getContext()
-					.getAuthentication();
-			client.addFilter(new HTTPBasicAuthFilter(
-					new String(((UserDetails) authentication.getPrincipal())
-							.getUsername()), new String(
-							((UserDetails) authentication.getPrincipal())
-									.getPassword())));
+			final Client client = servletsHelper.getAPIClient();
 			for (int i = 0; i < queueNames.length(); i++) {
 				numberOfMessagesList.put(getNumberOfMessages(queueNames.getString(i), client));
 			}
@@ -89,9 +96,9 @@ public class QueuesDynamicData extends HttpServlet {
 	}
 	private Integer getNumberOfMessagesFromAPI(String queueName, Client client) throws JSONException {
 		
-		// TODO: make url available in context!!!
-		String urlRoot = "http://localhost:8080/fintpWebServices/api";
+		String urlRoot = servletsHelper.getUrl();
 		String url = urlRoot + "/queues/" + queueName + "/messages?filter=t";
+		System.out.println("CALL API : " + url.toString());
 		WebResource webResource = client.resource(url);
 		ClientResponse response = webResource
 				.accept(MediaType.APPLICATION_JSON)
@@ -101,7 +108,6 @@ public class QueuesDynamicData extends HttpServlet {
 			JSONObject entity = response.getEntity(JSONObject.class);
 			return entity.getInt("total");
 		case 403:
-			System.out.println("Resource forbidden");
 			return null;
 		default:
 			throw new RuntimeException("Failed : HTTP error code : "
