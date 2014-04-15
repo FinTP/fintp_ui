@@ -54,13 +54,22 @@
 <!-- 		<property name="user" value="findata"/> -->
 <!-- 		<property name="password" value="findata"/> -->
 	</bean>
-	<bean id="fintpService" class="ro.allevo.fintpui.services.FintpService">
-   		<property name="url" value="http://localhost:8080/fintpWebServices/api"></property>   
-   </bean>
-   <bean id="queuesController" class="ro.allevo.fintpui.controllers.QueuesController">
+	<bean id="queuesController" class="ro.allevo.fintpui.controllers.QueuesController">
  		<property name="fintpService" ref="fintpService"/>  
    </bean>
    
+   <bean id="messageController" class="ro.allevo.fintpui.controllers.MessageController"/>
+   
+   <bean id="fintpService" class="ro.allevo.fintpui.services.FintpService">
+   		<property name="url" value="http://localhost:8080/fintpWebServices/api"></property>   
+   </bean>
+   
+   <bean id = "servletsHelper" class = "ro.allevo.fintpui.utils.servlets.ServletsHelper">
+   		<property name="url" value="http://localhost:8080/fintpWebServices/api"></property>
+   </bean>
+   
+   <bean id = "messagesServlet" class="ro.allevo.fintpui.utils.servlets.MessagesServlet">
+   </bean>
    
 
 </beans>
