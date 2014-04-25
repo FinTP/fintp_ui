@@ -180,7 +180,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="title"><b>User</b></td>
+					<td class="title"><b><spring:message code="reportsForm.user"/></b></td>
 					<td><select id="userid" name="userid">
 							<option selected="selected"></option>
 							<c:set var="userid" value="${userNames[i.index]}"></c:set>
