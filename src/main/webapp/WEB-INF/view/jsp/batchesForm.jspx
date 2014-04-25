@@ -1,0 +1,76 @@
+<div xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
+
+	<spring:url value="/style" var="styleUrl" />
+	<link href="${styleUrl}/jquery/jquery-ui-1.10.4.custom.css" rel="stylesheet"/>
+	<link href="${styleUrl}/reportsForm.css" rel="stylesheet"/>
+	<spring:url value="/scripts/locale.js" var="locale_js_url" />
+	<spring:url var="jquery_js_url" value="/scripts/jquery/jquery-1.10.1.js" />
+	<spring:url var="jquery_ui_js_url" value="/scripts/jquery/jquery-ui.js" />
+	<script src="${locale_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+	<script src="${jquery_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+	<script src="${jquery_ui_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+	
+	<form action="batches.htm" method="get">
+		<table>
+			<tbody>
+				<tr>
+					<td class="title">
+						Batch date: 
+					</td>
+					<td>
+						<input type="text" id="batchDate" name="batchDate"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Source application: 
+					</td>
+					<td>
+						<select name="source">
+							<option selected="selected"></option>
+							<option>Test Queue 1</option>
+							<option>Test Queue 2</option>
+							<option>Test Queue 3</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="title"><b><spring:message code="reports.headerSender"/></b></td>
+					<td><select name="sender">
+							<option selected="selected"></option>
+							<c:forEach var="bic" items="${bicCodes}">
+								<option><c:out value="${bic}"/></option>
+							</c:forEach>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="title"><b><spring:message code="reports.headerReceiver"/></b></td>
+					<td><select name="receiver">
+							<option selected="selected"></option>
+							<c:forEach var="bic" items="${bicCodes}">
+								<option><c:out value="${bic}"/></option>
+							</c:forEach>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="title"><b><spring:message code="reports.headerMsgtype"/></b></td>
+					<td><select name="messageType" class="text5">
+							<option selected="selected"></option>
+							<c:forEach var="mt" items="${messageTypes}">
+								<option><c:out value="${mt}"/></option>
+							</c:forEach>
+						</select>
+					</td>
+				</tr>
+				
+			</tbody>
+		</table>
+		<input type="submit" value="Search" id="search"/>
+	</form>
+	
+</div>

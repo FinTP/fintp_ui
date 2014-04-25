@@ -26,7 +26,7 @@
 			<li class="main-menu"><a href="/fintp_ui/reportsForm.htm"><spring:message code="header.menuReports"/></a>
 				<ul>
 					<li><a href="/fintp_ui/reportsForm.htm"><spring:message code="header.menuMessages"/></a></li>
-					<li><a href="#"><spring:message code="header.menuBatches"/></a></li>
+					<li><a href="/fintp_ui/batchesForm.htm"><spring:message code="header.menuBatches"/></a></li>
 					<li><a href="#"><spring:message code="header.menuEvents"/></a></li>
 					<li><a href="#"><spring:message code="header.menuLogs"/></a></li>
 				</ul>

@@ -67,9 +67,7 @@
    <bean id = "servletsHelper" class = "ro.allevo.fintpui.utils.servlets.ServletsHelper">
    		<property name="url" value="http://localhost:8080/fintpWebServices/api"></property>
    </bean>
+   <bean id = "messagesServlet" class="ro.allevo.fintpui.utils.servlets.MessagesServlet"/>
+   <bean id = "batchRequestServlet" class="ro.allevo.fintpui.utils.servlets.BatchRequestServlet"/>
    
-   <bean id = "messagesServlet" class="ro.allevo.fintpui.utils.servlets.MessagesServlet">
-   </bean>
-   
-
 </beans>

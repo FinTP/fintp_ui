@@ -98,7 +98,7 @@ public class QueuesServlet extends HttpServlet {
 		
 		String urlRoot = servletsHelper.getUrl();
 		String url = urlRoot + "/queues/" + queueName + "/messages?filter=t";
-		System.out.println("CALL API : " + url.toString());
+		//System.out.println("CALL API : " + url.toString());
 		WebResource webResource = client.resource(url);
 		ClientResponse response = webResource
 				.accept(MediaType.APPLICATION_JSON)

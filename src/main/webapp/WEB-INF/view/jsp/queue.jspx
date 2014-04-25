@@ -20,6 +20,7 @@
 	<spring:url var="prime_paginator_url" value="/scripts/prime-ui/paginator.js" />	
 	<spring:url var="paginator_url" value="/scripts/paginatorMulti.js" />	
 	<spring:url var="sort_url" value="/scripts/sort2.js" />
+	<spring:url var="batch_url" value="/scripts/batch.js" />
 	
 	<script src="${locale_js_url}" type="text/javascript">
 	<!-- required for FF3 and Opera -->
@@ -41,6 +42,7 @@
 	<script src="${prime_paginator_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 	<script src="${paginator_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 	<script src="${sort_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+	<script src="${batch_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 			
 
 	<h3 id="queueName" >${queueName}</h3>
@@ -105,11 +107,13 @@
 
 						<c:otherwise>
 							<div id="tabs-${messageType}">
-
+								
+								<button class="batch" type="button">Batch</button>
 								<div class="accordion">
 									<c:forEach var="group" items="${groupsMap[messageType]}">
 										<h3>
 											<input type="checkbox" /> ${group.fields} 
+											<input type="hidden" name="timekey" value="${group.timestamp}"/>
 											<b>Total </b>:${group.count} 
 											<b>Total amount</b>: ${group.totalAmount}
 										</h3>
