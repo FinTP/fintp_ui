@@ -40,6 +40,9 @@ public class BatchRequestServlet extends HttpServlet{
 	
 	@Autowired
 	private ServletsHelper servletsHelper;
+
+	private static String DATA_CHANGED_ERROR_MESSAGE = "The messages on your screen are not up to date." +
+			" Please reload page, then perform the desired actions.";
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException{
@@ -54,7 +57,6 @@ public class BatchRequestServlet extends HttpServlet{
 	
 		logger.info("POST  /batchRequest servlet");
 		JSONObject requestEntity = new JSONObject();
-		Map<String, String> parametersMap = request.getParameterMap();
 		String[] fields = request
 				.getParameterValues("fields[]");
 		try {
@@ -85,18 +87,33 @@ public class BatchRequestServlet extends HttpServlet{
 				.post(ClientResponse.class, requestEntity);
 		JSONObject responseEntity = clientResponse.getEntity(JSONObject.class);
 		
+		response.setContentType("application/json");
+		System.out.println("CLIENT STATUS " + clientResponse.getStatus());
 		
 		switch (clientResponse.getStatus()) {
 		case 202:
-			response.setStatus(200);
-			response.setContentType("application/json");
+			response.setStatus(202);
 			response.getWriter().println(responseEntity.toString());
 			response.getWriter().flush();
+			break;
+		case 406:
+			response.setStatus(406);
+			//create custon answer
+			responseEntity = new JSONObject();
+			try {
+				responseEntity.put("message", DATA_CHANGED_ERROR_MESSAGE);
+				response.getWriter().println(responseEntity.toString());
+				response.getWriter().flush();
+				
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			break;
 		case 403:
 			response.setStatus(403);
-			response.setContentType("application/json");
 			response.getWriter().println(responseEntity.toString());
 			response.getWriter().flush();
+			break;
 		default:
 			throw new RuntimeException("Failed : HTTP error code : "
 					+ clientResponse.getStatus() + " => handle this type of response");

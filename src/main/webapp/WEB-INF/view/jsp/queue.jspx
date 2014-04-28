@@ -62,6 +62,12 @@
 			<spring:message code="queue.noMessages" />
 		</c:when>
 		<c:otherwise>
+			<div id="requestsLabel" style="display: none;">
+				<ul class = "batchRequested" style="display: none;"></ul>
+				Number of requests: <p class="numberRequests"></p>
+				Processed : <p class="percentage"></p>
+				<a href="/fintp_ui/batchRequests.htm">View here details about requests</a>
+			</div>
 			<div id="tabs">
 				<ul>
 					<c:forEach var="messageType" items="${messageTypes}">
