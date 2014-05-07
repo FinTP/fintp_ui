@@ -16,16 +16,7 @@ $(function(){
 				fields.push($(this).text());
 			});
 			var msgtype = $groupDiv.find("input[name='messageType']").val();
-			
-//			console.log("=-=-=-=-=-=-=-=");
-//			console.log("groupkey " + $(this).attr("aria-controls"));
-//			console.log("timekey " + timekey);
-//			console.log("queuename " + queue);
-//			console.log($checkbox.prop("checked"));
-//			console.log("fields " + fields);
-//			console.log("msgtype " + msgtype);
-//			console.log("=-=-=-=-=-=-=-=");
-			
+
 			if($checkbox.prop("checked")){
 				$.ajax({
 					data:{
@@ -41,16 +32,16 @@ $(function(){
 					async : false,
 					success: function(data, textStatus, xhr){
 						console.log("SUCCESS STATUS " + xhr.status);
-						
+						completeBatchesTable(true);
 					},
 					error: function (xhr, textStatus, error){
 						switch (xhr.status) {
 						case 403:
-							var json = $.parseJSON(xhr.responseText);
-							alert(json.message);
+							alert("You don't have necessary authorities to perform this action.");
 							break;
 						case 406:
-							alert("You don't have necessary authorities to perform this action.");
+							var json = $.parseJSON(xhr.responseText);
+							alert(json.message);
 							break;
 						default:
 							break;

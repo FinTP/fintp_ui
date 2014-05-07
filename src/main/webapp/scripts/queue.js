@@ -1,3 +1,6 @@
+var refreshSeconds = 60;
+var timeOut = refreshSeconds * 1000;
+
 $(function() {
 	$("#tabs").tabs();
 	$(".accordion").accordion({
@@ -26,7 +29,10 @@ $(function() {
 			loadPaginator($(this));
 		});
 	});
-	
+	completeBatchesTable(true);
+	setInterval(function() {
+			completeBatchesTable(true);
+	}, timeOut);
 });
 
 function loadTable(table, isTotalRequested,  filterArguments){
@@ -125,3 +131,4 @@ function viewPayload(id, type) {
 	document.location.href = '/fintp_ui/viewPayload.htm?id=' + id + '&type='
 			+ type;
 }
+

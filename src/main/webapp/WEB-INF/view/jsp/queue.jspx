@@ -21,6 +21,8 @@
 	<spring:url var="paginator_url" value="/scripts/paginatorMulti.js" />	
 	<spring:url var="sort_url" value="/scripts/sort2.js" />
 	<spring:url var="batch_url" value="/scripts/batch.js" />
+	<spring:url var="requests_url" value="/scripts/batchRequests.js" />
+	
 	
 	<script src="${locale_js_url}" type="text/javascript">
 	<!-- required for FF3 and Opera -->
@@ -33,7 +35,12 @@
 	<script src="${jquery_ui_url}" type="text/javascript">
 	<!-- required for FF3 and Opera -->
 	</script>
-	
+
+	<script src="${requests_url}" type="text/javascript">
+	<!-- required for FF3 and Opera -->
+	</script>
+
+
 	<script src="${queue_script_url}" type="text/javascript">
 	<!-- required for FF3 and Opera -->
 	</script>
@@ -46,27 +53,35 @@
 			
 
 	<h3 id="queueName" >${queueName}</h3>
-	<span > <spring:message code="reports.nbItems"/> 
-		<select id="itemsPerPage">
-			<option>1</option>
-			<option>5</option>
-			<option>10</option>
-			<option>20</option>
-			<option>25</option>
-			<option>50</option>
-			<option selected="selected">100</option>
-		</select>
-	</span>
 	<c:choose>
 		<c:when test="${empty messageTypes}">
 			<spring:message code="queue.noMessages" />
 		</c:when>
 		<c:otherwise>
-			<div id="requestsLabel" style="display: none;">
-				<ul class = "batchRequested" style="display: none;"></ul>
-				Number of requests: <p class="numberRequests"></p>
-				Processed : <p class="percentage"></p>
-				<a href="/fintp_ui/batchRequests.htm">View here details about requests</a>
+			<span> <spring:message code="reports.nbItems" /> <select
+				id="itemsPerPage">
+					<option>1</option>
+					<option>5</option>
+					<option>10</option>
+					<option>20</option>
+					<option>25</option>
+					<option>50</option>
+					<option selected="selected">100</option>
+			</select>
+			</span>
+			<div id="requestsLabel">
+				<table class="fintpRequestsLabel">
+					<tr>
+						<td>Batches requested: <b><span id="nbBatches" /></b></td>
+						<td>Success: <b><span id="nbSuccess" /></b></td>
+						<td>Failed: <b><span id="nbFailed" /></b></td>
+						<td>In progress: <b><span id="nbInProgress" /></b></td>
+						<td>Waiting: <b><span id="nbWaiting" /></b></td>
+						<td><a href="/fintp_ui/batchrequests.htm">View here
+								details about requests</a></td>
+
+					</tr>
+				</table>
 			</div>
 			<div id="tabs">
 				<ul>
@@ -80,23 +95,23 @@
 
 						<c:when test="${empty groupsList}">
 							<div id="tabs-${messageType}">
-								Total:<span class = "total">0</span> 
-								<input type="hidden" name = "total" value = "0"/>
-								<input type="hidden" name = "page" value = "1"/>
-								<input type="hidden" name = "sortField"/>
-								<input type="hidden" name = "sortOrder"/>
-								
+								Total:<span class="total">0</span> <input type="hidden"
+									name="total" value="0" /> <input type="hidden" name="page"
+									value="1" /> <input type="hidden" name="sortField" /> <input
+									type="hidden" name="sortOrder" />
+
 								<table class="fintpTable notGroupable">
 									<input type="hidden" name="messageType" value="${messageType}" />
 									<thead>
 										<tr>
-											<th/>
+											<th />
 											<c:forEach var="tableHeader" items="${headers[messageType]}"
 												varStatus="loop">
-												<th class = "sortable">${tableHeader} <input type="hidden" name="field"
-													value="${columns[messageType][loop.index]}" />
-													<input type = "hidden" name="sortOrder" />
-													<span class="sortable-icon"></span>
+												<th class="sortable">${tableHeader} <input
+													type="hidden" name="field"
+													value="${columns[messageType][loop.index]}" /> <input
+													type="hidden" name="sortOrder" /> <span
+													class="sortable-icon"></span>
 												</th>
 											</c:forEach>
 										</tr>
@@ -105,62 +120,59 @@
 
 									</tbody>
 								</table>
-								<br/>
-								
-								<span  class="paginator">TEXT</span>
+								<br /> <span class="paginator">TEXT</span>
 							</div>
 						</c:when>
 
 						<c:otherwise>
 							<div id="tabs-${messageType}">
-								
+
 								<button class="batch" type="button">Batch</button>
 								<div class="accordion">
 									<c:forEach var="group" items="${groupsMap[messageType]}">
 										<h3>
-											<input type="checkbox" /> ${group.fields} 
-											<input type="hidden" name="timekey" value="${group.timestamp}"/>
-											<b>Total </b>:${group.count} 
-											<b>Total amount</b>: ${group.totalAmount}
+											<input type="checkbox" /> ${group.fields} <input
+												type="hidden" name="timekey" value="${group.timestamp}" /> <b>Total
+											</b>:${group.count} <b>Total amount</b>: ${group.totalAmount}
 										</h3>
 										<div id="${group.groupKey}">
-											<input type="hidden" name = "total" value = "${group.count}"/>
-											<input type="hidden" name = "page" value = "1"/>
-											<input type="hidden" name = "sortField"/>
-											<input type="hidden" name = "sortOrder"/>
-											
-											<ul class = "groupFields" style="display: none;">
-												<c:forEach var="groupFieldName" items="${groupFieldNames[messageType]}">
+											<input type="hidden" name="total" value="${group.count}" /> <input
+												type="hidden" name="page" value="1" /> <input type="hidden"
+												name="sortField" /> <input type="hidden" name="sortOrder" />
+
+											<ul class="groupFields" style="display: none;">
+												<c:forEach var="groupFieldName"
+													items="${groupFieldNames[messageType]}">
 													<li><c:out value="${groupFieldName}"></c:out></li>
 												</c:forEach>
 											</ul>
-											<ul class = "groupValues" style="display: none;">
+											<ul class="groupValues" style="display: none;">
 												<c:forEach var="groupFieldValue" items="${group.fields}">
 													<li><c:out value="${groupFieldValue}"></c:out></li>
 												</c:forEach>
 											</ul>
 											<table class="fintpTable groupable">
-												<input type="hidden" name="messageType" value="${messageType}" />
+												<input type="hidden" name="messageType"
+													value="${messageType}" />
 												<thead>
 													<tr>
 														<th></th>
 														<c:forEach var="tableHeader"
-															items="${headers[messageType]}"
-															varStatus="loop">
-															<th class="sortable">${tableHeader} <input type="hidden" name="field"
-																value="${columns[messageType][loop.index]}" />
-																<input type = "hidden" name="sortOrder" />
-																<span class="sortable-icon"></span>
+															items="${headers[messageType]}" varStatus="loop">
+															<th class="sortable">${tableHeader} <input
+																type="hidden" name="field"
+																value="${columns[messageType][loop.index]}" /> <input
+																type="hidden" name="sortOrder" /> <span
+																class="sortable-icon"></span>
 															</th>
 														</c:forEach>
 													</tr>
 												</thead>
 												<tbody>
-													
+
 												</tbody>
 											</table>
-											<br/>
-											<span  class="paginator">TEXT</span>
+											<br /> <span class="paginator">TEXT</span>
 										</div>
 									</c:forEach>
 								</div>

@@ -1,5 +1,5 @@
 var urlRoot = "http://localhost:8080/fintpWebServices/api/";
-var refreshSeconds = 30;
+var refreshSeconds = 60;
 var timeOut = refreshSeconds * 1000;
 
 

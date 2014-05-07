@@ -51,6 +51,42 @@ public class BatchRequestServlet extends HttpServlet{
 				config.getServletContext());
 	}
 	
+	@Override 
+	public void doGet (HttpServletRequest request, HttpServletResponse response)
+		throws IOException{
+		logger.info("GET /batchRequest");
+		boolean isUserFilterEnabled = Boolean.getBoolean(request
+				.getParameter("userFilter"));
+		String groupKey = request.getParameter("groupkey");
+		
+		//build url depending on arguments received
+		// if groupkey is specified return details about that batch request
+		// else, get all groupkeys (verifying whether the filtering by user is enabled
+		URI uri = UriBuilder.fromPath(servletsHelper.getUrl()).path("batchrequests")
+				.build();
+		
+		if(groupKey != null){
+			uri = UriBuilder.fromUri(uri).path(groupKey).build();
+		}else{
+			if(isUserFilterEnabled){
+				String username = ((UserDetails)SecurityContextHolder.getContext()
+						.getAuthentication().getPrincipal()).getUsername();
+				uri = UriBuilder.fromUri(uri).queryParam("user", username).build();
+			}
+		}
+		
+		final Client client = servletsHelper.getAPIClient();
+		WebResource webResource = client.resource(uri.toString());
+		ClientResponse clientResponse = webResource
+				.accept(MediaType.APPLICATION_JSON)
+				.type(MediaType.APPLICATION_JSON)
+				.get(ClientResponse.class);
+		JSONObject responseEntity = clientResponse.getEntity(JSONObject.class);
+		response.setContentType("application/json");
+		response.getWriter().println(responseEntity.toString());
+		response.getWriter().flush();
+	}
+	
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
