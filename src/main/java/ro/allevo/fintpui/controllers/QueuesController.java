@@ -50,7 +50,8 @@ public class QueuesController {
 		logger.info("/queues/"+queueName + " requested");
 		try {
 			dbClient.establishConnection();
-			
+			Queue[] queues = fintpService.getQueues();
+			model.addAttribute("queues", queues);
 			
 			//add queue name attribute
 			model.addAttribute("queueName", queueName);

@@ -38,7 +38,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/queuesDynamic")
-public class QueuesServlet extends HttpServlet {
+public class QueuesDetailsServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 

@@ -22,7 +22,7 @@
 	<spring:url var="sort_url" value="/scripts/sort2.js" />
 	<spring:url var="batch_url" value="/scripts/batch.js" />
 	<spring:url var="requests_url" value="/scripts/batchRequests.js" />
-	
+	<spring:url var="route_url" value="/scripts/route.js" />
 	
 	<script src="${locale_js_url}" type="text/javascript">
 	<!-- required for FF3 and Opera -->
@@ -39,17 +39,18 @@
 	<script src="${requests_url}" type="text/javascript">
 	<!-- required for FF3 and Opera -->
 	</script>
-
-
+	
 	<script src="${queue_script_url}" type="text/javascript">
 	<!-- required for FF3 and Opera -->
 	</script>
+	
 	
 	<script src="${prime_ui_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 	<script src="${prime_paginator_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 	<script src="${paginator_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 	<script src="${sort_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 	<script src="${batch_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+	<script src="${route_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 			
 
 	<h3 id="queueName" >${queueName}</h3>
@@ -69,6 +70,15 @@
 					<option selected="selected">100</option>
 			</select>
 			</span>
+			<div id="moveDialog">
+				Select destination queue: 
+				<select id="destinationQueue">
+					<c:forEach var="queue" items="${queues}">
+						<option>${queue.name}</option>
+					</c:forEach>
+				</select>
+			</div>
+			
 			<div id="requestsLabel">
 				<table class="fintpRequestsLabel">
 					<tr>
@@ -99,6 +109,11 @@
 									name="total" value="0" /> <input type="hidden" name="page"
 									value="1" /> <input type="hidden" name="sortField" /> <input
 									type="hidden" name="sortOrder" />
+									
+									<button class="authorizeButton" type="button">Authorize</button>
+									<button class="moveButton" type="button">Move</button>
+									<button class="rejectButton" type="button">Reject</button>
+									
 
 								<table class="fintpTable notGroupable">
 									<input type="hidden" name="messageType" value="${messageType}" />
@@ -131,7 +146,7 @@
 								<div class="accordion">
 									<c:forEach var="group" items="${groupsMap[messageType]}">
 										<h3>
-											<input type="checkbox" /> ${group.fields} <input
+											<input type="checkbox" class="batchCheckbox"/> ${group.fields} <input
 												type="hidden" name="timekey" value="${group.timestamp}" /> <b>Total
 											</b>:${group.count} <b>Total amount</b>: ${group.totalAmount}
 										</h3>
@@ -151,6 +166,9 @@
 													<li><c:out value="${groupFieldValue}"></c:out></li>
 												</c:forEach>
 											</ul>
+											<button class="moveButton" type="button">Move</button>
+											<button class="rejectButton" type="button">Reject</button>
+								
 											<table class="fintpTable groupable">
 												<input type="hidden" name="messageType"
 													value="${messageType}" />

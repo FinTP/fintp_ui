@@ -1,6 +1,7 @@
 var refreshSeconds = 60;
 var timeOut = refreshSeconds * 1000;
 
+
 $(function() {
 	$("#tabs").tabs();
 	$(".accordion").accordion({
@@ -33,6 +34,10 @@ $(function() {
 	setInterval(function() {
 			completeBatchesTable(true);
 	}, timeOut);
+	
+	
+	
+	
 });
 
 function loadTable(table, isTotalRequested,  filterArguments){
@@ -99,7 +104,11 @@ function loadTable(table, isTotalRequested,  filterArguments){
 				var message = data.messages[index];
 				var $tr = $("<tr>");
 				$tr.attr("id" , message.guid);
-				$tr.append($("<td>").append($("<button>").addClass("viewPayload")));
+				$tr.append($("<td>")
+						.append($("<input>").attr("type","checkbox").addClass("routeCheckbox"))
+						.append($("<button>").addClass("viewPayload"))
+					);
+	
 				jQuery.each(fields, function(i, fieldName){
 					$tr.append($("<td>").append(message[fieldName]));
 				});
@@ -131,4 +140,6 @@ function viewPayload(id, type) {
 	document.location.href = '/fintp_ui/viewPayload.htm?id=' + id + '&type='
 			+ type;
 }
+
+
 
