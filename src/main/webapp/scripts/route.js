@@ -1,5 +1,6 @@
 var messageIds;
 
+
 $(function(){
 	
 	$("#moveDialog").dialog({
@@ -13,6 +14,7 @@ $(function(){
 	    		console.log("move to queue");
 	    		console.log(messageIds);
 	    		routeMesseges("move", messageIds, $("#destinationQueue").val());
+	    		$(this).dialog('close');
 	    	},
 			"Cancel" : function(){
 				$(this).dialog('close');
@@ -22,14 +24,17 @@ $(function(){
 	$(".moveButton").click(function(){
 		selectRoutedMessages($(this));
 		$("#moveDialog").dialog("open");
+		reloadPage();
 	});
 	$(".rejectButton").click(function(){
 		selectRoutedMessages($(this));
 		routeMesseges("reject", messageIds);
+		reloadPage();
 	});
 	$(".authorizeButton").click(function(){
 		selectRoutedMessages($(this));
 		routeMesseges("authorize", messageIds);
+		reloadPage();
 	});
 });
 
@@ -57,7 +62,7 @@ function routeMesseges(action, messages, destination){
 		dataType : 'json',
 		async : false,
 		success: function(data, textStatus, xhr){
-			console.log("SUCCESS STATUS " + xhr.status );
+			
 		},
 		error: function (xhr, textStatus, error){
 			switch (xhr.status) {
@@ -75,4 +80,12 @@ function routeMesseges(action, messages, destination){
 		}
 
 	});
+}
+
+function reloadPage(){
+	var reloadAfterRouteTimeout = 30;
+	console.log("reload after " + reloadAfterRouteTimeout + " seconds");
+	setTimeout(function() {
+		location.reload();
+	}, reloadAfterRouteTimeout * 1000);
 }
