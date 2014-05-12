@@ -1,4 +1,4 @@
-var refreshSeconds = 30;
+var refreshSeconds = 10;
 var timeOut = refreshSeconds * 1000;
 
 $(function(){
@@ -6,31 +6,40 @@ $(function(){
 	setInterval(function() {
 		completeBatchesTable(false);
 	}, timeOut);
+	
 });
 
 
 function completeBatchesTable(onlyBarInfo){
 		
+		var servletURL = "../batchRequest";
+		var index = location.href.indexOf("batchrequests.htm");
+		if(index!= -1){
+			 servletURL = "./batchRequest";
+		}
+		var countTotal = 0;
+		var countSuccess = 0;
+		var countFailed = 0;
+		var countInProgress = 0;
+		var countWaiting = 0;
 		$.ajax({
 			data:{
 				userFilter: onlyBarInfo
 			},
 			//todo : investigate if this shold be true or false
-			async: false,
-			url : "http://localhost:8080/fintp_ui/batchRequest",
+			async: true,
+			
+			url : servletURL,
 			method : 'GET',
 			success: function(data, textStatus, xhr){
-				var countTotal = 0;
-				var countSuccess = 0;
-				var countFailed = 0;
-				var countInProgress = 0;
+				
 				if(!onlyBarInfo){
 					$("#batches").find("tbody").empty();
 				}
 				$.each(data.groupkeys, function(index, value){
 					$.ajax({
-						async: false,
-						url : "http://localhost:8080/fintp_ui/batchRequest",
+						async: true,
+						url :  servletURL,
 						method : 'GET',
 						data : {
 							groupkey: value
@@ -48,6 +57,7 @@ function completeBatchesTable(onlyBarInfo){
 									}else{
 										countInProgress++;
 									}
+									countWaiting = countTotal - (countSuccess + countFailed + countInProgress);
 									var $tr = $("<tr>");
 									$tr.append($("<td>").append(batch.id));
 									$tr.append($("<td>").append(batch.status));
@@ -57,18 +67,24 @@ function completeBatchesTable(onlyBarInfo){
 									$tr.append($("<td>").append($progressBar));
 									if(!onlyBarInfo){
 										$("#batches").find("tbody").append($tr);
+										$header = $(".accordion").find("#"+value).prev();
+										if($header.length > 0){
+											$header.find(".batchInfo").text(batch.status);
+										}
+										$("#nbBatches").text(countTotal);
+										$("#nbSuccess").text(countSuccess);
+										$("#nbFailed").text(countFailed);
+										$("#nbInProgress").text(countInProgress);
+										$("#nbWaiting").text(countWaiting);
 									}
+									
 								});
 							}
 						}
 					});
 				});
-				var countWaiting = countTotal - (countSuccess + countFailed + countInProgress);
-				$("#nbBatches").text(countTotal);
-				$("#nbSuccess").text(countSuccess);
-				$("#nbFailed").text(countFailed);
-				$("#nbInProgress").text(countInProgress);
-				$("#nbWaiting").text(countWaiting);
+				
+				
 			},
 			error: function (xhr, textStatus, error){
 				switch (xhr.status) {
@@ -84,4 +100,13 @@ function completeBatchesTable(onlyBarInfo){
 				}
 			}
 		});
+	
 }
+
+String.prototype.startsWith = function(prefix) {
+    return this.indexOf(prefix) === 0;
+}
+
+String.prototype.endsWith = function(suffix) {
+    return this.match(suffix+"$") == suffix;
+};
