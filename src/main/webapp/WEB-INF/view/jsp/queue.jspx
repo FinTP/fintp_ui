@@ -149,6 +149,7 @@
 											<input type="checkbox" class="batchCheckbox"/> ${group.fields} <input
 												type="hidden" name="timekey" value="${group.timestamp}" /> <b>Total
 											</b>:${group.count} <b>Total amount</b>: ${group.totalAmount}
+											<span class="batchInfo"/>
 										</h3>
 										<div id="${group.groupKey}">
 											<input type="hidden" name="total" value="${group.count}" /> <input
