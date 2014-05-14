@@ -32,6 +32,13 @@
 		<param-value>tiles3</param-value>
 	</context-param>
 	
+	<context-param>
+		<param-name>dataSourceNameCfg</param-name>
+		<param-value>jdbc/toFintpConfig</param-value>
+	</context-param>
+	
+	
+	
 	<servlet>
 		<servlet-name>DispatcherServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

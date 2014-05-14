@@ -3,7 +3,6 @@ package ro.allevo.fintpui.utils;
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -15,8 +14,12 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
-import oracle.jdbc.OracleTypes;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
+import oracle.jdbc.OracleTypes;
 import ro.allevo.fintpui.model.MessageReportInstance;
 import ro.allevo.fintpui.model.MessagesGroup;
 import ro.allevo.fintpui.services.FintpService;
@@ -66,10 +69,17 @@ public class JdbcClient {
 	public void establishConnection(){
 		try {
 			Class.forName(driver);
-			connection = DriverManager.getConnection(url, user, password);
+			if(connection == null || connection.isClosed()){
+				Context context = (Context) new InitialContext().lookup("java:comp/env");
+				DataSource dataSource = (DataSource) context.lookup("jdbc/toFintpConfig");
+				connection = dataSource.getConnection();
+				}			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		catch (NamingException e) {
 			e.printStackTrace();
 		}
 	}
