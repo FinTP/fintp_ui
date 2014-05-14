@@ -135,7 +135,7 @@
 
 									</tbody>
 								</table>
-								<br /> <span class="paginator">TEXT</span>
+								<br /> <span class="paginator"/>
 							</div>
 						</c:when>
 
@@ -191,7 +191,7 @@
 
 												</tbody>
 											</table>
-											<br /> <span class="paginator">TEXT</span>
+											<br /> <span class="paginator"/>
 										</div>
 									</c:forEach>
 								</div>
