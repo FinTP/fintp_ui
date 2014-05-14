@@ -38,14 +38,17 @@ public class MessageController {
 	@RequestMapping(method=RequestMethod.GET)
 	public String getMessagePayload(ModelMap model, 
 			@RequestParam(value = "id", required = true) String id,
-			@RequestParam(value = "type", required = true) String type){
+			@RequestParam(value = "type", required = true) String type,
+			@RequestParam(value = "queue", required = true) String queue){
 		logger.info("/payload view requested");
 		
 		try {
 
 			final Client client = servletsHelper.getAPIClient();
 			URI uri = UriBuilder.fromPath(servletsHelper.getUrl())
+					.path("queues").path(queue)
 					.path("messages").path(id).queryParam("type", type).build();
+			System.out.println(uri);
 			WebResource webResource = client.resource(uri.toString());
 			ClientResponse clientResponse = webResource
 					.accept(MediaType.APPLICATION_JSON)

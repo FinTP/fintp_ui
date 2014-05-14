@@ -138,7 +138,7 @@ function loadTable(table, isTotalRequested,  filterArguments){
 
 function viewPayload(id, type) {
 	document.location.href = '/fintp_ui/viewPayload.htm?id=' + id + '&type='
-			+ type;
+			+ type + '&queue=' + $("#queueName").text();
 }
 
 
