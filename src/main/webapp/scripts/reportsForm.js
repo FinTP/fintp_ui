@@ -17,6 +17,16 @@ $(function() {
 		}
 		
 	});
+	
+	$("#viewHeadersButton").click(function(e){
+		$("#toggle").toggle( { direction: "down" });
+		$(this).hide();
+	});
+	
+	$("#closeHeadersButton").click(function(e){
+		$("#toggle").toggle( { direction: "down" });
+		$("#viewHeadersButton").show();
+	});
 });
 
 function selectCurrentDate(){

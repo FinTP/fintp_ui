@@ -160,137 +160,248 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 <table class="reportsTable jtable">
 		<thead>
 			<tr>
-				<th class="sortable">
-					<spring:message code="reports.headerTime"/>
-					<input type="hidden" name="insertdate" value=""/>
-<!-- 					<span class="sortable-icon"></span> -->
-				</th>
-				<th class="sortable">
-					<spring:message code="reports.headerMsgtype"/>
-					<input type="hidden" name="msgtype" value=""/>
-<!-- 					<span class="sortable-icon"></span> -->
-				</th>
-				<th class="sortable">
-					<spring:message code="reports.headerSender"/>
-					<input type="hidden" name="sender" value=""/>
-<!-- 					<span class="sortable-icon"></span> -->
-				</th>
-				<th class="sortable">
-					<spring:message code="reports.headerReceiver"/>
-					<input type="hidden" name="receiver" value=""/>
-<!-- 					<span class="sortable-icon"></span> -->
-				</th>
-				<th class="sortable">
-					<spring:message code="reports.headerTrn"/>
-					<input type="hidden" name="trn" value=""/>
-<!-- 					<span class="sortable-icon"></span> -->
-				</th>
-				<th class="sortable">
-					<spring:message code="reports.headerValuedate"/>
-					<input type="hidden" name="valuedate" value=""/>
-<!-- 					<span class="sortable-icon"></span> -->
-				</th>
-				<th class="sortable">
-					<spring:message code="reports.headerAmount"/>
-					<input type="hidden" name="amount" value=""/>
-<!-- 					<span class="sortable-icon"></span> -->
-				</th>
-				<th class="sortable">
-					<spring:message code="reports.headerCurrency"/>
-					<input type="hidden" name="currency" value=""/>
-<!-- 					<span class="sortable-icon"></span> -->
-				</th>
-				<th class="sortable">
-					<spring:message code="reports.headerDbtaccount"/>
-					<input type="hidden" name="dbtaccount" value=""/>
-<!-- 					<span class="sortable-icon"></span> -->
-				</th>
-				<th class="sortable">
-					<spring:message code="reports.headerDbtcustname"/>
-					<input type="hidden" name="dbtcustname" value=""/>
-<!-- 					<span class="sortable-icon"></span> -->
-				</th>
-				<th class="sortable">
-					<spring:message code="reports.headerOrdbank"/>
-					<input type="hidden" name="ordbank" value=""/>
-<!-- 					<span class="sortable-icon"></span> -->
-				</th>
-				<th class="sortable">
-					<spring:message code="reports.headerBenbank"/>
-					<input type="hidden" name="benbank" value=""/>
-<!-- 					<span class="sortable-icon"></span> -->
-				</th>
-				<th class="sortable">
-					<spring:message code="reports.headerCdtaccount"/>
-					<input type="hidden" name="cdtaccount" value=""/>
-<!-- 					<span class="sortable-icon"></span> -->
-				</th>
-				<th class="sortable">
-					<spring:message code="reports.headerCdtcustname"/>
-					<input type="hidden" name="cdtcustname" value=""/>
-<!-- 					<span class="sortable-icon"></span> -->
-				</th>
-				<th class="sortable">
-					<spring:message code="reports.headerService"/>
-					<input type="hidden" name="service" value=""/>
-<!-- 					<span class="sortable-icon"></span> -->
-				</th>
-				<th class="sortable">
-					<spring:message code="reports.headerDirection"/>
-					<input type="hidden" name="direction" value=""/>
-<!-- 					<span class="sortable-icon"></span> -->
-				</th>
-				<th class="sortable">
-					<spring:message code="reports.headerState"/>
-					<input type="hidden" name="state" value=""/>	
-<!-- 					<span class="sortable-icon"></span> -->
-				</th>
-				<th class="sortable">
-					<spring:message code="reports.headerBatchid"/>
-					<input type="hidden" name="batchid" value=""/>
-<!-- 					<span class="sortable-icon"></span> -->
-				</th>
+				<c:choose>
+					<c:when test="${param.insertdateCheck eq 'on'}">
+						<th class="sortable">
+							<spring:message code="reports.headerTime"/>
+							<input type="hidden" name="insertdate" value=""/>
+						</th>
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when test="${param.msgtypeCheck eq 'on'}">
+						<th class="sortable">
+							<spring:message code="reports.headerMsgtype"/>
+							<input type="hidden" name="msgtype" value=""/>
+						</th>
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when test="${param.senderCheck eq 'on'}">
+						<th class="sortable">
+							<spring:message	code="reports.headerSender" /> 
+							<input type="hidden" name="sender" value="" /></th>
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when test="${param.receiverCheck eq 'on'}">
+						<th class="sortable">
+							<spring:message code="reports.headerReceiver" /> 
+							<input type="hidden" name="receiver" value="" /></th>
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when test="${param.trnCheck eq 'on'}">
+						<th class="sortable">
+							<spring:message code="reports.headerTrn" /> 
+							<input type="hidden" name="trn" value="" /></th>
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when test="${param.valuedateCheck eq 'on'}">
+						<th class="sortable">
+							<spring:message code="reports.headerValuedate" /> 
+							<input type="hidden" name="valuedate" value="" /></th>
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when test="${param.amountCheck eq 'on'}">
+						<th class="sortable">
+							<spring:message code="reports.headerAmount" /> 
+							<input type="hidden" name="amount" value="" /></th>
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when test="${param.currencyCheck eq 'on'}">
+						<th class="sortable">
+							<spring:message code="reports.headerCurrency" /> 
+							<input type="hidden" name="currency" value="" /></th>
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when test="${param.dbtaccountCheck eq 'on'}">
+						<th class="sortable">
+							<spring:message code="reports.headerDbtaccount" /> 
+							<input type="hidden" name="dbtaccount" value="" /></th>
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when test="${param.dbtcustnameCheck eq 'on'}">
+						<th class="sortable">
+							<spring:message code="reports.headerDbtcustname" /> 
+							<input type="hidden" name="dbtcustname" value="" /></th>
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when test="${param.ordbankCheck eq 'on'}">
+						<th class="sortable">
+							<spring:message code="reports.headerOrdbank" /> 
+							<input type="hidden" name="ordbank" value="" /></th>
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when test="${param.benbankCheck eq 'on'}">
+						<th class="sortable">
+							<spring:message code="reports.headerBenbank" /> 
+							<input type="hidden" name="benbank" value="" /></th>
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when test="${param.cdtaccountCheck eq 'on'}">
+						<th class="sortable">
+							<spring:message code="reports.headerCdtaccount" /> 
+							<input type="hidden" name="cdtaccount" value="" /></th>
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when test="${param.cdtcustnameCheck eq 'on'}">
+						<th class="sortable">
+							<spring:message code="reports.headerCdtcustname" /> 
+							<input type="hidden" name="cdtcustname" value="" /></th>
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when test="${param.serviceCheck eq 'on'}">
+						<th class="sortable">
+							<spring:message code="reports.headerService" /> 
+							<input type="hidden" name="service" value="" /></th>
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when test="${param.directionCheck eq 'on'}">
+						<th class="sortable">
+							<spring:message code="reports.headerDirection" /> 
+							<input type="hidden" name="direction" value="" /></th>
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when test="${param.stateCheck eq 'on'}">
+						<th class="sortable">
+							<spring:message code="reports.headerState" /> 
+							<input type="hidden" name="state" value="" /></th>
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when test="${param.batchidCheck eq 'on'}">
+						<th class="sortable">
+							<spring:message code="reports.headerBatchid" /> 
+							<input type="hidden" name="batchid" value="" /></th>
+					</c:when>
+				</c:choose>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="message" items="${messages}">
 				<tr>
-					<td><a href="view.htm?id=${message.correlid}">
-						<c:out value="${message.insertdate}" /></a></td>
-					<td><a href="view.htm?id=${message.correlid}"> 
-						<c:out value="${message.msgtype}" /></a></td>
-					<td><a href="view.htm?id=${message.correlid}"> 
-						<c:out value="${message.sender}" /></a></td>
-					<td><a href="view.htm?id=${message.correlid}">
-						<c:out value="${message.receiver}" /></a></td>
-					<td><a href="view.htm?id=${message.correlid}">
-						<c:out value="${message.trn}" /></a></td>
-					<td><a href="view.htm?id=${message.correlid}">
-						<c:out value="${message.valuedate}" /></a></td>
-					<td><a href="view.htm?id=${message.correlid}">
-						<c:out value="${message.amount}" /></a></td>
-					<td><a href="view.htm?id=${message.correlid}">
-						<c:out value="${message.currency}" /></a></td>
-					<td><a href="view.htm?id=${message.correlid}">
-						<c:out value="${message.dbtaccount}" /></a></td>
-					<td><a href="view.htm?id=${message.correlid}">
-						<c:out value="${message.dbtcustname}" /></a></td>
-					<td><a href="view.htm?id=${message.correlid}">
-						<c:out value="${message.ordbank}" /></a></td>
-					<td><a href="view.htm?id=${message.correlid}">
-						<c:out value="${message.benbank}" /></a></td>
-					<td><a href="view.htm?id=${message.correlid}">
-						<c:out value="${message.cdtaccount}" /></a></td>
-					<td><a href="view.htm?id=${message.correlid}">
-						<c:out value="${message.cdtcustname}" /></a></td>
-					<td><a href="view.htm?id=${message.correlid}">
-						<c:out value="${message.service}" /></a></td>
-					<td><a href="view.htm?id=${message.correlid}">
-						<c:out value="${message.direction}" /></a></td>
-					<td><a href="view.htm?id=${message.correlid}">
-						<c:out value="${message.state}" /></a></td>
-					<td><a href="view.htm?id=${message.correlid}">
-						<c:out value="${message.batchid}" /></a></td>
+					<c:choose>
+						<c:when test="${param.insertdateCheck eq 'on'}">
+							<td><a href="view.htm?id=${message.correlid}"> <c:out
+										value="${message.insertdate}" /></a></td>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.msgtypeCheck eq 'on'}">
+
+							<td><a href="view.htm?id=${message.correlid}"> <c:out
+										value="${message.msgtype}" /></a></td>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.senderCheck eq 'on'}">
+							<td><a href="view.htm?id=${message.correlid}"> <c:out
+										value="${message.sender}" /></a></td>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.receiverCheck eq 'on'}">
+							<td><a href="view.htm?id=${message.correlid}"> <c:out
+										value="${message.receiver}" /></a></td>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.trnCheck eq 'on'}">
+							<td><a href="view.htm?id=${message.correlid}"> <c:out
+										value="${message.trn}" /></a></td>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.valuedateCheck eq 'on'}">
+							<td><a href="view.htm?id=${message.correlid}"> <c:out
+										value="${message.valuedate}" /></a></td>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.amountCheck eq 'on'}">
+							<td><a href="view.htm?id=${message.correlid}"> <c:out
+										value="${message.amount}" /></a></td>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.currencyCheck eq 'on'}">
+							<td><a href="view.htm?id=${message.correlid}"> <c:out
+										value="${message.currency}" /></a></td>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.dbtaccountCheck eq 'on'}">
+							<td><a href="view.htm?id=${message.correlid}"> <c:out
+										value="${message.dbtaccount}" /></a></td>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.dbtcustnameCheck eq 'on'}">
+							<td><a href="view.htm?id=${message.correlid}"> <c:out
+										value="${message.dbtcustname}" /></a></td>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.ordbankCheck eq 'on'}">
+							<td><a href="view.htm?id=${message.correlid}"> <c:out
+										value="${message.ordbank}" /></a></td>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.benbankCheck eq 'on'}">
+							<td><a href="view.htm?id=${message.correlid}"> <c:out
+										value="${message.benbank}" /></a></td>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.cdtaccountCheck eq 'on'}">
+							<td><a href="view.htm?id=${message.correlid}"> <c:out
+										value="${message.cdtaccount}" /></a></td>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.cdtcustnameCheck eq 'on'}">
+							<td><a href="view.htm?id=${message.correlid}"> <c:out
+										value="${message.cdtcustname}" /></a></td>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.serviceCheck eq 'on'}">
+							<td><a href="view.htm?id=${message.correlid}"> <c:out
+										value="${message.service}" /></a></td>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.directionCheck eq 'on'}">
+							<td><a href="view.htm?id=${message.correlid}"> <c:out
+										value="${message.direction}" /></a></td>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.stateCheck eq 'on'}">
+							<td><a href="view.htm?id=${message.correlid}"> <c:out
+										value="${message.state}" /></a></td>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.batchidCheck eq 'on'}">
+							<td><a href="view.htm?id=${message.correlid}"> <c:out
+										value="${message.batchid}" /></a></td>
+						</c:when>
+					</c:choose>
 				</tr>				
 			</c:forEach>
 		</tbody>
@@ -319,9 +430,28 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 	<input name="state" type="hidden"  value="${param.state}"/>
 	<input name="batchID" type="hidden"  value="${param.batchID}"/>
 	<input name="userid" type="hidden" value="${param.userid}"/> 
+	
 	<input name="orderField" id="orderField" type="hidden"  value="${orderField}"/>
 	<input name="order" id="order" type="hidden"  value="${order}"/>
 	<input name="limit" id="limit" type="hidden"  value="${limit}"/>
-	<input name="offset" id="offset" type="hidden"  value="${offset}"/>	
+	<input name="offset" id="offset" type="hidden"  value="${offset}"/>
+	
+	<input name="insertdateCheck" type="hidden" value="${param.insertdateCheck}"/>
+	<input name="msgtypeCheck" type="hidden"  value="${param.msgtypeCheck}"/>
+	<input name="senderCheck" type="hidden"  value="${param.senderCheck}"/>
+	<input name="receiverCheck" type="hidden"  value="${param.receiverCheck}"/>
+	<input name="trnCheck" type="hidden"  value="${param.trnCheck}"/>
+	<input name="valuedateCheck" type="hidden"  value="${param.valuedateCheck}"/>
+	<input name="currencyCheck" type="hidden"  value="${param.currencyCheck}"/>
+	<input name="dbtaccountCheck" type="hidden"  value="${param.dbtaccountCheck}"/>
+	<input name="dbtcustnameCheck" type="hidden"  value="${param.dbtcustnameCheck}"/>
+	<input name="cdtaccountCheck" type="hidden"  value="${param.cdtaccountCheck}"/>
+	<input name="cdtcustnameCheck" type="hidden"  value="${param.cdtcustnameCheck}"/>
+	<input name="benbankCheck" type="hidden"  value="${param.benbankCheck}"/>
+	<input name="ordbankCheck" type="hidden"  value="${param.ordbankCheck}"/>
+	<input name="serviceCheck" type="hidden"  value="${param.serviceCheck}"/>
+	<input name="directionCheck" type="hidden"  value="${param.directionCheck}"/>
+	<input name="stateCheck" type="hidden"  value="${param.stateCheck}"/>
+	<input name="batchIDCheck" type="hidden"  value="${param.batchIDCheck}"/>	
 </form>
 </div>
