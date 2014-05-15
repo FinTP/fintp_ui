@@ -33,9 +33,8 @@ function completeBatchesTable(onlyBarInfo){
 			method : 'GET',
 			success: function(data, textStatus, xhr){
 				
-				if(!onlyBarInfo){
-					$("#batches").find("tbody").empty();
-				}
+				var $auxTbody = $("tbody");
+				
 				$.each(data.groupkeys, function(index, value){
 					$.ajax({
 						async: true,
@@ -66,7 +65,8 @@ function completeBatchesTable(onlyBarInfo){
 								    });
 									$tr.append($("<td>").append($progressBar));
 									if(!onlyBarInfo){
-										$("#batches").find("tbody").append($tr);
+										//$("#batches").find("tbody").append($tr);
+										$auxTbody.append($tr);
 										$header = $(".accordion").find("#"+value).prev();
 										if($header.length > 0){
 											$header.find(".batchInfo").text(batch.status);
@@ -77,13 +77,16 @@ function completeBatchesTable(onlyBarInfo){
 										$("#nbInProgress").text(countInProgress);
 										$("#nbWaiting").text(countWaiting);
 									}
-									
 								});
+								
 							}
 						}
 					});
 				});
-				
+				if(!onlyBarInfo){
+					$("#batches").find("tbody").remove();
+					$("#batches").append($auxTbody);
+				}
 				
 			},
 			error: function (xhr, textStatus, error){

@@ -70,7 +70,7 @@
 					<option selected="selected">100</option>
 			</select>
 			</span>
-			<div id="moveDialog">
+			<div id="moveDialog" style = "display: none">
 				Select destination queue: 
 				<select id="destinationQueue">
 					<c:forEach var="queue" items="${queues}">

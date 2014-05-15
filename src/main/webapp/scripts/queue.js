@@ -56,8 +56,7 @@ function loadTable(table, isTotalRequested,  filterArguments){
 		
 	});
 	
-	//empty the table in order to append to it
-	table.find("tbody").empty();
+	
 	
 	//get pagination options
 	var pageSize =  $("#itemsPerPage").val();
@@ -82,6 +81,8 @@ function loadTable(table, isTotalRequested,  filterArguments){
 		groupFieldsValues .push($(this).text());
 	});
 	
+
+	var $auxTbody = $("<tbody>");
 	
 	$.ajax({
 		
@@ -112,12 +113,15 @@ function loadTable(table, isTotalRequested,  filterArguments){
 				jQuery.each(fields, function(i, fieldName){
 					$tr.append($("<td>").append(message[fieldName]));
 				});
-				table.find("tbody").append($tr);
+				$auxTbody.append($tr);
 				if(isTotalRequested){
 					$totalSpan.text(data.total);
 					$parentDiv.find("input[name='total']").first().val(data.total);
 				}
 			}
+			table.find("tbody").remove();
+			table.append($auxTbody);
+			
 			$("button.viewPayload").each(function(){
 				$(this).button({ icons: { primary: "ui-icon-folder-open" } });
 				var messageId = $(this).closest("tr").attr("id");
@@ -127,6 +131,8 @@ function loadTable(table, isTotalRequested,  filterArguments){
 				$(this).attr("onclick", functionCall);
 				
 			});
+			
+			
 			
 		},
 		error : function(jqXHR, text, errorThrown) {
