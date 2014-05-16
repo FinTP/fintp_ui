@@ -87,7 +87,7 @@
 						<td>Failed: <b><span id="nbFailed" /></b></td>
 						<td>In progress: <b><span id="nbInProgress" /></b></td>
 						<td>Waiting: <b><span id="nbWaiting" /></b></td>
-						<td><a href="/fintp_ui/batchrequests.htm">View here
+						<td><a href="${pageContext.servletContext.contextPath}/batchrequests.htm">View here
 								details about requests</a></td>
 
 					</tr>
