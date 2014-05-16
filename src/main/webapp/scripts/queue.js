@@ -1,4 +1,4 @@
-var refreshSeconds = 5;
+var refreshSeconds = 10;
 var timeOut = refreshSeconds * 1000;
 
 

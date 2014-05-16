@@ -1,4 +1,4 @@
-var urlRoot = "http://localhost:8080/fintpWebServices/api/";
+var urlRoot =  $("#apiUrl").text();
 var refreshSeconds = 60;
 var timeOut = refreshSeconds * 1000;
 
