@@ -10,6 +10,7 @@ import javax.xml.transform.TransformerFactory;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.client.RestTemplate;
@@ -23,22 +24,25 @@ import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import ro.allevo.fintpui.model.Queue;
 import ro.allevo.fintpui.model.Queues;
 import ro.allevo.fintpui.utils.RestClient;
+import ro.allevo.fintpui.utils.servlets.ServletsHelper;
 
 
 public class FintpService {
 
-	private String url;
+	@Autowired
+	ServletsHelper servletsHelper;
+	
 	public static String NESTED_TABLES_XSLT = "nestedTables.xslt";
 
 	public Queue[] getQueues() {
 		RestTemplate client = new RestClient();
-		String newUrl = url + "/queues";
+		String newUrl = servletsHelper.getUrl() + "/queues";
 		Queues queuesJSON = client.getForObject(newUrl, Queues.class);
 		return queuesJSON.getQueues();
 	}
 	
 	public ArrayList<String> getMessageTypesInQueue(String queueName) throws JSONException{
-		String calledUrl = url + "/queues/"+queueName+"/messagetypes";
+		String calledUrl = servletsHelper.getUrl() + "/queues/"+queueName+"/messagetypes";
 		ArrayList<String> messageTypes = new ArrayList<>();
 		UserDetails principal = (UserDetails) SecurityContextHolder
 				.getContext().getAuthentication().getPrincipal();
@@ -55,14 +59,6 @@ public class FintpService {
 		return messageTypes;
 	}
 
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url){
-		this.url = url;
-	}
-	
 	public static String applyXSLT(String input, String xsltPath){
 		
 		try {
