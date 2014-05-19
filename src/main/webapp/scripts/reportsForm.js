@@ -1,7 +1,9 @@
 $(function() {
-	//$("#startDate").datepicker();
-	//$("#endDate").datepicker();
+	$("#startDate").datepicker();
+	$("#endDate").datepicker();
 	$("#valueDate").datepicker();
+	$("#startTime").timepicker();
+	$("#endTime").timepicker();
 	$("input[name='interval']").change(function() {
 		if (this.value == "interval") {
 			selectInterval();
@@ -52,8 +54,10 @@ function selectInterval(){
 function validateInterval() {
 	var startDate = $("#startDate").val();
 	var endDate = $("#endDate").val();
-	if (startDate == "" || endDate == "") {
-		alert("Start date and end date must be selected");
+	var startTime = $("#startTime").val();
+	var endTime = $("#endTime").val();
+	if (startDate == "" || endDate == "" || startTime == "" || endTime == "") {
+		alert("Start date, start time and end date, end time must be selected");
 		return false;
 	}
 	//TODO: verify that startDate < endDate

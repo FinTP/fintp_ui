@@ -104,8 +104,10 @@ public class JdbcClient {
 		SimpleDateFormat html5Format = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm");
 		SimpleDateFormat dbFormat = new SimpleDateFormat("dd MM yyyy hh:mm:ss");
 		SimpleDateFormat dbFormatDateOnly = new SimpleDateFormat("dd MM yyyy");
+		SimpleDateFormat DateFormat = new SimpleDateFormat("MM/dd/yyyy");
 		//TODO: change valueDateFormat or html5Format to pe the same
 		SimpleDateFormat valueDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+		
 		SimpleDateFormat valueDateDBFormat = new SimpleDateFormat("yyMMdd");
 		String minDate = null, maxDate = null;
 	
@@ -114,8 +116,8 @@ public class JdbcClient {
 			minDate = dbFormatDateOnly.format(new Date()) + " 00:00:00";
 			maxDate = dbFormatDateOnly.format(new Date()) + " 23:59:59";
 		}else{
-			minDate = dbFormat.format(html5Format.parse(requestParameters.get("startDate")));
-			maxDate = dbFormat.format(html5Format.parse(requestParameters.get("endDate")));
+			minDate = dbFormatDateOnly.format(DateFormat.parse(requestParameters.get("startDate")))+" "+requestParameters.get("startTime");
+			maxDate = dbFormatDateOnly.format(DateFormat.parse(requestParameters.get("endDate")))+" "+requestParameters.get("endTime");
 		}
 
 		ArrayList<MessageReportInstance> reportInstances = new ArrayList<>();

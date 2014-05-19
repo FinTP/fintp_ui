@@ -12,6 +12,9 @@
 	<script src="${jquery_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 	<spring:url var="jquery_ui_js_url" value="/scripts/jquery/jquery-ui.js" />
 	<script src="${jquery_ui_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+	<spring:url var="jquery_timepicker_js_url" value="/scripts/jquery/jquery.timepicker.js" />
+	<script src="${jquery_timepicker_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+	
 	<spring:url var="reports_script_url" value="/scripts/reportsForm.js" />
 	<script src="${reports_script_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 	
@@ -39,10 +42,30 @@
 					</td>
 					<td>
 						<div id="intervalPicker">
-							<span><spring:message code="reportsForm.startDate"/>: </span>
-							<input type="datetime-local" id="startDate" name = "startDate" /> <br /> 
-							<span><spring:message code="reportsForm.endDate"/>: </span>
-							<input type="datetime-local" id="endDate" name ="endDate"/>
+						<table>
+							<tr>
+								<td>
+									<span><b><spring:message code="reportsForm.startDate"/></b></span>
+									<input maxlength="10" size="10" type="text" id="startDate" name = "startDate" />
+								</td>
+								
+								<td >
+									<span><b><spring:message code="reportsForm.startTime"/></b> </span>
+									<input maxlength="5" size="5" type="text" id="startTime" name = "startTime" />
+								</td> 
+								
+							</tr>
+							<tr>
+								<td>
+									<span><b><spring:message code="reportsForm.endDate"/></b> </span>
+									<input maxlength="10" size="10" type="text" id="endDate" name ="endDate"/>
+								</td>
+								<td>
+									<span><b><spring:message code="reportsForm.endTime"/></b> </span>
+									<input maxlength="5" size="5" type="text" id="endTime" name ="endTime"/>
+								</td>
+							</tr>
+						</table>
 						</div>
 					</td>
 				</tr>

@@ -30,7 +30,7 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 	<spring:message code="reports.businessArea"/>: <b>${param.businessArea}</b>; 
 	<c:choose>
 		<c:when test="${param.interval eq 'interval'}">
-			<spring:message code="reports.interval" arguments="${param.startDate},${param.endDate}" />
+			<spring:message code="reports.interval" arguments="${param.startDate},${param.endDate},${param.startTime},${param.endTime}" />
 		</c:when>
 		<c:otherwise>
 			<b><spring:message code="reports.current" /></b>
@@ -398,7 +398,7 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 					</c:choose>
 					<c:choose>
 						<c:when test="${param.batchidCheck eq 'on'}">
-							<td><a href="view.htm?id=${message.correlid}"> <c:out
+							<td width=100% ><a href="view.htm?id=${message.correlid}"> <c:out
 										value="${message.batchid}" /></a></td>
 						</c:when>
 					</c:choose>
@@ -411,6 +411,8 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 	<input name="interval" type="hidden" value="${param.interval}"/>
 	<input name="startDate" type="hidden" value="${param.startDate}"/>
 	<input name="endDate" type="hidden"  value="${param.endDate}"/>
+	<input name="startTime" type="hidden" value="${param.startTime}"/>
+	<input name="endTime" type="hidden"  value="${param.endTime}"/>
 	<input name="messageTypes" type="hidden"  value="${param.messageTypes}"/>
 	<input name="sender" type="hidden"  value="${param.sender}"/>
 	<input name="receiver" type="hidden"  value="${param.receiver}"/>
