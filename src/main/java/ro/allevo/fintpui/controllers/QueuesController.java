@@ -19,6 +19,7 @@ import ro.allevo.fintpui.model.MessagesGroup;
 import ro.allevo.fintpui.model.Queue;
 import ro.allevo.fintpui.services.FintpService;
 import ro.allevo.fintpui.utils.JdbcClient;
+import ro.allevo.fintpui.utils.servlets.ServletsHelper;
 
 
 @Controller
@@ -27,6 +28,9 @@ public class QueuesController {
 
 	@Autowired
 	private JdbcClient dbClient;
+	
+	@Autowired
+	private ServletsHelper servletsHelper;
 
 	private static Logger logger = LogManager.getLogger(QueuesController.class
 			.getName());
@@ -40,14 +44,18 @@ public class QueuesController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String printMenu(ModelMap model){
 		logger.info("/queues requested");
+		logger.info("api url: " + servletsHelper.getUrl());
 		Queue[] queues = fintpService.getQueues();
 		model.addAttribute("queues", queues);
+		model.addAttribute("apiUri", servletsHelper.getUrl());
+		
 		return "tiles/queues";
 	}
 	
 	@RequestMapping(value = "/{queueName}", method = RequestMethod.GET) 
 	public String webletIconData(@PathVariable String queueName, ModelMap model){
 		logger.info("/queues/"+queueName + " requested");
+		
 		try {
 			dbClient.establishConnection();
 			Queue[] queues = fintpService.getQueues();
@@ -112,7 +120,8 @@ public class QueuesController {
 			model.addAttribute("columns", columnsMap);
 			model.addAttribute("groupsMap", groupsMap);
 			model.addAttribute("groupFieldNames", groupFieldsMap);
-
+			
+			
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}finally{

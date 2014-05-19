@@ -17,7 +17,7 @@
 	<script src="${jquery_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 	<script src="${jquery_ui_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 	<script src="${queues_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
-		
+	<input id="apiUri" type="hidden" value="${apiUri}"/>	
 	<c:choose>
 		<c:when test="${empty queues}">
 			<spring:message code="payments.noPayments" />

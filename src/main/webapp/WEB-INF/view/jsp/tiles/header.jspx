@@ -15,20 +15,12 @@
 	<nav>
 		<ul>
 		
-			<li class="main-menu"><a href="/fintp_ui/queues.htm">  <spring:message code="header.menuQueues"/></a>
+			<li class="main-menu"><a href="${pageContext.servletContext.contextPath}/queues.htm">  <spring:message code="header.menuQueues"/></a>
 			</li>
-			<li class="main-menu"><a href="payments.htm"><spring:message code="header.menuPayments"/></a>
+			<li class="main-menu"><a href="${pageContext.servletContext.contextPath}/reportsForm.htm"><spring:message code="header.menuReports"/></a>
 				<ul>
-					<li><a href="#"><spring:message code="header.menuRTGS"/></a></li>
-					<li><a href="#"><spring:message code="header.menuACH"/></a></li>
-				</ul>
-			</li>
-			<li class="main-menu"><a href="/fintp_ui/reportsForm.htm"><spring:message code="header.menuReports"/></a>
-				<ul>
-					<li><a href="/fintp_ui/reportsForm.htm"><spring:message code="header.menuMessages"/></a></li>
-					<li><a href="/fintp_ui/batchesForm.htm"><spring:message code="header.menuBatches"/></a></li>
-					<li><a href="#"><spring:message code="header.menuEvents"/></a></li>
-					<li><a href="#"><spring:message code="header.menuLogs"/></a></li>
+					<li><a href="${pageContext.servletContext.contextPath}/reportsForm.htm"><spring:message code="header.menuMessages"/></a></li>
+					<li><a href="${pageContext.servletContext.contextPath}/batchesForm.htm"><spring:message code="header.menuBatches"/></a></li>
 				</ul>
 			</li>
 			

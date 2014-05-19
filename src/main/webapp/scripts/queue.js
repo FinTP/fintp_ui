@@ -1,4 +1,4 @@
-var refreshSeconds = 60;
+var refreshSeconds = 10;
 var timeOut = refreshSeconds * 1000;
 
 
@@ -143,7 +143,7 @@ function loadTable(table, isTotalRequested,  filterArguments){
 }
 
 function viewPayload(id, type) {
-	document.location.href = '/fintp_ui/viewPayload.htm?id=' + id + '&type='
+		document.location.href = '../viewPayload.htm?id=' + id + '&type='
 			+ type + '&queue=' + $("#queueName").text();
 }
 
