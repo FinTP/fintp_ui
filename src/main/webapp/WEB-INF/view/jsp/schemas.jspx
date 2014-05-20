@@ -19,22 +19,23 @@
 	<script src="${jquery_ui_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 	<script src="${schemas_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 	
+	<h1><spring:message code="routingschemas.schemas"/></h1>
+
 	<c:choose>
 		<c:when test="${empty schemas}">
-			There are no routing schemas
+			<spring:message code="routingschemas.empty"/>
 		</c:when>
 		<c:otherwise>
 			<table id="schemasTable" class="fintpTable">
 				<tbody>
 					<tr>
-						<th>Name</th>
-						<th>Description</th>
-						<th>Session code</th>
-						<th>Is visible</th>
-						<th>Start limit</th>
-						<th>Stop limit</th>
-						<th>Actions</th>
-						
+						<th><spring:message code="routingschemas.name"/></th>
+						<th><spring:message code="routingschemas.description"/></th>
+						<th><spring:message code="routingschemas.sessioncode"/></th>
+						<th><spring:message code="routingschemas.isvisible"/></th>
+						<th><spring:message code="routingschemas.startlimit"/></th>
+						<th><spring:message code="routingschemas.stoplimit"/></th>
+						<th><spring:message code="routingschemas.actions"/></th>
 					</tr>
 				<c:forEach var="schema" items="${schemas}">
 					<tr>
@@ -52,7 +53,7 @@
 						<td><c:out value="${schema.startlimit}" /></td>
 						<td><c:out value="${schema.stoplimit}" /></td>
 						<td>
-							<button class="viewRules">View Rules</button>
+							<button class="viewRules"><spring:message code="routingschemas.viewRules"/></button>
 							<button class="edit"></button>
 							<button class="delete"></button>
 						</td>

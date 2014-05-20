@@ -12,22 +12,31 @@
 	<spring:url var="jquery_js_url"
 		value="/scripts/jquery/jquery-1.10.1.js" />
 	<spring:url var="jquery_ui_url" value="/scripts/jquery/jquery-ui.js" />
-
+	<spring:url var="rules_url" value="/scripts/routingrules.js" />
 
 	<script src="${locale_js_url}" type="text/javascript">
 	<!-- required for FF3 and Opera -->
-		
 	</script>
+	
 	<script src="${jquery_js_url}" type="text/javascript">
 	<!-- required for FF3 and Opera -->
-		
 	</script>
+	
 	<script src="${jquery_ui_url}" type="text/javascript">
 	<!-- required for FF3 and Opera -->
-		
+	</script>
+	
+	<script src="${rules_url}" type="text/javascript">
+	<!-- required for FF3 and Opera -->
 	</script>
 
-
+	<h1><spring:message code="routingrules.schema"/> </h1>
+	<span><spring:message code="routingschemas.name"/> : <b>${schema.name}</b>; </span>
+	<span><spring:message code="routingschemas.startlimit"/> : <b>${schema.startlimit}</b>; </span>
+	<span><spring:message code="routingschemas.stoplimit"/> :<b>${schema.stoplimit}</b>; </span>
+	<br/>
+	<h1><spring:message code="routingrules.rules"/> </h1>
+	
 	<c:choose>
 		<c:when test="${empty rules}">
 			There are no routing rules.
@@ -36,29 +45,27 @@
 			<c:forEach var="entry" items="${mappedRules}">
 				<c:set var="rulesList" value="${entry.value}" />
 				<h3>${entry.key}</h3>
-				<table class="fintpTable" style="width: 100%">
+				<table class="fintpTable" style="width: 100%; table-layout: fixed;">
 					<thead>
 						<tr>
-							<th>Queue</th>
-							<th>Description</th>
-							<th>Msg. condition</th>
-							<th>Fct. condition</th>
-							<th>Metadata condition</th>
-							<th>Action</th>
-							<th>Sequence</th>
-							<th></th>
+							<th><spring:message code="routingrules.description"/></th>
+							<th><spring:message code="routingrules.messagecondition"/></th>
+							<th><spring:message code="routingrules.functioncondition"/></th>
+							<th><spring:message code="routingrules.metadatacondition"/></th>
+							<th><spring:message code="routingrules.action"/></th>
+							<th width="5%"><spring:message code="routingrules.sequence"/></th>
+							<th width="7%"></th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach var="rule" items="${rulesList}">
 							<tr id="${rule.guid}">
-								<td><c:out value="${rule.queue}" /></td>
 								<td><c:out value="${rule.description}" /></td>
 								<td><c:out value="${rule.messagecondition}" /></td>
 								<td><c:out value="${rule.functioncondition}" /></td>
 								<td><c:out value="${rule.metadatacondition}" /></td>
 								<td><c:out value="${rule.action}" /></td>
-								<td><c:out value="${rule.sequence}" /></td>
+								<td class="centered"><c:out value="${rule.sequence}" /></td>
 								<td>
 									<button class="edit"></button>
 									<button class="delete"></button>

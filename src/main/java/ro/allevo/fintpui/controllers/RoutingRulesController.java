@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 
 import ro.allevo.fintpui.model.RoutingRule;
 import ro.allevo.fintpui.model.RoutingRules;
+import ro.allevo.fintpui.model.RoutingSchema;
 import ro.allevo.fintpui.utils.RestClient;
 import ro.allevo.fintpui.utils.servlets.ServletsHelper;
 
@@ -35,6 +36,7 @@ public class RoutingRulesController {
 	public String printRules(ModelMap model, @RequestParam("schema") String schema){
 		logger.info("/routingrules requested");
 		model.addAttribute("rules", getRoutingRules(schema));
+		model.addAttribute("schema", getRoutingSchemaByName(schema));
 		HashMap<String, ArrayList<RoutingRule>> mappedRules = getRulesGroupedByQueues(getRoutingRules(schema));
 		model.addAttribute("mappedRules", mappedRules);
 		return "tiles/routingrules";
@@ -47,6 +49,13 @@ public class RoutingRulesController {
 		RestTemplate client = new RestClient();
 		RoutingRules rules = client.getForObject(uri.toString(), RoutingRules.class);
 		return rules.getRoutingrules();
+	}
+	
+	private RoutingSchema getRoutingSchemaByName(String name) {
+		RestTemplate client = new RestClient();
+		String url = servletsHelper.getUrl() + "/routingschemas/"+name;
+		RoutingSchema schema = client.getForObject(url, RoutingSchema.class);
+		return schema;
 	}
 	
 	private HashMap<String, ArrayList<RoutingRule>> getRulesGroupedByQueues(RoutingRule[] rules){
@@ -63,6 +72,8 @@ public class RoutingRulesController {
 		}
 		return map;
 	}
+	
+	
 	
 	
 }
