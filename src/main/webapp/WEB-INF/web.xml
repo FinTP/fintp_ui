@@ -56,7 +56,7 @@
 	</servlet-mapping>
 	
 	<welcome-file-list>
-		<welcome-file>payments.htm</welcome-file>
+		<welcome-file>queues.htm</welcome-file>
 	</welcome-file-list>
 
 </web-app>
