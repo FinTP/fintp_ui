@@ -53,7 +53,6 @@
 	
    
    <bean id="messageController" class="ro.allevo.fintpui.controllers.MessageController"/>
-   <bean id="fintpService" class="ro.allevo.fintpui.services.FintpService"/>
    
   
    <bean id = "queuesServlet" class="ro.allevo.fintpui.utils.servlets.QueuesServlet"/>
