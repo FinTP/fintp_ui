@@ -25,6 +25,11 @@
 			</li>
 			
 			<li class="main-menu"><a href="#"><spring:message code="header.menuLiquidity"/></a></li>
+			<li class="main-menu"><a
+				href="${pageContext.servletContext.contextPath}/schemas.htm"><spring:message
+						code="header.menuSchemasRules" /></a>
+			</li>
+	
 			<li class="right">
 				<div class="localeSelector">
 					<select id="languageSelector" onChange="changeLocale(this);">
