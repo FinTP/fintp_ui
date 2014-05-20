@@ -20,9 +20,9 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import oracle.jdbc.OracleTypes;
+import ro.allevo.fintpui.controllers.MessageController;
 import ro.allevo.fintpui.model.MessageReportInstance;
 import ro.allevo.fintpui.model.MessagesGroup;
-import ro.allevo.fintpui.services.FintpService;
 
 public class JdbcClient {
 
@@ -284,8 +284,8 @@ public class JdbcClient {
 		}else{
 			String payload = getPayload(correlId);
 			String path = getClass().getClassLoader()
-					.getResource(FintpService.NESTED_TABLES_XSLT).getPath();
-			String friendlyPayload = FintpService.applyXSLT(payload, path);
+					.getResource(MessageController.NESTED_TABLES_XSLT).getPath();
+			String friendlyPayload = MessageController.applyXSLT(payload, path);
 			MessageReportInstance result = new MessageReportInstance(resultSet);
 			result.setPayload(friendlyPayload);
 			return result;

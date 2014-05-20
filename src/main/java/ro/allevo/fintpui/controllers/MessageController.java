@@ -1,10 +1,14 @@
 package ro.allevo.fintpui.controllers;
 
 
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.net.URI;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,7 +25,6 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
-import ro.allevo.fintpui.services.FintpService;
 import ro.allevo.fintpui.utils.servlets.ServletsHelper;
 
 
@@ -34,6 +37,8 @@ public class MessageController {
 	
 	@Autowired
 	private ServletsHelper servletsHelper;
+	
+	public static String NESTED_TABLES_XSLT = "nestedTables.xslt";
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public String getMessagePayload(ModelMap model, 
@@ -58,13 +63,33 @@ public class MessageController {
 			String payload = responseEntity.getString("payload");
 			//now, get friendly payload
 			String path = getClass().getClassLoader()
-					.getResource(FintpService.NESTED_TABLES_XSLT).getPath();
-			String friendlyPayload = FintpService.applyXSLT(payload, path);
+					.getResource(NESTED_TABLES_XSLT).getPath();
+			String friendlyPayload = applyXSLT(payload, path);
 			
 			model.addAttribute("payload", friendlyPayload);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 		return "tiles/viewPayload";
+	}
+	
+	public static String applyXSLT(String input, String xsltPath){
+		
+		try {
+		    StringReader reader = new StringReader(input);
+		    StringWriter writer = new StringWriter();
+		    TransformerFactory tFactory = TransformerFactory.newInstance();
+		    Transformer transformer = tFactory.newTransformer(
+		            new javax.xml.transform.stream.StreamSource(xsltPath));
+
+		    transformer.transform(
+		            new javax.xml.transform.stream.StreamSource(reader), 
+		            new javax.xml.transform.stream.StreamResult(writer));
+
+		    return writer.toString();
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
+		return null;
 	}
 }

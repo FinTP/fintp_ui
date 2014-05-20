@@ -50,9 +50,7 @@
 		<property name="user" value="finuiuser"/>
 		<property name="password" value="fincfg"/>
 	</bean>
-	<bean id="queuesController" class="ro.allevo.fintpui.controllers.QueuesController">
- 		<property name="fintpService" ref="fintpService"/>  
-   </bean>
+	
    
    <bean id="messageController" class="ro.allevo.fintpui.controllers.MessageController"/>
    <bean id="fintpService" class="ro.allevo.fintpui.services.FintpService"/>
