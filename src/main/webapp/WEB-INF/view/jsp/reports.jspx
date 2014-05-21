@@ -398,7 +398,7 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 					</c:choose>
 					<c:choose>
 						<c:when test="${param.batchidCheck eq 'on'}">
-							<td width=100% ><a href="view.htm?id=${message.correlid}"> <c:out
+							<td width="100%" ><a href="view.htm?id=${message.correlid}"> <c:out
 										value="${message.batchid}" /></a></td>
 						</c:when>
 					</c:choose>
