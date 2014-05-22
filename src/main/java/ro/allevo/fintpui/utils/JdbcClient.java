@@ -27,13 +27,14 @@ import ro.allevo.fintpui.model.MessagesGroup;
 public class JdbcClient {
 
 	private static final String FT_MESSAGES_QUERY = "select distinct friendlyname from fincfg.msgtypes where businessarea = 'Funds Transfer'";
+	private static final String DI_MESSAGES_QUERY = "select distinct friendlyname from fincfg.msgtypes where businessarea = 'Debit Instruments'";
 	private static final String BIC_CODES_QUERY = "select bic from fincfg.biccodes";
 	private static final String CURRENCIES_QUERY = "select currency from fincfg.currencies";
 	private static final String STATES_QUERY = "select status from fincfg.reportingtxstates";
 	private static final String USERS_NAMES_QUERY = "select username from fincfg.users";
 	private static final String USERS_IDS_QUERY = "select userid from fincfg.users";
 	
-	private final ArrayList<String> services = new ArrayList<>(Arrays.asList("ROL", "FinCopy", "TGT"));  
+	private final ArrayList<String> services = new ArrayList<>(Arrays.asList("ROL", "TGT" , "N/A"));  
 	private final ArrayList<String> directions = new ArrayList<>(Arrays.asList("Incoming", "Outgoing"));
  	
 	private String user;
@@ -121,144 +122,306 @@ public class JdbcClient {
 		}
 
 		ArrayList<MessageReportInstance> reportInstances = new ArrayList<>();
-		String procedure = getProcedureCallString("findata.getftpayments", 26);
+		
 		
 		try {
-			connection.setAutoCommit(false);
-			CallableStatement statement = connection.prepareCall(procedure);
-			statement.setString(1, minDate);
-			statement.setString(2, maxDate);
-			if(!requestParameters.get("messageTypes").equals("")){
-				statement.setString(3, requestParameters.get("messageTypes"));
-			}else{
-				statement.setNull(3, Types.VARCHAR);
-			}
-			if(!requestParameters.get("sender").equals("")){
-				statement.setString(4, requestParameters.get("sender"));
-			}else{
-				statement.setNull(4, Types.VARCHAR);
-			}
-			if(!requestParameters.get("receiver").equals("")){
-				statement.setString(5, requestParameters.get("receiver"));
-			}else{
-				statement.setNull(5, Types.VARCHAR);
-			}
-			if(!requestParameters.get("trn").equals("")){
-				statement.setString(6, requestParameters.get("trn"));
-			}else{
-				statement.setNull(6, Types.VARCHAR);
-			}
-			if (!requestParameters.get("valueDate").equals("")) {
-				String valueDate= valueDateDBFormat.format(valueDateFormat.parse(requestParameters.get("valueDate")));
-				statement.setString(7, valueDate);
-			}else{
-				statement.setNull(7, Types.VARCHAR);
-			}
-			if (!requestParameters.get("minAmount").equals("")) {
-				statement.setBigDecimal(8,
-						new BigDecimal(requestParameters.get("minAmount")));
-			}else{
-				statement.setNull(8, Types.NUMERIC);
-			}
-			if (!requestParameters.get("maxAmount").equals("")) {
-				statement.setBigDecimal(9,
-						new BigDecimal(requestParameters.get("maxAmount")));
-			}else{
-				statement.setNull(9, Types.NUMERIC);
-			}
-			if(!requestParameters.get("currency").equals("")){
-				statement.setString(10, requestParameters.get("currency"));
-			}else{
-				statement.setNull(10, Types.VARCHAR);
-			}
-			if(!requestParameters.get("dbtaccount").equals("")){
-				statement.setString(11, requestParameters.get("dbtaccount"));
-			}else{
-				statement.setNull(11, Types.VARCHAR);
-			}
-			if(!requestParameters.get("dbtcustname").equals("")){
-				statement.setString(12, requestParameters.get("dbtcustname"));
-			}else{
-				statement.setNull(12, Types.VARCHAR);
-			}
-			if(!requestParameters.get("ordbank").equals("")){
-				statement.setString(13, requestParameters.get("ordbank"));
-			}else{
-				statement.setNull(13, Types.VARCHAR);
-			}
-			if(!requestParameters.get("benbank").equals("")){
-				statement.setString(14, requestParameters.get("benbank"));
-			}else{
-				statement.setNull(14, Types.VARCHAR);
-			}
-			if(!requestParameters.get("cdtaccount").equals("")){
-				statement.setString(15, requestParameters.get("cdtaccount"));
-			}else{
-				statement.setNull(15, Types.VARCHAR);
-			}
-			if(!requestParameters.get("cdtcustname").equals("")){
-				statement.setString(16, requestParameters.get("cdtcustname"));
-			}else{
-				statement.setNull(16, Types.VARCHAR);
-			}
-			if(!requestParameters.get("service").equals("")){
-				statement.setString(17, requestParameters.get("service"));
-			}else{
-				statement.setNull(17, Types.VARCHAR);
-			}
-			if(!requestParameters.get("direction").equals("")){
-				statement.setString(18, requestParameters.get("direction"));
-			}else{
-				statement.setNull(18, Types.VARCHAR);
-			}
-			if(!requestParameters.get("state").equals("")){
-				statement.setString(19, requestParameters.get("state"));
-			}else{
-				statement.setNull(19, Types.VARCHAR);
-			}
-			if(!requestParameters.get("batchID").equals("")){
-				statement.setString(20, requestParameters.get("batchID"));
-			}else{
-				statement.setNull(20, Types.VARCHAR);
-			}
+			if (requestParameters.get("businessArea").equals("Funds Transfer"))
 
-			if(!requestParameters.get("userid").equals("")){
-				statement.setString(21, requestParameters.get("userid"));
-			}else{
-				statement.setNull(21, Types.VARCHAR);
-			}
-		
-			if(requestParameters.containsKey("orderField")
-					&& requestParameters.get("orderField")!=null){
-				statement.setString(22, requestParameters.get("orderField"));
-			}else{
-				statement.setNull(22, Types.VARCHAR);
-			}
-			if(requestParameters.containsKey("order")
-					&& requestParameters.get("order")!=null){
-				statement.setString(23, requestParameters.get("order"));
-			}else{
-				statement.setNull(23, Types.VARCHAR);
-			}
-			if (requestParameters.get("offset")!=null) {
-				statement.setInt(24,
-						Integer.parseInt(requestParameters.get("offset")));
-			} else {
-				statement.setNull(24, Types.INTEGER);
-			}
-			if (requestParameters.get("limit")!=null) {
-				statement.setInt(25,
-						Integer.parseInt(requestParameters.get("limit")));
-			} else {
-				statement.setNull(25, Types.INTEGER);
-			}
-			if (driver.contains("oracle")){
-				statement.registerOutParameter(26, OracleTypes.CURSOR);
-			}else{
-				statement.registerOutParameter(26, Types.OTHER);
-			}
-			statement.execute();
-			ResultSet resultSet = (ResultSet) statement.getObject(26);
+			{
+
+			String procedure = getProcedureCallString("findata.getftpayments", 26);
+						connection.setAutoCommit(false);
+						CallableStatement statement = connection.prepareCall(procedure);
+						statement.setString(1, minDate);
+						statement.setString(2, maxDate);
+						if(!requestParameters.get("messageTypes").equals("")){
+							statement.setString(3, requestParameters.get("messageTypes"));
+						}else{
+							statement.setNull(3, Types.VARCHAR);
+						}
+						if(!requestParameters.get("sender").equals("")){
+							statement.setString(4, requestParameters.get("sender"));
+						}else{
+							statement.setNull(4, Types.VARCHAR);
+						}
+						if(!requestParameters.get("receiver").equals("")){
+							statement.setString(5, requestParameters.get("receiver"));
+						}else{
+							statement.setNull(5, Types.VARCHAR);
+						}
+						if(!requestParameters.get("trn").equals("")){
+							statement.setString(6, requestParameters.get("trn"));
+						}else{
+							statement.setNull(6, Types.VARCHAR);
+						}
+						if (!requestParameters.get("valueDate").equals("")) {
+							String valueDate= valueDateDBFormat.format(valueDateFormat.parse(requestParameters.get("valueDate")));
+							statement.setString(7, valueDate);
+						}else{
+							statement.setNull(7, Types.VARCHAR);
+						}
+						if (!requestParameters.get("minAmount").equals("")) {
+							statement.setBigDecimal(8,
+									new BigDecimal(requestParameters.get("minAmount")));
+						}else{
+							statement.setNull(8, Types.NUMERIC);
+						}
+						if (!requestParameters.get("maxAmount").equals("")) {
+							statement.setBigDecimal(9,
+									new BigDecimal(requestParameters.get("maxAmount")));
+						}else{
+							statement.setNull(9, Types.NUMERIC);
+						}
+						if(!requestParameters.get("currency").equals("")){
+							statement.setString(10, requestParameters.get("currency"));
+						}else{
+							statement.setNull(10, Types.VARCHAR);
+						}
+						if(!requestParameters.get("dbtaccount").equals("")){
+							statement.setString(11, requestParameters.get("dbtaccount"));
+						}else{
+							statement.setNull(11, Types.VARCHAR);
+						}
+						if(!requestParameters.get("dbtcustname").equals("")){
+							statement.setString(12, requestParameters.get("dbtcustname"));
+						}else{
+							statement.setNull(12, Types.VARCHAR);
+						}
+						if(!requestParameters.get("ordbank").equals("")){
+							statement.setString(13, requestParameters.get("ordbank"));
+						}else{
+							statement.setNull(13, Types.VARCHAR);
+						}
+						if(!requestParameters.get("benbank").equals("")){
+							statement.setString(14, requestParameters.get("benbank"));
+						}else{
+							statement.setNull(14, Types.VARCHAR);
+						}
+						if(!requestParameters.get("cdtaccount").equals("")){
+							statement.setString(15, requestParameters.get("cdtaccount"));
+						}else{
+							statement.setNull(15, Types.VARCHAR);
+						}
+						if(!requestParameters.get("cdtcustname").equals("")){
+							statement.setString(16, requestParameters.get("cdtcustname"));
+						}else{
+							statement.setNull(16, Types.VARCHAR);
+						}
+						if(!requestParameters.get("service").equals("")){
+							statement.setString(17, requestParameters.get("service"));
+						}else{
+							statement.setNull(17, Types.VARCHAR);
+						}
+						if(!requestParameters.get("direction").equals("")){
+							statement.setString(18, requestParameters.get("direction"));
+						}else{
+							statement.setNull(18, Types.VARCHAR);
+						}
+						if(!requestParameters.get("state").equals("")){
+							statement.setString(19, requestParameters.get("state"));
+						}else{
+							statement.setNull(19, Types.VARCHAR);
+						}
+						if(!requestParameters.get("batchID").equals("")){
+							statement.setString(20, requestParameters.get("batchID"));
+						}else{
+							statement.setNull(20, Types.VARCHAR);
+						}
+
+						if(!requestParameters.get("userid").equals("")){
+							statement.setString(21, requestParameters.get("userid"));
+						}else{
+							statement.setNull(21, Types.VARCHAR);
+						}
+					
+						if(requestParameters.containsKey("orderField")
+								&& requestParameters.get("orderField")!=null){
+							statement.setString(22, requestParameters.get("orderField"));
+						}else{
+							statement.setNull(22, Types.VARCHAR);
+						}
+						if(requestParameters.containsKey("order")
+								&& requestParameters.get("order")!=null){
+							statement.setString(23, requestParameters.get("order"));
+						}else{
+							statement.setNull(23, Types.VARCHAR);
+						}
+						if (requestParameters.get("offset")!=null) {
+							statement.setInt(24,
+									Integer.parseInt(requestParameters.get("offset")));
+						} else {
+							statement.setNull(24, Types.INTEGER);
+						}
+						if (requestParameters.get("limit")!=null) {
+							statement.setInt(25,
+									Integer.parseInt(requestParameters.get("limit")));
+						} else {
+							statement.setNull(25, Types.INTEGER);
+						}
+						if (driver.contains("oracle")){
+							statement.registerOutParameter(26, OracleTypes.CURSOR);
+						}else{
+							statement.registerOutParameter(26, Types.OTHER);
+						}
+						statement.execute();
+						ResultSet resultSet = (ResultSet) statement.getObject(26);
+						boolean gotTotal = false;
+						while(resultSet.next()){
+							reportInstances.add(new MessageReportInstance(resultSet));
+							if(!gotTotal){
+								total.append(resultSet.getInt("rnummax"));
+								gotTotal=true;
+							}
+						}
+						
+						}
+						
+			if (requestParameters.get("businessArea").equals("Debit Instruments"))
+
+			{
+
+			String procedure = getProcedureCallString("findata.getdipayments", 25);
+						connection.setAutoCommit(false);
+						CallableStatement statement = connection.prepareCall(procedure);
+						statement.setString(1, minDate);
+						statement.setString(2, maxDate);
+						if(!requestParameters.get("messageTypes").equals("")){
+							statement.setString(3, requestParameters.get("messageTypes"));
+						}else{
+							statement.setNull(3, Types.VARCHAR);
+						}
+						if(!requestParameters.get("sender").equals("")){
+							statement.setString(4, requestParameters.get("sender"));
+						}else{
+							statement.setNull(4, Types.VARCHAR);
+						}
+						if(!requestParameters.get("receiver").equals("")){
+							statement.setString(5, requestParameters.get("receiver"));
+						}else{
+							statement.setNull(5, Types.VARCHAR);
+						}
+						if(!requestParameters.get("trn").equals("")){
+							statement.setString(6, requestParameters.get("trn"));
+						}else{
+							statement.setNull(6, Types.VARCHAR);
+						}
+						if (!requestParameters.get("issuanceDate").equals("")) {
+							String issuanceDate= valueDateDBFormat.format(valueDateFormat.parse(requestParameters.get("issuanceDate")));
+							statement.setString(7, issuanceDate);
+						}else{
+							statement.setNull(7, Types.VARCHAR);   
+						}
+						
+						
+						if (!requestParameters.get("maturityDate").equals("")) {
+							String maturityDate= valueDateDBFormat.format(valueDateFormat.parse(requestParameters.get("maturityDate")));
+							statement.setString(8, maturityDate);
+						}else{
+							statement.setNull(8, Types.VARCHAR);  
+						}
+						
+						
+						
+						if (!requestParameters.get("minAmount").equals("")) {
+							statement.setBigDecimal(9,
+									new BigDecimal(requestParameters.get("minAmount")));
+						}else{
+							statement.setNull(9, Types.NUMERIC);
+						}
+						if (!requestParameters.get("maxAmount").equals("")) {
+							statement.setBigDecimal(10,
+									new BigDecimal(requestParameters.get("maxAmount")));
+						}else{
+							statement.setNull(10, Types.NUMERIC);
+						}
+						if(!requestParameters.get("currency").equals("")){
+							statement.setString(11, requestParameters.get("currency"));
+						}else{
+							statement.setNull(11, Types.VARCHAR);
+						}
+						if(!requestParameters.get("dbtaccount").equals("")){
+							statement.setString(12, requestParameters.get("dbtaccount"));
+						}else{
+							statement.setNull(12, Types.VARCHAR);
+						}
+						if(!requestParameters.get("dbtcustname").equals("")){
+							statement.setString(13, requestParameters.get("dbtcustname"));
+						}else{
+							statement.setNull(13, Types.VARCHAR);
+						}
+						
+						if(!requestParameters.get("dbtID").equals("")){
+							statement.setString(14, requestParameters.get("dbtID"));
+						}else{
+							statement.setNull(14, Types.VARCHAR);
+						}
+						
+						if(!requestParameters.get("cdtaccount").equals("")){
+							statement.setString(15, requestParameters.get("cdtaccount"));
+						}else{
+							statement.setNull(15, Types.VARCHAR);
+						}
+						if(!requestParameters.get("cdtcustname").equals("")){
+							statement.setString(16, requestParameters.get("cdtcustname"));
+						}else{
+							statement.setNull(16, Types.VARCHAR);
+						}
+						if(!requestParameters.get("direction").equals("")){
+							statement.setString(17, requestParameters.get("direction"));
+						}else{
+							statement.setNull(17, Types.VARCHAR);
+						}
+						if(!requestParameters.get("state").equals("")){
+							statement.setString(18, requestParameters.get("state"));
+						}else{
+							statement.setNull(18, Types.VARCHAR);
+						}
+						if(!requestParameters.get("batchID").equals("")){
+							statement.setString(19, requestParameters.get("batchID"));
+						}else{
+							statement.setNull(19, Types.VARCHAR);
+						}
+
+						if(!requestParameters.get("userid").equals("")){
+							statement.setString(20, requestParameters.get("userid"));
+						}else{
+							statement.setNull(20, Types.VARCHAR);
+						}
+					
+						if(requestParameters.containsKey("orderField")
+								&& requestParameters.get("orderField")!=null){
+							statement.setString(21, requestParameters.get("orderField"));
+						}else{
+							statement.setNull(21, Types.VARCHAR);
+						}
+						if(requestParameters.containsKey("order")
+								&& requestParameters.get("order")!=null){
+							statement.setString(22, requestParameters.get("order"));
+						}else{
+							statement.setNull(22, Types.VARCHAR);
+						}
+						if (requestParameters.get("offset")!=null) {
+							statement.setInt(23,
+									Integer.parseInt(requestParameters.get("offset")));
+						} else {
+							statement.setNull(23, Types.INTEGER);
+						}
+						if (requestParameters.get("limit")!=null) {
+							statement.setInt(24,
+									Integer.parseInt(requestParameters.get("limit")));
+						} else {
+							statement.setNull(24, Types.INTEGER);
+						}
+						if (driver.contains("oracle")){
+							statement.registerOutParameter(25, OracleTypes.CURSOR);
+						}else{
+							statement.registerOutParameter(25, Types.OTHER);
+						}
+						statement.execute();
+						ResultSet resultSet = (ResultSet) statement.getObject(25);
+						
+						
+									
 			boolean gotTotal = false;
 			while(resultSet.next()){
 				reportInstances.add(new MessageReportInstance(resultSet));
@@ -266,7 +429,7 @@ public class JdbcClient {
 					total.append(resultSet.getInt("rnummax"));
 					gotTotal=true;
 				}
-			}
+			}}
 			connection.setAutoCommit(true);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -295,6 +458,10 @@ public class JdbcClient {
 	
 	public ArrayList<String> getFTMessageTypes() throws SQLException{
 		return getDistinctTypes(FT_MESSAGES_QUERY, "friendlyname");
+	}
+	
+	public ArrayList<String> getDIMessageTypes() throws SQLException{
+		return getDistinctTypes(DI_MESSAGES_QUERY, "friendlyname");
 	}
 	
 	public ArrayList<String> getBicCodes() throws SQLException{

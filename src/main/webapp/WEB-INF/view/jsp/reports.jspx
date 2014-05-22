@@ -137,7 +137,23 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 		</c:when>
 	</c:choose>
 	
+	<c:choose>
+		<c:when test="${!empty param.issuanceDate}">
+			<spring:message code="reports.headerIssuancedate"/>: <b>${param.issuanceDate}</b>; 
+		</c:when>
+	</c:choose>
 	
+	<c:choose>
+		<c:when test="${!empty param.maturityDate}">
+			<spring:message code="reports.headerMaturitydate"/>: <b>${param.maturityDate}</b>; 
+		</c:when>
+	</c:choose>
+	
+	<c:choose>
+		<c:when test="${!empty param.dbtID}">
+			<spring:message code="reports.headerDbtid"/>: <b>${param.dbtID}</b>; 
+		</c:when>
+	</c:choose>
 	<br />
 
 	<!-- PAGINATOR -->
@@ -198,10 +214,20 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 					</c:when>
 				</c:choose>
 				<c:choose>
-					<c:when test="${param.valuedateCheck eq 'on'}">
+					<c:when test="${param.valuedateCheck eq 'on' and param.businessArea eq 'Funds Transfer'}">
 						<th class="sortable">
 							<spring:message code="reports.headerValuedate" /> 
 							<input type="hidden" name="valuedate" value="" /></th>
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when test="${param.businessArea eq 'Debit Instruments'}">
+						<th class="sortable">
+							<spring:message code="reports.headerIssuancedate" /> 
+							<input type="hidden" name="issuanceDate" value="" /></th>
+						<th class="sortable">
+							<spring:message code="reports.headerMaturitydate" /> 
+							<input type="hidden" name="maturityDate" value="" /></th>
 					</c:when>
 				</c:choose>
 				<c:choose>
@@ -233,14 +259,22 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 					</c:when>
 				</c:choose>
 				<c:choose>
-					<c:when test="${param.ordbankCheck eq 'on'}">
+					<c:when test="${param.businessArea eq 'Debit Instruments'}">
+						<th class="sortable">
+							<spring:message code="reports.headerDbtid" /> 
+							<input type="hidden" name="dbtID" value="" /></th>
+						
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when test="${param.ordbankCheck eq 'on' and param.businessArea eq 'Funds Transfer'}">
 						<th class="sortable">
 							<spring:message code="reports.headerOrdbank" /> 
 							<input type="hidden" name="ordbank" value="" /></th>
 					</c:when>
 				</c:choose>
 				<c:choose>
-					<c:when test="${param.benbankCheck eq 'on'}">
+					<c:when test="${param.benbankCheck eq 'on' and param.businessArea eq 'Funds Transfer'}">
 						<th class="sortable">
 							<spring:message code="reports.headerBenbank" /> 
 							<input type="hidden" name="benbank" value="" /></th>
@@ -261,7 +295,7 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 					</c:when>
 				</c:choose>
 				<c:choose>
-					<c:when test="${param.serviceCheck eq 'on'}">
+					<c:when test="${param.serviceCheck eq 'on' and param.businessArea eq 'Funds Transfer'}">
 						<th class="sortable">
 							<spring:message code="reports.headerService" /> 
 							<input type="hidden" name="service" value="" /></th>
@@ -325,11 +359,20 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 						</c:when>
 					</c:choose>
 					<c:choose>
-						<c:when test="${param.valuedateCheck eq 'on'}">
+						<c:when test="${param.valuedateCheck eq 'on' and param.businessArea eq 'Funds Transfer'}">
 							<td><a href="view.htm?id=${message.correlid}"> <c:out
 										value="${message.valuedate}" /></a></td>
 						</c:when>
 					</c:choose>
+					
+					<c:choose>
+					<c:when test="${param.businessArea eq 'Debit Instruments'}">
+						<td><a href="view.htm?id=${message.correlid}"> <c:out
+										value="${message.issuanceDate}" /></a></td>
+						<td><a href="view.htm?id=${message.correlid}"> <c:out
+										value="${message.maturityDate}" />sdasdas</a></td>						
+					</c:when>
+				</c:choose>
 					<c:choose>
 						<c:when test="${param.amountCheck eq 'on'}">
 							<td><a href="view.htm?id=${message.correlid}"> <c:out
@@ -354,14 +397,23 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 										value="${message.dbtcustname}" /></a></td>
 						</c:when>
 					</c:choose>
+					
 					<c:choose>
-						<c:when test="${param.ordbankCheck eq 'on'}">
+					<c:when test="${param.businessArea eq 'Debit Instruments'}">
+					
+					<td><a href="view.htm?id=${message.correlid}"> <c:out
+										value="${message.dbtID}" /></a></td>
+										
+					</c:when>
+				</c:choose>
+					<c:choose>
+						<c:when test="${param.ordbankCheck eq 'on'  and param.businessArea eq 'Funds Transfer'}">
 							<td><a href="view.htm?id=${message.correlid}"> <c:out
 										value="${message.ordbank}" /></a></td>
 						</c:when>
 					</c:choose>
 					<c:choose>
-						<c:when test="${param.benbankCheck eq 'on'}">
+						<c:when test="${param.benbankCheck eq 'on'  and param.businessArea eq 'Funds Transfer'}">
 							<td><a href="view.htm?id=${message.correlid}"> <c:out
 										value="${message.benbank}" /></a></td>
 						</c:when>
@@ -379,7 +431,7 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 						</c:when>
 					</c:choose>
 					<c:choose>
-						<c:when test="${param.serviceCheck eq 'on'}">
+						<c:when test="${param.serviceCheck eq 'on'  and param.businessArea eq 'Funds Transfer'}">
 							<td><a href="view.htm?id=${message.correlid}"> <c:out
 										value="${message.service}" /></a></td>
 						</c:when>
@@ -418,6 +470,9 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 	<input name="receiver" type="hidden"  value="${param.receiver}"/>
 	<input name="trn" type="hidden"  value="${param.trn}"/>
 	<input name="valueDate" type="hidden"  value="${param.valueDate}"/>
+	<input name="issuanceDate" type="hidden"  value="${param.issuanceDate}"/>
+	<input name="maturityDate" type="hidden"  value="${param.maturityDate}"/>
+	<input name="dbtID" type="hidden"  value="${param.dbtID}"/>
 	<input name="minAmount" type="hidden"  value="${param.minAmount}"/>
 	<input name="maxAmount" type="hidden"  value="${param.maxAmount}"/>
 	<input name="currency" type="hidden"  value="${param.currency}"/>
@@ -454,6 +509,6 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 	<input name="serviceCheck" type="hidden"  value="${param.serviceCheck}"/>
 	<input name="directionCheck" type="hidden"  value="${param.directionCheck}"/>
 	<input name="stateCheck" type="hidden"  value="${param.stateCheck}"/>
-	<input name="batchIDCheck" type="hidden"  value="${param.batchIDCheck}"/>	
+	<input name="batchidCheck" type="hidden"  value="${param.batchidCheck}"/>	
 </form>
 </div>
