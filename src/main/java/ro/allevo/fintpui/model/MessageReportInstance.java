@@ -27,6 +27,11 @@ public class MessageReportInstance {
 	private String batchid;
 	private String correlid;
 	private String payload;
+	private String issuanceDate;
+	private String maturityDate;
+	private String dbtID;
+	private String userid;
+	
 	
 	//select clause
 	public static final String reportsProjection = "select  insertdate,msgtype,sender,receiver,trn,valuedate,amount,currency,"
@@ -36,34 +41,71 @@ public class MessageReportInstance {
 			+ " end state,batchid,userid "
 			+ " from findata.repstatft ";
 	
-	public MessageReportInstance(ResultSet resultSet){
+	private MessageReportInstance(){
+		
+	}
+	
+	public static MessageReportInstance getFundsTransferMessage(ResultSet resultSet){
 		try {
-			setInsertdate(resultSet.getString("insertdate"));
-			setMsgtype(resultSet.getString("msgtype"));
-			setSender(resultSet.getString("sender"));
-			setReceiver(resultSet.getString("receiver"));
-			setTrn(resultSet.getString("trn"));
+			MessageReportInstance messageReportInstance = new MessageReportInstance();
+			messageReportInstance.setInsertdate(resultSet.getString("insertdate"));
+			messageReportInstance.setMsgtype(resultSet.getString("msgtype"));
+			messageReportInstance.setSender(resultSet.getString("sender"));
+			messageReportInstance.setReceiver(resultSet.getString("receiver"));
+			messageReportInstance.setTrn(resultSet.getString("trn"));
 			//TODO: format here value date
-			setValuedate(resultSet.getString("valuedate"));
-			setAmount(resultSet.getString("amount"));
-			setCurrency(resultSet.getString("currency"));
-			setDbtaccount(resultSet.getString("dbtaccount"));
-			setDbtcustname(resultSet.getString("dbtcustname"));
-			setOrdbank(resultSet.getString("ordbank"));
-			setBenbank(resultSet.getString("benbank"));
-			setCdtaccount(resultSet.getString("cdtaccount"));
-			setCdtcustname(resultSet.getString("cdtcustname"));
-			setService(resultSet.getString("service"));
-			setDirection(resultSet.getString("direction"));
-			setState(resultSet.getString("state"));
-			setBatchid(resultSet.getString("batchid"));
-			setCorrelid(resultSet.getString("correlid"));
-			
+			messageReportInstance.setValuedate(resultSet.getString("valuedate"));
+			messageReportInstance.setAmount(resultSet.getString("amount"));
+			messageReportInstance.setCurrency(resultSet.getString("currency"));
+			messageReportInstance.setDbtaccount(resultSet.getString("dbtaccount"));
+			messageReportInstance.setDbtcustname(resultSet.getString("dbtcustname"));
+			messageReportInstance.setOrdbank(resultSet.getString("ordbank"));
+			messageReportInstance.setBenbank(resultSet.getString("benbank"));
+			messageReportInstance.setCdtaccount(resultSet.getString("cdtaccount"));
+			messageReportInstance.setCdtcustname(resultSet.getString("cdtcustname"));
+			messageReportInstance.setService(resultSet.getString("service"));
+			messageReportInstance.setDirection(resultSet.getString("direction"));
+			messageReportInstance.setState(resultSet.getString("state"));
+			messageReportInstance.setBatchid(resultSet.getString("batchid"));
+			messageReportInstance.setCorrelid(resultSet.getString("correlid"));
+			return messageReportInstance;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+		return null;
 	}
+	
+	public static MessageReportInstance getDebitInstrumentsMessage(ResultSet resultSet){
+		try {
+			MessageReportInstance messageReportInstance = new MessageReportInstance();
+			messageReportInstance.setInsertdate(resultSet.getString("insertdate"));
+			messageReportInstance.setMsgtype(resultSet.getString("msgtype"));
+			messageReportInstance.setSender(resultSet.getString("sender"));
+			messageReportInstance.setReceiver(resultSet.getString("receiver"));
+			messageReportInstance.setTrn(resultSet.getString("trn"));
+			messageReportInstance.setInsertdate(resultSet.getString("issdate"));
+			messageReportInstance.setMaturityDate(resultSet.getString("matdate"));
+			messageReportInstance.setAmount(resultSet.getString("amount"));
+			messageReportInstance.setCurrency(resultSet.getString("currency"));
+			messageReportInstance.setDbtaccount(resultSet.getString("dbtaccount"));
+			messageReportInstance.setDbtcustname(resultSet.getString("dbtcustname"));
+			messageReportInstance.setDbtID(resultSet.getString("dbtid"));
+			messageReportInstance.setCdtaccount(resultSet.getString("cdtaccount"));
+			messageReportInstance.setCdtcustname(resultSet.getString("cdtcustname"));
+			messageReportInstance.setDirection(resultSet.getString("direction"));
+			messageReportInstance.setBatchid(resultSet.getString("batchid"));
+			messageReportInstance.setUserid(resultSet.getString("userid"));
+			messageReportInstance.setCorrelid(resultSet.getString("correlid"));
+			messageReportInstance.setState(resultSet.getString("state"));
+			
+			return messageReportInstance;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
 
 	public String getInsertdate() {
 		return insertdate;
@@ -227,6 +269,38 @@ public class MessageReportInstance {
 
 	public String toString(){
 		return "correlid " + correlid;
+	}
+
+	public String getIssuanceDate() {
+		return issuanceDate;
+	}
+
+	public void setIssuanceDate(String issuanceDate) {
+		this.issuanceDate = issuanceDate;
+	}
+
+	public String getMaturityDate() {
+		return maturityDate;
+	}
+
+	public void setMaturityDate(String maturityDate) {
+		this.maturityDate = maturityDate;
+	}
+
+	public String getDbtID() {
+		return dbtID;
+	}
+
+	public void setDbtID(String dbtID) {
+		this.dbtID = dbtID;
+	}
+
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
 	
 }
