@@ -19,10 +19,26 @@ $(function() {
 		});
 	});
 	$("button.edit").each(function(){
-		$(this).button({ icons: { primary: "ui-icon-pencil" }, disabled: true });
+		$(this).button({ icons: { primary: "ui-icon-pencil" }, disabled: false });
+		$(this).click(function(){
+			var queueName = $(this).parent().parent().find("td").first().text();
+			document.location.href = "./editQueue.htm?queue="+ queueName;
+		});
 	});
 	$("button.delete").each(function(){
-		$(this).button({ icons: { primary: "ui-icon-trash" }, disabled : true });
+		$(this).button({ icons: { primary: "ui-icon-trash" }, disabled : false });
+		$(this).click(function(){
+			var queueName = $(this).parent().parent().find("td").first().text();
+			$.ajax({
+				async: false,
+				method : 'POST',
+				url: "./queues/delete.htm?queue=" + queueName
+			});
+		});
+	});
+	
+	$("#addQueue").click(function(){
+		document.location.href = "./addQueue.htm";
 	});
 });
 

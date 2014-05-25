@@ -499,6 +499,7 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 	<input name="receiverCheck" type="hidden"  value="${param.receiverCheck}"/>
 	<input name="trnCheck" type="hidden"  value="${param.trnCheck}"/>
 	<input name="valuedateCheck" type="hidden"  value="${param.valuedateCheck}"/>
+	<input name="amountCheck" type="hidden"  value="${param.amountCheck}"/>
 	<input name="currencyCheck" type="hidden"  value="${param.currencyCheck}"/>
 	<input name="dbtaccountCheck" type="hidden"  value="${param.dbtaccountCheck}"/>
 	<input name="dbtcustnameCheck" type="hidden"  value="${param.dbtcustnameCheck}"/>

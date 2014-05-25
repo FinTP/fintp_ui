@@ -9,6 +9,7 @@ public class Queue {
 	private String connector;
 	private String type;
 	private Integer priority;
+	private Integer batchno;
 	
 	
 	public String getName() {
@@ -32,6 +33,7 @@ public class Queue {
 	public String getConnector() {
 		return connector;
 	}
+
 	public void setConnector(String connector) {
 		this.connector = connector;
 	}
@@ -46,5 +48,11 @@ public class Queue {
 	}
 	public void setPriority(Integer priority) {
 		this.priority = priority;
+	}
+	public Integer getBatchno() {
+		return batchno;
+	}
+	public void setBatchno(Integer batchno) {
+		this.batchno = batchno;
 	}
 }

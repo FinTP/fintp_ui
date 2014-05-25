@@ -55,13 +55,17 @@
    <bean id="messageController" class="ro.allevo.fintpui.controllers.MessageController"/>
    
   
-   <bean id = "queuesServlet" class="ro.allevo.fintpui.utils.servlets.QueuesServlet"/>
    <bean id = "messagesServlet" class="ro.allevo.fintpui.utils.servlets.MessagesServlet"/>
    <bean id = "batchRequestServlet" class="ro.allevo.fintpui.utils.servlets.BatchRequestServlet"/>
    <bean id = "routeRequestServlet" class="ro.allevo.fintpui.utils.servlets.RouteRequestServlet"/>
    
+   <bean id="queueDao" class="ro.allevo.fintpui.dao.QueueDaoImplementation"></bean>
+   <bean id="serviceMapDao" class="ro.allevo.fintpui.dao.ServiceMapDaoImplementation"></bean>
    
-    <bean id = "servletsHelper" class = "ro.allevo.fintpui.utils.servlets.ServletsHelper">
+   <bean id="queueService" class="ro.allevo.fintpui.service.QueueServiceImpl"></bean>
+   <bean id="serviceMapService" class="ro.allevo.fintpui.service.ServiceMapService"></bean>
+   
+   <bean id = "servletsHelper" class = "ro.allevo.fintpui.utils.servlets.ServletsHelper">
    		<property name="url" value="http://localhost:8080/fintpWebServices/api"></property>
    </bean>
    

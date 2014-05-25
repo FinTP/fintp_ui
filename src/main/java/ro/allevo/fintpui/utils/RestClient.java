@@ -33,22 +33,4 @@ public class RestClient extends RestTemplate {
 		getMessageConverters().add(new MappingJacksonHttpMessageConverter());
 	}
 
-//	public RestClient(final String username, final String password) {
-//
-//		SimpleClientHttpRequestFactory s = new SimpleClientHttpRequestFactory() {
-//			@Override
-//			protected void prepareConnection(HttpURLConnection connection,
-//					String httpMethod) throws IOException {
-//				String auth = username + ":" + password;
-//				byte[] encodedAuthorisation = Base64.encodeBase64(auth
-//						.getBytes());
-//
-//				connection.setRequestProperty("Authorization", "Basic "
-//						+ new String(encodedAuthorisation));
-//			}
-//		};
-//		setRequestFactory(s);
-//		getMessageConverters().add(new MappingJacksonHttpMessageConverter());
-//
-//	}
 }

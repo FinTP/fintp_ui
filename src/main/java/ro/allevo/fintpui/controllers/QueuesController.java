@@ -1,45 +1,30 @@
 package ro.allevo.fintpui.controllers;
 
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.ws.rs.core.MediaType;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.codehaus.jettison.json.JSONArray;
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.google.common.collect.Multiset.Entry;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 
 import ro.allevo.fintpui.model.MessagesGroup;
 import ro.allevo.fintpui.model.Queue;
-import ro.allevo.fintpui.model.Queues;
+import ro.allevo.fintpui.service.QueueService;
+import ro.allevo.fintpui.service.ServiceMapService;
 import ro.allevo.fintpui.utils.JdbcClient;
-import ro.allevo.fintpui.utils.RestClient;
 import ro.allevo.fintpui.utils.servlets.ServletsHelper;
 
 
 @Controller
-@RequestMapping("/queues")
 public class QueuesController {
 
 	@Autowired
@@ -47,34 +32,95 @@ public class QueuesController {
 	
 	@Autowired
 	private ServletsHelper servletsHelper;
+	
+	@Autowired
+	private QueueService queueService;
+	
+	@Autowired
+	private ServiceMapService serviceMapService;
 
 	private static Logger logger = LogManager.getLogger(QueuesController.class
 			.getName());
 	
-	@RequestMapping(method = RequestMethod.GET)
+	/*
+	 * DISPLAY
+	 */
+	@RequestMapping(value = "/queues",method = RequestMethod.GET)
 	public String printMenu(ModelMap model){
 		logger.info("/queues requested");
-		Queue[] queues = getQueues();
+		Queue[] queues = queueService.getQueueList();
 		model.addAttribute("queues", queues);
 		model.addAttribute("apiUri", servletsHelper.getUrl());
-		
 		return "tiles/queues";
 	}
 	
+	/*
+	 * INSERT
+	 */
+	@RequestMapping(value = "/addQueue", method = RequestMethod.GET) 
+	public String addQueue(ModelMap model, @ModelAttribute Queue queue){
+		logger.info("/addQueue page requested");
+		model.addAttribute("types", queueService.getQueueTypes());
+		model.addAttribute("connectors",
+				serviceMapService.getServiceMapNamesList());
+		return "tiles/queues_add";
+	}
+	
+	@RequestMapping(value = "/queues/insert", method = RequestMethod.POST) 
+	public String insertQueue(@ModelAttribute("queue") Queue queue){
+		logger.info("/insert queue requested");
+		System.out.println(queue.getConnector());
+		queueService.insertQueue(queue);
+		return "redirect:/queues.htm";
+	}
+	
+	/*
+	 * EDIT
+	 */
+	@RequestMapping(value = "/editQueue", method = RequestMethod.GET)
+	public String editQueue(ModelMap model, @RequestParam(value="queue", required=true) String queueName){
+		logger.info("/editQueue requested");
+		Queue queue = queueService.getQueue(queueName);
+		model.addAttribute("queue", queue);
+		model.addAttribute("types", queueService.getQueueTypes());
+		model.addAttribute("connectors",
+				serviceMapService.getServiceMapNamesList());
+		return "tiles/queue_edit";
+	}
+	
+	@RequestMapping(value = "/queues/update", method = RequestMethod.POST)
+	public String updateQueue(@ModelAttribute("queue") Queue queue, @RequestParam("init_name") String initialName){
+		logger.info("/update queue requested");
+		queueService.updateQueue(initialName, queue);
+		return "redirect:/queues.htm";
+	}
+	
+	/*
+	 * DELETE
+	 */
+	@RequestMapping(value = "/queues/delete", method = RequestMethod.POST)
+	public String deleteQueue(@RequestParam("queue") String queueName){
+		logger.info("/delete queue requested");
+		queueService.deleteQueue(queueName);
+		return "redirect:/queues.htm";
+	}
+	
+	
+	
 	@RequestMapping(value = "/{queueName}", method = RequestMethod.GET) 
-	public String webletIconData(@PathVariable String queueName, ModelMap model){
+	public String viewQueue(@PathVariable String queueName, ModelMap model){
 		logger.info("/queues/"+queueName + " requested");
 		
 		try {
 			dbClient.establishConnection();
-			Queue[] queues = getQueues();
+			Queue[] queues = queueService.getQueueList();
 			model.addAttribute("queues", queues);
 			
 			//add queue name attribute
 			model.addAttribute("queueName", queueName);
 			
 			//add messagetypes array 
-			ArrayList<String> messageTypes = getMessageTypesInQueue(queueName);
+			ArrayList<String> messageTypes = queueService.getMessageTypesInQueue(queueName);
 			model.addAttribute("messageTypes", messageTypes);
 			
 			//build hashmap of headers (message type is the key, array containing table headers is the value) 
@@ -130,38 +176,10 @@ public class QueuesController {
 			model.addAttribute("groupFieldNames", groupFieldsMap);
 			
 			
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}finally{
+		} finally{
 			dbClient.closeConnection();
 		}
 		return "tiles/queue";
-	}
-	
-	private Queue[] getQueues() {
-		RestTemplate client = new RestClient();
-		String url = servletsHelper.getUrl() + "/queues";
-		System.out.println("URL queues: " + servletsHelper.getUrl() + "/queues");
-		Queues queuesJSON = client.getForObject(url, Queues.class);
-		return queuesJSON.getQueues();
-	}
-	
-	private ArrayList<String> getMessageTypesInQueue(String queueName) throws JSONException{
-		String calledUrl = servletsHelper.getUrl() + "/queues/"+queueName+"/messagetypes";
-		ArrayList<String> messageTypes = new ArrayList<>();
-		UserDetails principal = (UserDetails) SecurityContextHolder
-				.getContext().getAuthentication().getPrincipal();
-		Client client = Client.create(new DefaultClientConfig());
-		client.addFilter(new HTTPBasicAuthFilter(
-				principal.getUsername(),principal.getPassword()));
-		WebResource webResource = client.resource(calledUrl);
-		JSONObject jsonResponse = webResource.accept(MediaType.APPLICATION_JSON)
-				.get(JSONObject.class);
-		JSONArray jsonArray = jsonResponse.getJSONArray("messagetypes");
-		for(int i = 0; i < jsonArray.length(); i++){
-			messageTypes.add(jsonArray.getString(i));
-		}
-		return messageTypes;
 	}
 
 }

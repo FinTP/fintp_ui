@@ -65,3 +65,32 @@
 .batchInfo{
 	color: blue;
 }
+
+.submitButton{
+	width: inherit;
+	height: 35px;
+    margin-top: 7px;
+    font-size: 18px;
+    font-weight: bold;
+    outline: none; 
+    background:#5f6975;
+    color:#fff;
+    border: 1px solid rgba(0, 0, 0, .49);
+    padding: 2px;
+    margin:2px;
+    margin-left: auto;
+	margin-right: auto;
+}
+
+form select{
+	width: 100%;
+}
+
+form input[type='submit']{
+	width: 100%;
+}
+
+.centeredTable{
+	margin-left: auto;
+	margin-right: auto;
+}

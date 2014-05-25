@@ -23,6 +23,7 @@
 			<spring:message code="payments.noPayments" />
 		</c:when>
 		<c:otherwise>
+			<button id="addQueue" class="submitButton">Add Queue</button>
 			<table id="queuesTable" class="fintpTable">
 				<tbody>
 					<tr>

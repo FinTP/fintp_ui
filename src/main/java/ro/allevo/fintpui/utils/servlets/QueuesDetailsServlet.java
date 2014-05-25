@@ -25,6 +25,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
+import ro.allevo.fintpui.service.QueueService;
 import ro.allevo.fintpui.utils.ApplicationCacheManager;
 
 import com.sun.jersey.api.client.Client;
@@ -33,6 +34,7 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,6 +46,9 @@ public class QueuesDetailsServlet extends HttpServlet {
 
 	@Autowired
 	private ServletsHelper servletsHelper;
+	
+	@Autowired
+	private QueueService queueService;
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException{
@@ -78,40 +83,18 @@ public class QueuesDetailsServlet extends HttpServlet {
 		Cache cache = CacheManager.getInstance().getCache(
 				ApplicationCacheManager.NUMBER_OF_MESSAGES_IN_QUEUES);
 		Element element = cache.get(queueName);
-		
 		//if value in cache, return it
 		if (element != null){
 			return (String) element.getObjectValue();
 		}
-		
-		Integer nbMessages = getNumberOfMessagesFromAPI(queueName, client);
+		int nbMessages =queueService.getNumberOfMessagesInQueue(queueName);
 		//else, if info is useful (known number of messages) update cache
-		if(nbMessages != null){
+		if(nbMessages != -1){
 			String value = "" + nbMessages;
 			cache.put(new Element(queueName , value));
 			return value;
 		}
 		
 		return "-";
-	}
-	private Integer getNumberOfMessagesFromAPI(String queueName, Client client) throws JSONException {
-		
-		String urlRoot = servletsHelper.getUrl();
-		String url = urlRoot + "/queues/" + queueName + "/messages?filter=t";
-		//System.out.println("CALL API : " + url.toString());
-		WebResource webResource = client.resource(url);
-		ClientResponse response = webResource
-				.accept(MediaType.APPLICATION_JSON)
-				.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
-		switch (response.getStatus()) {
-		case 200:
-			JSONObject entity = response.getEntity(JSONObject.class);
-			return entity.getInt("total");
-		case 403:
-			return null;
-		default:
-			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus() + " => handle this type of response");
-		}
 	}
 }
