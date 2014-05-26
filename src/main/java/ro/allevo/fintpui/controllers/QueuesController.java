@@ -107,7 +107,7 @@ public class QueuesController {
 	
 	
 	
-	@RequestMapping(value = "/{queueName}", method = RequestMethod.GET) 
+	@RequestMapping(value = "/queues/{queueName}", method = RequestMethod.GET) 
 	public String viewQueue(@PathVariable String queueName, ModelMap model){
 		logger.info("/queues/"+queueName + " requested");
 		
