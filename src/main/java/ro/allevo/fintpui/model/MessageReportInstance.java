@@ -31,15 +31,25 @@ public class MessageReportInstance {
 	private String maturityDate;
 	private String dbtID;
 	private String userid;
+	private String image;
 	
 	
 	//select clause
-	public static final String reportsProjection = "select  insertdate,msgtype,sender,receiver,trn,valuedate,amount,currency,"
+	public static final String reportsProjectionFT = "select  insertdate,msgtype,sender,receiver,trn,valuedate,amount,currency,"
 			+ "	dbtaccount,dbtcustname,ordbank,benbank,cdtaccount,cdtcustname,service,"
 			+ " direction, correlid, case when errcode is null then state"
 			+ " else state||' ['||errcode||']'"
 			+ " end state,batchid,userid "
 			+ " from findata.repstatft ";
+	public static final String reportsProjectionDI = "select  insertdate,msgtype,sender,receiver,trn,issdate,matdate,amount,currency,"
+			+ "	dbtaccount,dbtcustname,dbtid,cdtaccount,cdtcustname,"
+			+ " direction, correlid, case when errcode is null then state"
+			+ " else state||' ['||errcode||']'"
+			+ " end state,batchid,userid "
+			+ " from findata.repstatdi ";
+	public static final String getBusinessArea = "SELECT msgtypes.businessarea FROM fincfg.msgtypes"
+			+"	INNER JOIN  findata.routedmessages ON "
+			+"	routedmessages.msgtype=msgtypes.messagetype ";
 	
 	private MessageReportInstance(){
 		
@@ -68,6 +78,7 @@ public class MessageReportInstance {
 			messageReportInstance.setState(resultSet.getString("state"));
 			messageReportInstance.setBatchid(resultSet.getString("batchid"));
 			messageReportInstance.setCorrelid(resultSet.getString("correlid"));
+			
 			return messageReportInstance;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -97,7 +108,7 @@ public class MessageReportInstance {
 			messageReportInstance.setUserid(resultSet.getString("userid"));
 			messageReportInstance.setCorrelid(resultSet.getString("correlid"));
 			messageReportInstance.setState(resultSet.getString("state"));
-			
+	
 			return messageReportInstance;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -301,6 +312,16 @@ public class MessageReportInstance {
 
 	public void setUserid(String userid) {
 		this.userid = userid;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+		
+	}
+	
+	public String getImage() {
+		return image;
+		
 	}
 	
 }
