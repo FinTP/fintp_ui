@@ -453,7 +453,7 @@ public class JdbcClient {
 				}
 				statement.execute();
 				ResultSet resultSet = (ResultSet) statement.getObject(25);
-
+				
 				boolean gotTotal = false;
 				while (resultSet.next()) {
 					reportInstances.add(MessageReportInstance.getDebitInstrumentsMessage(resultSet));
@@ -461,6 +461,7 @@ public class JdbcClient {
 						total.append(resultSet.getInt("rnummax"));
 						gotTotal = true;
 					}
+					
 				}
 				connection.setAutoCommit(true);
 			}
@@ -472,11 +473,34 @@ public class JdbcClient {
 		return reportInstances;
 	}
 
+	
+	public String getBA(String correlId) throws SQLException {
+		String whereClauseBA = " where routedmessages.correlationid = '" + correlId + "'";
+		ResultSet BA = performGenericQuery(
+				MessageReportInstance.getBusinessArea, whereClauseBA, "", "");
+		BA.next();
+		String str= BA.getString(1);
+		
+		return str;
+	}
+	
 	public MessageReportInstance getReport(String correlId) throws SQLException {
 		String whereClause = " where correlid = '" + correlId + "'";
-		ResultSet resultSet = performGenericQuery(
-				MessageReportInstance.reportsProjection, whereClause, "", "");
-		if (!resultSet.next()) {
+				
+		ResultSet resultSetFT = performGenericQuery(
+				MessageReportInstance.reportsProjectionFT, whereClause, "", "");
+		ResultSet resultSetDI = performGenericQuery(
+				MessageReportInstance.reportsProjectionDI, whereClause, "", "");
+		
+		String str= getBA(correlId);
+		
+		boolean	verif = false;
+		if(str.equals("Debit Instruments"))
+			verif = resultSetDI.next();
+		else
+			verif = resultSetFT.next();
+		
+		if ( !verif) {
 			return null;
 		} else {
 			String payload = getPayload(correlId);
@@ -484,9 +508,21 @@ public class JdbcClient {
 					.getResource(MessageController.NESTED_TABLES_XSLT)
 					.getPath();
 			String friendlyPayload = MessageController.applyXSLT(payload, path);
-//			MessageReportInstance result = new MessageReportInstance(resultSet);
-//			result.setPayload(friendlyPayload);
-//			return result;
+
+			if (str.equals("Funds Transfer")) {
+				
+			MessageReportInstance result = MessageReportInstance.getFundsTransferMessage(resultSetFT);
+			result.setPayload(friendlyPayload);
+			
+			return result;}
+			if (str.equals("Debit Instruments")) {
+				
+				MessageReportInstance result = MessageReportInstance.getDebitInstrumentsMessage(resultSetDI);
+				result.setPayload(friendlyPayload);
+				String Image = getImageDI(correlId);
+				result.setImage(Image);
+				return result;}
+			
 			return null;
 		}
 	}
@@ -602,6 +638,26 @@ public class JdbcClient {
 
 		String query = "select payload " + "from feedbackagg "
 				+ "where correlid = '" + correlId + "'";
+		Statement statement;
+		try {
+			statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(query);
+			if (!resultSet.next()) {
+				return null;
+			} else {
+				return resultSet.getString("payload");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+	
+	private String getImageDI(String correlId) {
+
+		String query = "select payload " + "from blobsqueue "
+				+ "where correlationid = '" + correlId + "'";
 		Statement statement;
 		try {
 			statement = connection.createStatement();

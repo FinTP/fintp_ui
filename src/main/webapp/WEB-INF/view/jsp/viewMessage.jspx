@@ -91,6 +91,11 @@
 						<td style="vertical-align: top;"><b>Payload: </b></td>
 						<td id="payload">${message.payload}</td>
 					</tr>
+					<tr>
+						<td style="vertical-align: top;"><b>Image: </b></td>
+						<td id="payload">${message.image}</td>
+						<td id="payload"><img src="data:image/jpg;base64,${message.image}" alt="Debit Instrument Image" /></td>
+					</tr>
 				</tbody>
 			</table>
 

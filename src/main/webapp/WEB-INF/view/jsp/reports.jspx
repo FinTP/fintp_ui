@@ -370,7 +370,7 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 						<td><a href="view.htm?id=${message.correlid}"> <c:out
 										value="${message.issuanceDate}" /></a></td>
 						<td><a href="view.htm?id=${message.correlid}"> <c:out
-										value="${message.maturityDate}" />sdasdas</a></td>						
+										value="${message.maturityDate}" /></a></td>						
 					</c:when>
 				</c:choose>
 					<c:choose>
