@@ -29,9 +29,9 @@ public class ReportsViewMessageController {
 		try{dbClient.establishConnection();
 			
 			MessageReportInstance message = dbClient.getReport(id);
-			String BA= dbClient.getBA(id);
+			
 			model.addAttribute("message", message);
-			model.addAttribute("BA", BA);
+		
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
