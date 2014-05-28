@@ -3,6 +3,7 @@ package ro.allevo.fintpui.utils;
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -513,14 +514,16 @@ public class JdbcClient {
 				
 			MessageReportInstance result = MessageReportInstance.getFundsTransferMessage(resultSetFT);
 			result.setPayload(friendlyPayload);
-			
+			result.setBA(getBA(correlId));
 			return result;}
 			if (str.equals("Debit Instruments")) {
 				
 				MessageReportInstance result = MessageReportInstance.getDebitInstrumentsMessage(resultSetDI);
 				result.setPayload(friendlyPayload);
 				String Image = getImageDI(correlId);
+				//System.out.println(Image);
 				result.setImage(Image);
+				result.setBA(getBA(correlId));
 				return result;}
 			
 			return null;
@@ -656,16 +659,19 @@ public class JdbcClient {
 	
 	private String getImageDI(String correlId) {
 
-		String query = "select payload " + "from blobsqueue "
+		String query = "select encode(payload,'escape') " + "from blobsqueue "
 				+ "where correlationid = '" + correlId + "'";
-		Statement statement;
+		//Statement statement;
 		try {
-			statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(query);
+			//statement = connection.createStatement();
+			PreparedStatement pstmt = connection.prepareStatement(query); 
+			ResultSet resultSet = pstmt.executeQuery();
 			if (!resultSet.next()) {
 				return null;
 			} else {
-				return resultSet.getString("payload");
+				System.out.println(resultSet.getString("encode"));
+				
+				return resultSet.getString("encode");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

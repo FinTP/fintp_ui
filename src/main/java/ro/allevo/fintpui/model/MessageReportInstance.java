@@ -32,7 +32,7 @@ public class MessageReportInstance {
 	private String dbtID;
 	private String userid;
 	private String image;
-	
+	private String BA;
 	
 	//select clause
 	public static final String reportsProjectionFT = "select  insertdate,msgtype,sender,receiver,trn,valuedate,amount,currency,"
@@ -322,6 +322,14 @@ public class MessageReportInstance {
 	public String getImage() {
 		return image;
 		
+	}
+
+	public String getBA() {
+		return BA;
+	}
+
+	public void setBA(String bA) {
+		this.BA = bA;
 	}
 	
 }
