@@ -13,6 +13,17 @@ $(function() {
 			selectCurrentDate();
 		}
 	});
+	
+	$("input[name='businessArea']").change(function() {
+		
+		if (this.value == "Debit Instruments") {
+			selectDI();
+			
+		} else {
+			unselectDI();
+			
+		}
+	});
 	$("form").submit(function(e){
 		if($("input[name='interval']:checked").val() == "interval"){
 			if(!(valid = validateInterval())){
@@ -42,6 +53,8 @@ function selectCurrentDate(){
 	$("#intervalPicker").find("span").each(function() {
 		$(this).addClass("disabled");
 	});
+	
+	
 }
 
 function selectInterval(){
@@ -51,6 +64,31 @@ function selectInterval(){
 	$("#intervalPicker").find("span").each(function() {
 		$(this).removeClass("disabled");
 	});
+}
+
+
+function unselectDI(){
+
+		$("#debitInstruments").find("input").each(function() {
+			$(this).val("");
+			$(this).text("");
+			$(this).prop("disabled", true);
+		});
+		$("#debitInstruments").find("span").each(function() {
+			$(this).addClass("disabled");
+		});
+}
+
+function selectDI(){
+	
+
+	$("#debitInstruments").find("input").each(function() {
+		$(this).prop("disabled", false);
+	});
+	$("#debitInstruments").find("span").each(function() {
+		$(this).removeClass("disabled");
+	});
+	
 }
 
 function validateInterval() {

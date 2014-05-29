@@ -31,6 +31,8 @@
 						>Debit Instruments</input><br /> <input
 						type="radio" name="businessArea" value="Direct Debit"
 						disabled="disabled">Direct Debit</input></td>
+						
+						
 				</tr>
 				<tr>
 					<td class="title"><b><spring:message code="reportsForm.date"/></b></td>
@@ -103,21 +105,34 @@
 					<td class="title"><b><spring:message code="reports.headerValuedate"/></b></td>
 					<td><input class="text5" type="text" id="valueDate" name="valueDate"/></td>
 				</tr>
-				<tr>
-					<td class="title"><b><spring:message code="reports.headerIssuancedate"/></b></td>
-					<td><input class="text5" type="text" id="issuanceDate" name="issuanceDate"/></td>
-				</tr>
+				<div id="debitInstruments">
+					<tr>
+						<td >
+							<span><b><spring:message code="reports.headerIssuancedate"/></b></span>
+						</td>
+						<td>
+							<input  type="text" id="issuanceDate" name="issuanceDate"/>
+						</td>
+					</tr>
 				
-				<tr>
-					<td class="title"><b><spring:message code="reports.headerMaturitydate"/></b></td>
-					<td><input class="text5" type="text" id="maturityDate" name="maturityDate"/></td>
-				</tr>
+					<tr>
+						<td >
+							<span><b><spring:message code="reports.headerMaturitydate"/></b></span>
+						</td>
+						<td>
+							<input type="text" id="maturityDate" name="maturityDate"/>
+						</td>
+					</tr>
 				
-				<tr>
-					<td class="title"><b><spring:message code="reports.headerDbtid"/></b></td>
-					<td><input class="text5" type="text" id="dbtID" name="dbtID"/></td>
-				</tr>
-				
+					<tr>
+						<td >
+							<span><b><spring:message code="reports.headerDbtid"/></b></span>
+						</td>
+						<td>
+							<input  type="text" id="dbtID" name="dbtID"/>
+						</td>
+					</tr>
+				</div>
 				<tr>
 					<td class="title"><b><spring:message code="reports.headerTrn"/></b></td>
 					<td><input class="text5" type="text" id="trn" name="trn"/></td>
