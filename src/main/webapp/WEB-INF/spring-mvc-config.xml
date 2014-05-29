@@ -6,8 +6,16 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
+	<!--import services connfig metadata -->
+	<import resource="services.xml"/>
+    
+    <!--import dao connfig metadata -->
+	<import resource="dao.xml"/>
+    
+	
 	<!-- static resource mapping for style sheets, etc. -->
     <mvc:resources mapping="/scripts/**" location="/WEB-INF/scripts/" />
+    
     
 	<!-- Scans the classpath of this application for @Components to deploy as beans -->
 	<context:component-scan base-package="ro.allevo.fintpui.controllers" />
@@ -58,12 +66,6 @@
    <bean id = "messagesServlet" class="ro.allevo.fintpui.utils.servlets.MessagesServlet"/>
    <bean id = "batchRequestServlet" class="ro.allevo.fintpui.utils.servlets.BatchRequestServlet"/>
    <bean id = "routeRequestServlet" class="ro.allevo.fintpui.utils.servlets.RouteRequestServlet"/>
-   
-   <bean id="queueDao" class="ro.allevo.fintpui.dao.QueueDaoImplementation"></bean>
-   <bean id="serviceMapDao" class="ro.allevo.fintpui.dao.ServiceMapDaoImplementation"></bean>
-   
-   <bean id="queueService" class="ro.allevo.fintpui.service.QueueServiceImpl"></bean>
-   <bean id="serviceMapService" class="ro.allevo.fintpui.service.ServiceMapService"></bean>
    
    <bean id = "servletsHelper" class = "ro.allevo.fintpui.utils.servlets.ServletsHelper">
    		<property name="url" value="http://localhost:8080/fintpWebServices/api"></property>

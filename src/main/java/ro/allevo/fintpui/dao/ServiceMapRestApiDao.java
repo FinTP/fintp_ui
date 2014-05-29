@@ -11,7 +11,7 @@ import ro.allevo.fintpui.model.ServiceMaps;
 import ro.allevo.fintpui.utils.RestClient;
 import ro.allevo.fintpui.utils.servlets.ServletsHelper;
 
-public class ServiceMapDaoImplementation implements ServiceMapDao{
+public class ServiceMapRestApiDao implements ServiceMapDao{
 
 	@Autowired
 	ServletsHelper servletsHelper;

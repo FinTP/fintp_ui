@@ -105,8 +105,12 @@ public class QueueServiceImpl implements QueueService{
 				.path(queueName).path("messagetypes").build();
 		ClientResponse response = servletsHelper.getAPIResource(uri);
 		JSONObject jsonResponse = response.getEntity(JSONObject.class);
+		if(response.getStatus() == 403){
+			return null;
+		}
 		JSONArray jsonArray;
 		try {
+			System.out.println(jsonResponse);
 			jsonArray = jsonResponse.getJSONArray("messagetypes");
 			for(int i = 0; i < jsonArray.length(); i++){
 				messageTypes.add(jsonArray.getString(i));

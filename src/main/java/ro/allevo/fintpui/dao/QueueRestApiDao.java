@@ -15,7 +15,7 @@ import ro.allevo.fintpui.utils.servlets.ServletsHelper;
 
 
 
-public class QueueDaoImplementation implements QueueDao{
+public class QueueRestApiDao implements QueueDao{
 
 	@Autowired
 	ServletsHelper servletsHelper;
