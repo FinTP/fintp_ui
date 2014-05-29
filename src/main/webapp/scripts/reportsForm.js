@@ -14,16 +14,27 @@ $(function() {
 		}
 	});
 	
-	$("input[name='businessArea']").change(function() {
-		
-		if (this.value == "Debit Instruments") {
-			selectDI();
-			
-		} else {
-			unselectDI();
-			
-		}
+	$("input:radio[name=businessArea]").change(function() {
+		switch ( $('input[name=businessArea]:checked').val()) {
+		case "Funds Transfer":
+			$(".specificDI").hide();
+	        $(".specificDD").hide();
+	        $(".specificFT").show();
+	        break;
+		case "Debit Instruments":
+			$(".specificDI").show();
+	        $(".specificDD").hide();
+	        $(".specificFT").hide();
+	    	break;
+	    case "Direct Debit":
+	    	//TODO: add properly these classes in the reportsForm.jspx (note one obj can have multiple classes
+	    	$(".specificDI").hide();
+	        $(".specificDD").show();
+	        $(".specificFT").hide();
+	    	break;
+	    }
 	});
+	
 	$("form").submit(function(e){
 		if($("input[name='interval']:checked").val() == "interval"){
 			if(!(valid = validateInterval())){
@@ -64,31 +75,6 @@ function selectInterval(){
 	$("#intervalPicker").find("span").each(function() {
 		$(this).removeClass("disabled");
 	});
-}
-
-
-function unselectDI(){
-
-		$("#debitInstruments").find("input").each(function() {
-			$(this).val("");
-			$(this).text("");
-			$(this).prop("disabled", true);
-		});
-		$("#debitInstruments").find("span").each(function() {
-			$(this).addClass("disabled");
-		});
-}
-
-function selectDI(){
-	
-
-	$("#debitInstruments").find("input").each(function() {
-		$(this).prop("disabled", false);
-	});
-	$("#debitInstruments").find("span").each(function() {
-		$(this).removeClass("disabled");
-	});
-	
 }
 
 function validateInterval() {

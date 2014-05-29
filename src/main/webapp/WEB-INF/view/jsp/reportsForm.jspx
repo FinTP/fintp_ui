@@ -25,12 +25,12 @@
 			<tbody>
 				<tr>
 					<td class="title"><b><spring:message code="reports.businessArea"/></b></td>
-					<td><input type="radio" name="businessArea"
-						value="Funds Transfer" checked="checked"> Funds Transfer</input><br />
-						<input type="radio" name="businessArea" value="Debit Instruments"
-						>Debit Instruments</input><br /> <input
-						type="radio" name="businessArea" value="Direct Debit"
-						disabled="disabled">Direct Debit</input></td>
+					<td>
+						<input type="radio" name="businessArea"	value="Funds Transfer" checked="checked"> Funds Transfer</input><br />
+						<input type="radio" name="businessArea" value="Debit Instruments">Debit Instruments </input><br /> 
+						<input type="radio" name="businessArea" value="Direct Debit" disabled="disabled">Direct Debit</input>
+						
+					</td>
 						
 						
 				</tr>
@@ -101,38 +101,29 @@
 						</select>
 					</td>
 				</tr>
-				<tr>
+				<tr class = "specificFT">
 					<td class="title"><b><spring:message code="reports.headerValuedate"/></b></td>
 					<td><input class="text5" type="text" id="valueDate" name="valueDate"/></td>
 				</tr>
-				<div id="debitInstruments">
-					<tr>
+				<tr style="display: none" class="specificDI">
 						<td >
 							<span><b><spring:message code="reports.headerIssuancedate"/></b></span>
 						</td>
 						<td>
 							<input  type="text" id="issuanceDate" name="issuanceDate"/>
 						</td>
-					</tr>
-				
-					<tr>
-						<td >
-							<span><b><spring:message code="reports.headerMaturitydate"/></b></span>
-						</td>
-						<td>
-							<input type="text" id="maturityDate" name="maturityDate"/>
-						</td>
-					</tr>
-				
-					<tr>
-						<td >
-							<span><b><spring:message code="reports.headerDbtid"/></b></span>
-						</td>
-						<td>
-							<input  type="text" id="dbtID" name="dbtID"/>
-						</td>
-					</tr>
-				</div>
+				</tr>
+				<tr style="display: none" class="specificDI">
+					<td><span><b><spring:message
+									code="reports.headerMaturitydate" /></b></span></td>
+					<td><input type="text" id="maturityDate" name="maturityDate" />
+					</td>
+				</tr>
+				<tr style="display: none" class="specificDI">
+					<td><span><b><spring:message
+									code="reports.headerDbtid" /></b></span></td>
+					<td><input type="text" id="dbtID" name="dbtID" /></td>
+				</tr>
 				<tr>
 					<td class="title"><b><spring:message code="reports.headerTrn"/></b></td>
 					<td><input class="text5" type="text" id="trn" name="trn"/></td>
