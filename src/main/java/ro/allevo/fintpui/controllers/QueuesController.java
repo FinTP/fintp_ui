@@ -121,6 +121,10 @@ public class QueuesController {
 			
 			//add messagetypes array 
 			ArrayList<String> messageTypes = queueService.getMessageTypesInQueue(queueName);
+			if(messageTypes == null){
+				return "tiles/forbidden";
+			}
+			
 			model.addAttribute("messageTypes", messageTypes);
 			
 			//build hashmap of headers (message type is the key, array containing table headers is the value) 
@@ -157,6 +161,7 @@ public class QueuesController {
 			 *    
 			 */
 			HashMap<String, ArrayList<String>> groupFieldsMap = new HashMap<>();
+			
 			
 			for (int i = 0; i < messageTypes.size(); i++) {
 				ArrayList<String> columns = new ArrayList<>();
