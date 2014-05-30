@@ -39,6 +39,7 @@ public class ReportsController {
 			@RequestParam(value = "issuanceDate", required = false) String issuanceDate,
 			@RequestParam(value = "maturityDate", required = false) String maturityDate,
 			@RequestParam(value = "dbtID", required = false) String dbtID,
+			@RequestParam(value = "cdtid", required = false) String cdtid,
 		    @RequestParam(value = "messageTypes", required = false) String messageType,
 			@RequestParam(value = "sender", required = false) String sender,
 			@RequestParam(value = "receiver", required = false) String receiver,

@@ -3,7 +3,7 @@ select {width: 100%}
 input[type=text] {width: 100%}
 span.disabled { color:gray;}
 span.hidden {display:none;}
-table.left{float: left; padding: 30px;}
+table.left{float: left; padding: 30px; height:100%}
 input[type="submit"] {
 	float:none;
     width: 225px;

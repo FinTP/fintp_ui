@@ -154,6 +154,12 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 			<spring:message code="reports.headerDbtid"/>: <b>${param.dbtID}</b>; 
 		</c:when>
 	</c:choose>
+	
+		<c:choose>
+		<c:when test="${!empty param.cdtrid}">
+			<spring:message code="reports.headerCdtrid"/>: <b>${param.cdtrid}</b>; 
+		</c:when>
+	</c:choose>
 	<br />
 
 	<!-- PAGINATOR -->
@@ -214,17 +220,22 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 					</c:when>
 				</c:choose>
 				<c:choose>
-					<c:when test="${param.valuedateCheck eq 'on' and param.businessArea eq 'Funds Transfer'}">
+					<c:when test="${param.valuedateCheck eq 'on' and param.businessArea eq 'Funds Transfer' or param.businessArea eq 'Direct Debit'}">
 						<th class="sortable">
 							<spring:message code="reports.headerValuedate" /> 
 							<input type="hidden" name="valuedate" value="" /></th>
 					</c:when>
 				</c:choose>
 				<c:choose>
-					<c:when test="${param.businessArea eq 'Debit Instruments'}">
+					<c:when test="${param.issuanceCheck eq 'on' and param.businessArea eq 'Debit Instruments'}">
 						<th class="sortable">
 							<spring:message code="reports.headerIssuancedate" /> 
 							<input type="hidden" name="issuanceDate" value="" /></th>
+					</c:when>
+				</c:choose>	
+				<c:choose>
+					<c:when test="${param.maturityCheck eq 'on' and param.businessArea eq 'Debit Instruments'}">
+					
 						<th class="sortable">
 							<spring:message code="reports.headerMaturitydate" /> 
 							<input type="hidden" name="maturityDate" value="" /></th>
@@ -259,10 +270,18 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 					</c:when>
 				</c:choose>
 				<c:choose>
-					<c:when test="${param.businessArea eq 'Debit Instruments'}">
+					<c:when test="${param.dbtrCheck eq 'on' and param.businessArea eq 'Debit Instruments'}">
 						<th class="sortable">
 							<spring:message code="reports.headerDbtid" /> 
 							<input type="hidden" name="dbtID" value="" /></th>
+						
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when test="${param.cdtrCheck eq 'on' and param.businessArea eq 'Direct Debit'}">
+						<th class="sortable">
+							<spring:message code="reports.headerCdtrid" /> 
+							<input type="hidden" name="cdtrid" value="" /></th>
 						
 					</c:when>
 				</c:choose>
@@ -359,16 +378,21 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 						</c:when>
 					</c:choose>
 					<c:choose>
-						<c:when test="${param.valuedateCheck eq 'on' and param.businessArea eq 'Funds Transfer'}">
+						<c:when test="${param.valuedateCheck eq 'on' and param.businessArea eq 'Funds Transfer' or param.businessArea eq 'Direct Debit'}">
 							<td><a href="view.htm?id=${message.correlid}"> <c:out
 										value="${message.valuedate}" /></a></td>
 						</c:when>
 					</c:choose>
 					
 					<c:choose>
-					<c:when test="${param.businessArea eq 'Debit Instruments'}">
+					<c:when test="${param.issuanceCheck eq 'on' and param.businessArea eq 'Debit Instruments'}">
 						<td><a href="view.htm?id=${message.correlid}"> <c:out
 										value="${message.issuanceDate}" /></a></td>
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when test="${param.maturityCheck eq 'on' and param.businessArea eq 'Debit Instruments'}">
+					
 						<td><a href="view.htm?id=${message.correlid}"> <c:out
 										value="${message.maturityDate}" /></a></td>						
 					</c:when>
@@ -399,7 +423,15 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 					</c:choose>
 					
 					<c:choose>
-					<c:when test="${param.businessArea eq 'Debit Instruments'}">
+					<c:when test="${param.dbtrCheck eq 'on' and param.businessArea eq 'Debit Instruments'}">
+					
+					<td><a href="view.htm?id=${message.correlid}"> <c:out
+										value="${message.dbtID}" /></a></td>
+										
+					</c:when>
+							</c:choose>
+						<c:choose>
+					<c:when test="${param.cdtrCheck eq 'on' and param.businessArea eq 'Direct Debit'}">
 					
 					<td><a href="view.htm?id=${message.correlid}"> <c:out
 										value="${message.dbtID}" /></a></td>
@@ -473,6 +505,7 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 	<input name="issuanceDate" type="hidden"  value="${param.issuanceDate}"/>
 	<input name="maturityDate" type="hidden"  value="${param.maturityDate}"/>
 	<input name="dbtID" type="hidden"  value="${param.dbtID}"/>
+	<input name="cdtid" type="hidden"  value="${param.cdtid}"/>
 	<input name="minAmount" type="hidden"  value="${param.minAmount}"/>
 	<input name="maxAmount" type="hidden"  value="${param.maxAmount}"/>
 	<input name="currency" type="hidden"  value="${param.currency}"/>
@@ -502,6 +535,10 @@ xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 	<input name="amountCheck" type="hidden"  value="${param.amountCheck}"/>
 	<input name="currencyCheck" type="hidden"  value="${param.currencyCheck}"/>
 	<input name="dbtaccountCheck" type="hidden"  value="${param.dbtaccountCheck}"/>
+	<input name="dbtrCheck" type="hidden"  value="${param.dbtrCheck}"/>
+	<input name="cdtrCheck" type="hidden"  value="${param.cdtrCheck}"/>
+	<input name="issuanceCheck" type="hidden"  value="${param.issuanceCheck}"/>
+	<input name="maturityCheck" type="hidden"  value="${param.maturityCheck}"/>
 	<input name="dbtcustnameCheck" type="hidden"  value="${param.dbtcustnameCheck}"/>
 	<input name="cdtaccountCheck" type="hidden"  value="${param.cdtaccountCheck}"/>
 	<input name="cdtcustnameCheck" type="hidden"  value="${param.cdtcustnameCheck}"/>

@@ -29,6 +29,8 @@ public class JdbcClient {
 
 	private static final String FT_MESSAGES_QUERY = "select distinct friendlyname from fincfg.msgtypes where businessarea = 'Funds Transfer'";
 	private static final String DI_MESSAGES_QUERY = "select distinct friendlyname from fincfg.msgtypes where businessarea = 'Debit Instruments'";
+	private static final String DD_MESSAGES_QUERY = "select distinct friendlyname from fincfg.msgtypes where businessarea = 'Direct Debit'";
+	
 	private static final String BIC_CODES_QUERY = "select bic from fincfg.biccodes";
 	private static final String CURRENCIES_QUERY = "select currency from fincfg.currencies";
 	private static final String STATES_QUERY = "select status from fincfg.reportingtxstates";
@@ -466,7 +468,157 @@ public class JdbcClient {
 				}
 				connection.setAutoCommit(true);
 			}
-			
+			if (requestParameters.get("businessArea").equals("Direct Debit")) {
+
+				String procedure = getProcedureCallString(
+						"findata.getddpayments", 24);
+				connection.setAutoCommit(false);
+				CallableStatement statement = connection.prepareCall(procedure);
+				statement.setString(1, minDate);
+				statement.setString(2, maxDate);
+				if (!requestParameters.get("messageTypes").equals("")) {
+					statement.setString(3,
+							requestParameters.get("messageTypes"));
+				} else {
+					statement.setNull(3, Types.VARCHAR);
+				}
+				if (!requestParameters.get("sender").equals("")) {
+					statement.setString(4, requestParameters.get("sender"));
+				} else {
+					statement.setNull(4, Types.VARCHAR);
+				}
+				if (!requestParameters.get("receiver").equals("")) {
+					statement.setString(5, requestParameters.get("receiver"));
+				} else {
+					statement.setNull(5, Types.VARCHAR);
+				}
+				if (!requestParameters.get("trn").equals("")) {
+					statement.setString(6, requestParameters.get("trn"));
+				} else {
+					statement.setNull(6, Types.VARCHAR);
+				}
+				if (!requestParameters.get("valueDate").equals("")) {
+					String valueDate = valueDateDBFormat.format(valueDateFormat
+							.parse(requestParameters.get("valueDate")));
+					statement.setString(7, valueDate);
+				} else {
+					statement.setNull(7, Types.VARCHAR);
+				}
+				if (!requestParameters.get("minAmount").equals("")) {
+					statement.setBigDecimal(8,
+							new BigDecimal(requestParameters.get("minAmount")));
+				} else {
+					statement.setNull(8, Types.NUMERIC);
+				}
+				if (!requestParameters.get("maxAmount").equals("")) {
+					statement.setBigDecimal(9,
+							new BigDecimal(requestParameters.get("maxAmount")));
+				} else {
+					statement.setNull(9, Types.NUMERIC);
+				}
+				if (!requestParameters.get("currency").equals("")) {
+					statement.setString(10, requestParameters.get("currency"));
+				} else {
+					statement.setNull(10, Types.VARCHAR);
+				}
+				if (!requestParameters.get("dbtaccount").equals("")) {
+					statement
+							.setString(11, requestParameters.get("dbtaccount"));
+				} else {
+					statement.setNull(11, Types.VARCHAR);
+				}
+				if (!requestParameters.get("dbtcustname").equals("")) {
+					statement.setString(12,
+							requestParameters.get("dbtcustname"));
+				} else {
+					statement.setNull(12, Types.VARCHAR);
+				}
+				if (!requestParameters.get("cdtrid").equals("")) {
+					statement.setString(13, requestParameters.get("cdtrid"));
+				} else {
+					statement.setNull(13, Types.VARCHAR);
+				}
+				
+				if (!requestParameters.get("cdtaccount").equals("")) {
+					statement
+							.setString(14, requestParameters.get("cdtaccount"));
+				} else {
+					statement.setNull(14, Types.VARCHAR);
+				}
+				if (!requestParameters.get("cdtcustname").equals("")) {
+					statement.setString(15,
+							requestParameters.get("cdtcustname"));
+				} else {
+					statement.setNull(15, Types.VARCHAR);
+				}
+				if (!requestParameters.get("direction").equals("")) {
+					statement.setString(16, requestParameters.get("direction"));
+				} else {
+					statement.setNull(16, Types.VARCHAR);
+				}
+				
+				
+				if (!requestParameters.get("state").equals("")) {
+					statement.setString(17, requestParameters.get("state"));
+				} else {
+					statement.setNull(17, Types.VARCHAR);
+				}
+				if (!requestParameters.get("batchID").equals("")) {
+					statement.setString(18, requestParameters.get("batchID"));
+				} else {
+					statement.setNull(18, Types.VARCHAR);
+				}
+
+				if (!requestParameters.get("userid").equals("")) {
+					statement.setString(19, requestParameters.get("userid"));
+				} else {
+					statement.setNull(19, Types.VARCHAR);
+				}
+
+				if (requestParameters.containsKey("orderField")
+						&& requestParameters.get("orderField") != null) {
+					statement
+							.setString(20, requestParameters.get("orderField"));
+				} else {
+					statement.setNull(20, Types.VARCHAR);
+				}
+				if (requestParameters.containsKey("order")
+						&& requestParameters.get("order") != null) {
+					statement.setString(21, requestParameters.get("order"));
+				} else {
+					statement.setNull(21, Types.VARCHAR);
+				}
+				if (requestParameters.get("offset") != null) {
+					statement.setInt(22,
+							Integer.parseInt(requestParameters.get("offset")));
+				} else {
+					statement.setNull(22, Types.INTEGER);
+				}
+				if (requestParameters.get("limit") != null) {
+					statement.setInt(23,
+							Integer.parseInt(requestParameters.get("limit")));
+				} else {
+					statement.setNull(23, Types.INTEGER);
+				}
+				if (driver.contains("oracle")) {
+					statement.registerOutParameter(24, OracleTypes.CURSOR);
+				} else {
+					statement.registerOutParameter(24, Types.OTHER);
+				}
+				System.out.println(statement);
+				statement.execute();
+				ResultSet resultSet = (ResultSet) statement.getObject(24);
+				boolean gotTotal = false;
+				while (resultSet.next()) {
+					reportInstances.add(MessageReportInstance.getDirectDebitMessage(resultSet));
+					if (!gotTotal) {
+						total.append(resultSet.getInt("rnummax"));
+						gotTotal = true;
+					}
+				}
+				connection.setAutoCommit(true);
+
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 
@@ -492,15 +644,18 @@ public class JdbcClient {
 				MessageReportInstance.reportsProjectionFT, whereClause, "", "");
 		ResultSet resultSetDI = performGenericQuery(
 				MessageReportInstance.reportsProjectionDI, whereClause, "", "");
+		ResultSet resultSetDD = performGenericQuery(
+				MessageReportInstance.reportsProjectionDD, whereClause, "", "");
 		
 		String str= getBA(correlId);
 		
 		boolean	verif = false;
 		if(str.equals("Debit Instruments"))
 			verif = resultSetDI.next();
-		else
+		else if (str.equals("Funds Transfer"))
 			verif = resultSetFT.next();
-		
+		else if (str.equals("Direct Debit"))
+			verif = resultSetDD.next();
 		if ( !verif) {
 			return null;
 		} else {
@@ -516,6 +671,8 @@ public class JdbcClient {
 			result.setPayload(friendlyPayload);
 			result.setBA(getBA(correlId));
 			return result;}
+			
+			
 			if (str.equals("Debit Instruments")) {
 				
 				MessageReportInstance result = MessageReportInstance.getDebitInstrumentsMessage(resultSetDI);
@@ -526,7 +683,15 @@ public class JdbcClient {
 				result.setBA(getBA(correlId));
 				return result;}
 			
-			return null;
+		
+		if (str.equals("Direct Debit")) {
+			
+			MessageReportInstance result = MessageReportInstance.getDirectDebitMessage(resultSetDD);
+			result.setPayload(friendlyPayload);
+			result.setBA(getBA(correlId));
+			return result;}
+		
+		return null;
 		}
 	}
 
@@ -536,6 +701,10 @@ public class JdbcClient {
 
 	public ArrayList<String> getDIMessageTypes() throws SQLException {
 		return getDistinctTypes(DI_MESSAGES_QUERY, "friendlyname");
+	}
+	
+	public ArrayList<String> getDDMessageTypes() throws SQLException {
+		return getDistinctTypes(DD_MESSAGES_QUERY, "friendlyname");
 	}
 
 	public ArrayList<String> getBicCodes() throws SQLException {
