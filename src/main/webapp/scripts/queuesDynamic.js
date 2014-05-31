@@ -29,11 +29,7 @@ $(function() {
 		$(this).button({ icons: { primary: "ui-icon-trash" }, disabled : false });
 		$(this).click(function(){
 			var queueName = $(this).parent().parent().find("td").first().text();
-			$.ajax({
-				async: false,
-				method : 'POST',
-				url: "./queues/delete.htm?queue=" + queueName
-			});
+			document.location.href = "./queues/deleteQueue.htm?queue="+ queueName;
 		});
 	});
 	

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
+import org.springframework.web.servlet.ModelAndView;
 
 import ro.allevo.fintpui.model.MessagesGroup;
 import ro.allevo.fintpui.model.Queue;
@@ -46,12 +49,12 @@ public class QueuesController {
 	 * DISPLAY
 	 */
 	@RequestMapping(value = "/queues",method = RequestMethod.GET)
-	public String printMenu(ModelMap model){
+	public ModelAndView printMenu(ModelMap model){
 		logger.info("/queues requested");
 		Queue[] queues = queueService.getQueueList();
 		model.addAttribute("queues", queues);
 		model.addAttribute("apiUri", servletsHelper.getUrl());
-		return "tiles/queues";
+		return new ModelAndView("tiles/queues", model);
 	}
 	
 	/*
@@ -98,7 +101,7 @@ public class QueuesController {
 	/*
 	 * DELETE
 	 */
-	@RequestMapping(value = "/queues/delete", method = RequestMethod.POST)
+	@RequestMapping(value = "/queues/deleteQueue")
 	public String deleteQueue(@RequestParam("queue") String queueName){
 		logger.info("/delete queue requested");
 		queueService.deleteQueue(queueName);
