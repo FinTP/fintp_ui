@@ -47,9 +47,7 @@ public class MessageReportInstance {
 			+ " else state||' ['||errcode||']'"
 			+ " end state,batchid,userid "
 			+ " from findata.repstatdi ";
-	public static final String getBusinessArea = "SELECT msgtypes.businessarea FROM fincfg.msgtypes"
-			+"	INNER JOIN  findata.routedmessages ON "
-			+"	routedmessages.msgtype=msgtypes.messagetype ";
+
 	
 	private MessageReportInstance(){
 		
@@ -316,7 +314,6 @@ public class MessageReportInstance {
 
 	public void setImage(String image) {
 		this.image = image;
-		
 	}
 	
 	public String getImage() {

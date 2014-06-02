@@ -53,7 +53,6 @@ public class MessageController {
 			URI uri = UriBuilder.fromPath(servletsHelper.getUrl())
 					.path("queues").path(queue)
 					.path("messages").path(id).queryParam("type", type).build();
-			System.out.println(uri);
 			WebResource webResource = client.resource(uri.toString());
 			ClientResponse clientResponse = webResource
 					.accept(MediaType.APPLICATION_JSON)
