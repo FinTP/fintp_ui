@@ -307,19 +307,19 @@ public class MessagesJdbcDao implements MessagesDao {
 					} else {
 						statement.setNull(6, Types.VARCHAR);
 					}
-					if (!requestParameters.get("issuanceDate").equals("")) {
-						String issuanceDate = valueDateDBFormat
+					if (!requestParameters.get("issdate").equals("")) {
+						String issdate = valueDateDBFormat
 								.format(valueDateFormat.parse(requestParameters
-										.get("issuanceDate")));
-						statement.setString(7, issuanceDate);
+										.get("issdate")));
+						statement.setString(7, issdate);
 					} else {
 						statement.setNull(7, Types.VARCHAR);
 					}
 
-					if (!requestParameters.get("maturityDate").equals("")) {
+					if (!requestParameters.get("matdate").equals("")) {
 						String maturityDate = valueDateDBFormat
 								.format(valueDateFormat.parse(requestParameters
-										.get("maturityDate")));
+										.get("matdate")));
 						statement.setString(8, maturityDate);
 					} else {
 						statement.setNull(8, Types.VARCHAR);
@@ -355,8 +355,8 @@ public class MessagesJdbcDao implements MessagesDao {
 						statement.setNull(13, Types.VARCHAR);
 					}
 
-					if (!requestParameters.get("dbtID").equals("")) {
-						statement.setString(14, requestParameters.get("dbtID"));
+					if (!requestParameters.get("dbtid").equals("")) {
+						statement.setString(14, requestParameters.get("dbtid"));
 					} else {
 						statement.setNull(14, Types.VARCHAR);
 					}
@@ -427,10 +427,11 @@ public class MessagesJdbcDao implements MessagesDao {
 					}
 					statement.execute();
 					ResultSet resultSet = (ResultSet) statement.getObject(25);
-
+					System.out.println(statement);
 					boolean gotTotal = false;
 					while (resultSet.next()) {
 						reportInstances.add(new MessageDI(resultSet));
+						System.out.println(resultSet.getString(2));
 						if (!gotTotal) {
 							total.append(resultSet.getInt("rnummax"));
 							gotTotal = true;

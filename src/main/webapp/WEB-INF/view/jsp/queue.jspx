@@ -21,7 +21,6 @@
 	<spring:url var="paginator_url" value="/scripts/paginatorMulti.js" />	
 	<spring:url var="sort_url" value="/scripts/sort2.js" />
 	<spring:url var="batch_url" value="/scripts/batch.js" />
-	<spring:url var="requests_url" value="/scripts/batchRequests.js" />
 	<spring:url var="route_url" value="/scripts/route.js" />
 	
 	<script src="${locale_js_url}" type="text/javascript">
@@ -36,10 +35,6 @@
 	<!-- required for FF3 and Opera -->
 	</script>
 
-	<script src="${requests_url}" type="text/javascript">
-	<!-- required for FF3 and Opera -->
-	</script>
-	
 	<script src="${queue_script_url}" type="text/javascript">
 	<!-- required for FF3 and Opera -->
 	</script>

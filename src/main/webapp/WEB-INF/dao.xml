@@ -6,6 +6,9 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 	<bean id="queueDao" class="ro.allevo.fintpui.dao.QueueRestApiDao"></bean>
+	<bean id="messagesDao" class="ro.allevo.fintpui.dao.MessagesJdbcDao"></bean>
 	<bean id="serviceMapDao" class="ro.allevo.fintpui.dao.ServiceMapRestApiDao"></bean>
-
+	<bean id="timeLimitsDao" class="ro.allevo.fintpui.dao.TimeLimitsRestApiDao"></bean>
+	<bean id="routingSchemaDao" class="ro.allevo.fintpui.dao.RoutingSchemaRestApiDao" ></bean>
+	<bean id="routingRuleDao" class="ro.allevo.fintpui.dao.RoutingRuleRestApiDao" ></bean>
 </beans>

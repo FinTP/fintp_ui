@@ -35,27 +35,6 @@
 						<td><b><spring:message code="reports.headerTrn" /></b></td>
 						<td id="trn">${message.trn}</td>
 					</tr>
-				<c:choose>
-				<c:when test="${message.BA == 'Funds Transfer'}">
-					<tr>
-						<td><b><spring:message code="reports.headerValuedate" /></b></td>
-						<td id="valuedate">${message.valuedate}</td>
-					</tr>
-				</c:when>
-				</c:choose>
-				
-				<c:choose>
-				<c:when test="${message.BA == 'Debit Instruments'}">
-					<tr>
-						<td><b><spring:message code="reports.headerIssuancedate" /></b></td>
-						<td id="valuedate">${message.issuanceDate}</td>
-					</tr>
-					<tr>
-						<td><b><spring:message code="reports.headerMaturitydate" /></b></td>
-						<td id="valuedate">${message.maturityDate}</td>
-					</tr>
-				</c:when>
-				</c:choose>
 					<tr>
 						<td><b><spring:message code="reports.headerAmount" /></b></td>
 						<td id="amount">${message.amount}</td>
@@ -72,28 +51,42 @@
 						<td><b><spring:message code="reports.headerDbtcustname" /></b></td>
 						<td id="dbtcustname">${message.dbtcustname}</td>
 					</tr>
-				<c:choose>
-				<c:when test="${message.BA == 'Funds Transfer'}">
-					<tr>
-						<td><b><spring:message code="reports.headerOrdbank" /></b></td>
-						<td id="ordbank">${message.ordbank}</td>
-					</tr>
-					<tr>
-						<td><b><spring:message code="reports.headerBenbank" /></b></td>
-						<td id="benbank">${message.benbank}</td>
-					</tr>
-				</c:when>
+					<c:choose>
+						<c:when test="${businessArea == 'Funds Transfer'}">
+							<tr>
+								<td><b><spring:message code="reports.headerValuedate" /></b></td>
+								<td id="valuedate">${message.valuedate}</td>
+							</tr>
+							<tr>
+								<td><b><spring:message code="reports.headerOrdbank" /></b></td>
+								<td id="ordbank">${message.ordbank}</td>
+							</tr>
+							<tr>
+								<td><b><spring:message code="reports.headerBenbank" /></b></td>
+								<td id="benbank">${message.benbank}</td>
+							</tr>
+							<tr>
+								<td><b><spring:message code="reports.headerService" /></b></td>
+								<td id="service">${message.service}</td>
+							</tr>
+						</c:when>
+						<c:when test="${businessArea == 'Debit Instruments'}">
+							<tr>
+								<td><b><spring:message
+											code="reports.headerIssuancedate" /></b></td>
+								<td id="issdate">${message.issdate}</td>
+							</tr>
+							<tr>
+								<td><b><spring:message
+											code="reports.headerMaturitydate" /></b></td>
+								<td id="valuedate">${message.matdate}</td>
+							</tr>
+							<tr>
+								<td><b><spring:message code="reports.headerDbtid" /></b></td>
+								<td id="valuedate">${message.dbtid}</td>
+							</tr>
+						</c:when>
 					</c:choose>
-				<c:choose>
-				<c:when test="${message.BA == 'Debit Instruments'}">
-					<tr>
-						<td><b><spring:message code="reports.headerDbtid" /></b></td>
-						<td id="valuedate">${message.dbtID}</td>
-					</tr>
-				
-				</c:when>
-				</c:choose>
-			
 					<tr>
 						<td><b><spring:message code="reports.headerCdtaccount" /></b></td>
 						<td id="cdtaccount">${message.cdtaccount}</td>
@@ -102,15 +95,6 @@
 						<td><b><spring:message code="reports.headerCdtcustname" /></b></td>
 						<td id="cdtcustname">${message.cdtcustname}</td>
 					</tr>
-					<c:choose>
-				<c:when test="${message.BA == 'Funds Transfer'}">
-					<tr>
-						<td><b><spring:message code="reports.headerService" /></b></td>
-						<td id="service">${message.service}</td>
-					</tr>
-					</c:when>
-					</c:choose>
-					
 					<tr>
 						<td><b><spring:message code="reports.headerDirection" /></b></td>
 						<td id="direction">${message.direction}</td>
@@ -123,19 +107,25 @@
 						<td><b><spring:message code="reports.headerBatchid" /></b></td>
 						<td id="batchid">${message.batchid}</td>
 					</tr>
-					<tr>
-						<td style="vertical-align: top;"><b>Payload: </b></td>
-						<td id="payload">${message.payload}</td>
-					</tr>
-				<c:choose>
-				<c:when test="${message.BA == 'Debit Instruments'}">
-	        		<tr>
-						<td style="vertical-align: top;"><b>Image: </b></td>
-						
-						<td id="payload"><img src="data:image/jpeg;base64,${message.image}" alt="Debit Instrument Image" /></td>
-					</tr>
-				</c:when>
-				</c:choose>	
+
+
+					<c:choose>
+						<c:when test="${not empty payload}">
+							<tr>
+								<td style="vertical-align: top;"><b>Payload: </b></td>
+								<td id="payload">${payload}</td>
+							</tr>
+						</c:when>
+						<c:when test="${not empty image}">
+							<tr>
+								<td style="vertical-align: top;"><b>Image: </b></td>
+
+								<td id="payload"><img
+									src="data:image/jpeg;base64,${image}"
+									alt="Debit Instrument Image" /></td>
+							</tr>
+						</c:when>
+					</c:choose>
 				</tbody>
 			</table>
 

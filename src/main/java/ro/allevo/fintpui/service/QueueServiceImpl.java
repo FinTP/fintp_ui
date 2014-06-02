@@ -78,9 +78,12 @@ public class QueueServiceImpl implements QueueService{
 			}
 		case 403:
 			return -1;
+		case 404:
+			return -1;
 		default:
 			throw new RuntimeException("Failed : HTTP error code : "
-					+ response.getStatus() + " => handle this type of response");
+					+ response.getStatus() + " => handle this type of response: "
+					+ "at GET " + uri);
 		}
 		
 		
@@ -110,7 +113,6 @@ public class QueueServiceImpl implements QueueService{
 		}
 		JSONArray jsonArray;
 		try {
-			System.out.println(jsonResponse);
 			jsonArray = jsonResponse.getJSONArray("messagetypes");
 			for(int i = 0; i < jsonArray.length(); i++){
 				messageTypes.add(jsonArray.getString(i));

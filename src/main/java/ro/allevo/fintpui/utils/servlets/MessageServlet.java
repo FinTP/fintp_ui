@@ -57,7 +57,7 @@ public class MessageServlet extends HttpServlet{
 		try {
 			response.getWriter().println(responseEntity.getString("payload"));
 		} catch (JSONException e) {
-			System.out.println("From API : this message doesn't have payload");
+			throw new RuntimeException("From API : this message doesn't have payload");
 		}
 	}
 	

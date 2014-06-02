@@ -19,13 +19,13 @@
 	<script src="${jquery_ui_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 	<script src="${schemas_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 	
-	<h1><spring:message code="routingschemas.schemas"/></h1>
-
+	
 	<c:choose>
 		<c:when test="${empty schemas}">
 			<spring:message code="routingschemas.empty"/>
 		</c:when>
 		<c:otherwise>
+			<button id="addSchema" class="submitButton">New Schema</button>
 			<table id="schemasTable" class="fintpTable">
 				<tbody>
 					<tr>
@@ -57,7 +57,6 @@
 							<button class="edit"></button>
 							<button class="delete"></button>
 						</td>
-						
 					</tr>				
 				</c:forEach>
 				</tbody>

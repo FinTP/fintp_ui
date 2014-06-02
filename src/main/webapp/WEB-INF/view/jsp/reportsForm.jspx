@@ -110,19 +110,19 @@
 							<span><b><spring:message code="reports.headerIssuancedate"/></b></span>
 						</td>
 						<td>
-							<input  type="text" id="issuanceDate" name="issuanceDate"/>
+							<input  type="text" id="issdate" name="issdate"/>
 						</td>
 				</tr>
 				<tr style="display: none" class="specificDI">
 					<td><span><b><spring:message
 									code="reports.headerMaturitydate" /></b></span></td>
-					<td><input type="text" id="maturityDate" name="maturityDate" />
+					<td><input type="text" id="matdate" name="matdate" />
 					</td>
 				</tr>
 				<tr style="display: none" class="specificDI">
 					<td><span><b><spring:message
 									code="reports.headerDbtid" /></b></span></td>
-					<td><input type="text" id="dbtID" name="dbtID" /></td>
+					<td><input type="text" id="dbtid" name="dbtid" /></td>
 				</tr>
 				<tr>
 					<td class="title"><b><spring:message code="reports.headerTrn"/></b></td>

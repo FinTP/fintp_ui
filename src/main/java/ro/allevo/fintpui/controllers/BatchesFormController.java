@@ -27,7 +27,7 @@ public class BatchesFormController {
 	public String printForm(ModelMap model){
 		logger.info("/batchesForm requested");
 		try{
-			dbClient.establishConnection();
+			dbClient.getConnection();
 			ArrayList<String> messageTypes = dbClient.getFTMessageTypes();
 			model.addAttribute("messageTypes", messageTypes);
 			model.addAttribute("bicCodes", dbClient.getBicCodes());

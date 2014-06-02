@@ -54,7 +54,6 @@ public class BatchRequestServlet extends HttpServlet{
 	@Override 
 	public void doGet (HttpServletRequest request, HttpServletResponse response)
 		throws IOException{
-		logger.info("GET /batchRequest");
 		boolean isUserFilterEnabled = Boolean.getBoolean(request
 				.getParameter("userFilter"));
 		String groupKey = request.getParameter("groupkey");
@@ -112,7 +111,6 @@ public class BatchRequestServlet extends HttpServlet{
 			e.printStackTrace();
 		}
 		
-		System.out.println(requestEntity);
 		final Client client = servletsHelper.getAPIClient();
 		URI uri = UriBuilder.fromPath(servletsHelper.getUrl()).path("batchrequests")
 				.build();
@@ -124,7 +122,6 @@ public class BatchRequestServlet extends HttpServlet{
 		JSONObject responseEntity = clientResponse.getEntity(JSONObject.class);
 		
 		response.setContentType("application/json");
-		System.out.println("CLIENT STATUS " + clientResponse.getStatus());
 		
 		switch (clientResponse.getStatus()) {
 		case 202:

@@ -6,10 +6,10 @@ $(function(){
 	loadPaginator();
 	$('#itemsPerPage').val($("#limit").val());
 	$("#itemsPerPage").on("change", function(){
-		currentPage = $('.pui-paginator-element.ui-state-active').text();
-		computeOffset();
+//		currentPage = $('.pui-paginator-element.ui-state-active').text();
+//		computeOffset();
 		$("#limit").val($(this).val());
-		$("#offset").val(offset);
+		$("#offset").val(0);
 		$("#mainForm").submit();
     });
 	

@@ -76,5 +76,12 @@ public class RoutingRule {
 		this.ruletype = ruletype;
 	}
 	
+	@Override
+	public String toString(){
+		String result = "[guid = " + guid 
+				+ "; description = " +  description
+				+ "; schema = " + schema+ "]";
+		return result;
+	}
 	
 }

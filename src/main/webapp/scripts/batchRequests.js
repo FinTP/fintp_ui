@@ -2,16 +2,15 @@ var refreshSeconds = 10;
 var timeOut = refreshSeconds * 1000;
 
 $(function(){
-	completeBatchesTable(false);
+	completeBatchesTable();
 	setInterval(function() {
-		completeBatchesTable(false);
+		completeBatchesTable();
 	}, timeOut);
 	
 });
 
 
-function completeBatchesTable(onlyBarInfo){
-		
+function completeBatchesTable(){
 		var servletURL = "../batchRequest";
 		var index = location.href.indexOf("batchrequests.htm");
 		if(index!= -1){
@@ -24,21 +23,19 @@ function completeBatchesTable(onlyBarInfo){
 		var countWaiting = 0;
 		$.ajax({
 			data:{
-				userFilter: onlyBarInfo
+				userFilter: false
 			},
 			//todo : investigate if this shold be true or false
-			async: true,
+			async: false,
 			
 			url : servletURL,
 			method : 'GET',
 			success: function(data, textStatus, xhr){
 				
-				if(!onlyBarInfo){
-					$("#batches").find("tbody").empty();
-				}
+				var $auxTbody = $("<tbody>");
 				$.each(data.groupkeys, function(index, value){
 					$.ajax({
-						async: true,
+						async: false,
 						url :  servletURL,
 						method : 'GET',
 						data : {
@@ -65,25 +62,31 @@ function completeBatchesTable(onlyBarInfo){
 									      value: batch.progress 
 								    });
 									$tr.append($("<td>").append($progressBar));
-									if(!onlyBarInfo){
-										$("#batches").find("tbody").append($tr);
-										$header = $(".accordion").find("#"+value).prev();
-										if($header.length > 0){
-											$header.find(".batchInfo").text(batch.status);
-										}
-										$("#nbBatches").text(countTotal);
-										$("#nbSuccess").text(countSuccess);
-										$("#nbFailed").text(countFailed);
-										$("#nbInProgress").text(countInProgress);
-										$("#nbWaiting").text(countWaiting);
+									
+									$auxTbody.append($tr);
+									$header = $(".accordion").find("#"+value).prev();
+									if($header.length > 0){
+										$header.find(".batchInfo").text(batch.status);
 									}
 									
+									
+									
 								});
+								
 							}
 						}
 					});
+					
 				});
-				
+				console.log("start");
+				$("#nbBatches").text(countTotal);
+				$("#nbSuccess").text(countSuccess);
+				$("#nbFailed").text(countFailed);
+				$("#nbInProgress").text(countInProgress);
+				$("#nbWaiting").text(countWaiting);
+				$("#batches").find("tbody").remove();
+				$("#batches").append($auxTbody);
+				console.log("stop");
 				
 			},
 			error: function (xhr, textStatus, error){

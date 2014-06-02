@@ -84,10 +84,6 @@ public class RouteRequestServlet extends HttpServlet {
 				.type(MediaType.APPLICATION_JSON)
 				.post(ClientResponse.class, requestEntity);
 		JSONObject responseEntity = clientResponse.getEntity(JSONObject.class);
-
-		response.setContentType("application/json");
-		System.out.println("CLIENT STATUS " + clientResponse.getStatus());
-
 		response.setContentType("application/json");
 		response.getWriter().println(responseEntity.toString());
 		response.getWriter().flush();

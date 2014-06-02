@@ -26,7 +26,7 @@ public class ReportsFormController {
 	public String printForm(ModelMap model){
 		logger.info("/reportsForm requested");
 		try{
-			dbClient.establishConnection();
+			dbClient.getConnection();
 			ArrayList<String> messageTypes = dbClient.getFTMessageTypes();
 			model.addAttribute("messageTypes", messageTypes);
 			model.addAttribute("states", dbClient.getStates());

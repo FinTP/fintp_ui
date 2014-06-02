@@ -12,6 +12,7 @@ public class RoutingSchema {
 	private String sessioncode;
 	private String startlimit;
 	private String stoplimit;
+	private String schemaCopy;
 	public String getName() {
 		return name;
 	}
@@ -53,6 +54,12 @@ public class RoutingSchema {
 	}
 	public void setStoplimit(String stoplimit) {
 		this.stoplimit = stoplimit;
+	}
+	public String getSchemaCopy() {
+		return schemaCopy;
+	}
+	public void setSchemaCopy(String schemaCopy) {
+		this.schemaCopy = schemaCopy;
 	}
 	
 	

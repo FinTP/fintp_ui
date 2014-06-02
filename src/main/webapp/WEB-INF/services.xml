@@ -7,4 +7,8 @@
 
 	<bean id="queueService" class="ro.allevo.fintpui.service.QueueServiceImpl"></bean>
 	<bean id="serviceMapService" class="ro.allevo.fintpui.service.ServiceMapService"></bean>
+	<bean id="messageService" class="ro.allevo.fintpui.service.MessageService"></bean>
+	<bean id="timeLimitsService" class="ro.allevo.fintpui.service.TimeLimitsService" ></bean>
+	<bean id="routingSchemaService" class="ro.allevo.fintpui.service.RoutingSchemaService" ></bean>
+	<bean id="routingRulesService" class="ro.allevo.fintpui.service.RoutingRulesService" ></bean>
 </beans>

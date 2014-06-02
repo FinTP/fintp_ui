@@ -13,15 +13,18 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ro.allevo.fintpui.model.MessageInReports;
 import ro.allevo.fintpui.model.MessageReportInstance;
+import ro.allevo.fintpui.service.MessageService;
 import ro.allevo.fintpui.utils.JdbcClient;
 
 @Controller
-@RequestMapping("/reports")
+@RequestMapping
 public class ReportsController {
 
 	private static Logger logger = LogManager.getLogger(ReportsController.class
@@ -29,16 +32,19 @@ public class ReportsController {
 	@Autowired
 	private JdbcClient client;
 	
-	@RequestMapping(method=RequestMethod.GET)
+	@Autowired 
+	private MessageService messageService;
+	
+	@RequestMapping(value = "/reports", method=RequestMethod.GET)
 	public String printResults(
 			ModelMap map,
 			@RequestParam(value = "businessArea", required = true) String businessArea,
 			@RequestParam(value = "interval", required = true) String intervalType,
 			@RequestParam(value = "startDate", required = false) String startDate,
 			@RequestParam(value = "endDate", required = false) String endDate,
-			@RequestParam(value = "issuanceDate", required = false) String issuanceDate,
-			@RequestParam(value = "maturityDate", required = false) String maturityDate,
-			@RequestParam(value = "dbtID", required = false) String dbtID,
+			@RequestParam(value = "issdate", required = false) String issdate,
+			@RequestParam(value = "matdate", required = false) String matdate,
+			@RequestParam(value = "dbtid", required = false) String dbtid,
 		    @RequestParam(value = "messageTypes", required = false) String messageType,
 			@RequestParam(value = "sender", required = false) String sender,
 			@RequestParam(value = "receiver", required = false) String receiver,
@@ -52,10 +58,9 @@ public class ReportsController {
 			@RequestParam Map<String,String> allRequestParams) throws ParseException, SQLException {
 		logger.info("/reports requested");
 
-		client.establishConnection();
+		client.getConnection();
 		StringBuilder total = new StringBuilder();
-		ArrayList<MessageReportInstance> reportInstances = client.getReportsByStroedProcedure(allRequestParams, total);
-		
+		ArrayList<MessageInReports> reportInstances = messageService.getMessagesInReport(allRequestParams, total);
 		client.closeConnection();
 		
 		map.addAttribute("messages", reportInstances);
@@ -65,6 +70,24 @@ public class ReportsController {
 		map.addAttribute("order", order);
 		map.addAttribute("limit", limit);
 		
-	return "tiles/reports";
+		return "tiles/reports";
+	}
+	
+	@RequestMapping(value = "/viewMessage", method = RequestMethod.GET)
+	public String printMessage(ModelMap model,  
+			@RequestParam(value="id", required = true) String id,
+			@RequestParam(value="businessArea", required = true) String businessArea){
+		
+		MessageInReports message = messageService.getMessageInReports(id, businessArea);
+		model.addAttribute("message", message);
+		model.addAttribute("businessArea",businessArea);
+		if(message.hasPayload()){
+			model.addAttribute("payload", messageService.getPayload(id));
+		}
+		if(message.hasImage()){
+			model.addAttribute("image", messageService.getImage(id));
+		}
+		
+		return "tiles/viewMessage";
 	}
 }

@@ -1,5 +1,5 @@
 .reportsTable {
-	table-layout: fixed;
+	table-layout: auto;
 	width: 100%;
 	overflow: scroll;
 	background-color:  #efefef;

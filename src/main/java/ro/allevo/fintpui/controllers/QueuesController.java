@@ -72,7 +72,6 @@ public class QueuesController {
 	@RequestMapping(value = "/queues/insert", method = RequestMethod.POST) 
 	public String insertQueue(@ModelAttribute("queue") Queue queue){
 		logger.info("/insert queue requested");
-		System.out.println(queue.getConnector());
 		queueService.insertQueue(queue);
 		return "redirect:/queues.htm";
 	}
@@ -115,7 +114,7 @@ public class QueuesController {
 		logger.info("/queues/"+queueName + " requested");
 		
 		try {
-			dbClient.establishConnection();
+			dbClient.getConnection();
 			Queue[] queues = queueService.getQueueList();
 			model.addAttribute("queues", queues);
 			
