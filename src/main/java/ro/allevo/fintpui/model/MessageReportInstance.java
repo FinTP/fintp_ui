@@ -33,6 +33,7 @@ public class MessageReportInstance {
 	private String userid;
 	private String image;
 	private String BA;
+	private String cdtid;
 	
 	//select clause
 	public static final String reportsProjectionFT = "select  insertdate,msgtype,sender,receiver,trn,valuedate,amount,currency,"
@@ -48,6 +49,15 @@ public class MessageReportInstance {
 			+ " end state,batchid,userid "
 			+ " from findata.repstatdi ";
 
+	public static final String reportsProjectionDD = "select  insertdate,msgtype,sender,receiver,trn,valuedate,amount,currency,"
+			+ "	dbtaccount,dbtcustname,cdtid,cdtaccount,cdtcustname,service,"
+			+ " direction, correlid, case when errcode is null then state"
+			+ " else state||' ['||errcode||']'"
+			+ " end state,batchid,userid "
+			+ " from findata.repstatDD ";
+	public static final String getBusinessArea = "SELECT msgtypes.businessarea FROM fincfg.msgtypes"
+			+"	INNER JOIN  findata.routedmessages ON "
+			+"	routedmessages.msgtype=msgtypes.messagetype ";
 	
 	private MessageReportInstance(){
 		
@@ -114,7 +124,34 @@ public class MessageReportInstance {
 		return null;
 	}
 	
-	
+	public static MessageReportInstance getDirectDebitMessage(ResultSet resultSet){
+		try {
+			MessageReportInstance messageReportInstance = new MessageReportInstance();
+			messageReportInstance.setInsertdate(resultSet.getString("insertdate"));
+			messageReportInstance.setMsgtype(resultSet.getString("msgtype"));
+			messageReportInstance.setSender(resultSet.getString("sender"));
+			messageReportInstance.setReceiver(resultSet.getString("receiver"));
+			messageReportInstance.setTrn(resultSet.getString("trn"));
+			//TODO: format here value date
+			messageReportInstance.setValuedate(resultSet.getString("valuedate"));
+			messageReportInstance.setAmount(resultSet.getString("amount"));
+			messageReportInstance.setCurrency(resultSet.getString("currency"));
+			messageReportInstance.setDbtaccount(resultSet.getString("dbtaccount"));
+			messageReportInstance.setDbtcustname(resultSet.getString("dbtcustname"));
+			messageReportInstance.setCdtid(resultSet.getString("cdtid"));
+			messageReportInstance.setCdtaccount(resultSet.getString("cdtaccount"));
+			messageReportInstance.setCdtcustname(resultSet.getString("cdtcustname"));
+			messageReportInstance.setDirection(resultSet.getString("direction"));
+			messageReportInstance.setState(resultSet.getString("state"));
+			messageReportInstance.setBatchid(resultSet.getString("batchid"));
+			messageReportInstance.setCorrelid(resultSet.getString("correlid"));
+			
+			return messageReportInstance;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	public String getInsertdate() {
 		return insertdate;
@@ -327,6 +364,14 @@ public class MessageReportInstance {
 
 	public void setBA(String bA) {
 		this.BA = bA;
+	}
+
+	public String getCdtid() {
+		return cdtid;
+	}
+
+	public void setCdtid(String cdtid) {
+		this.cdtid = cdtid;
 	}
 	
 }

@@ -20,17 +20,20 @@ $(function() {
 			$(".specificDI").hide();
 	        $(".specificDD").hide();
 	        $(".specificFT").show();
+	        $(".specificFTDD").show();
 	        break;
 		case "Debit Instruments":
 			$(".specificDI").show();
 	        $(".specificDD").hide();
 	        $(".specificFT").hide();
+	        $(".specificFTDD").hide();
 	    	break;
 	    case "Direct Debit":
 	    	//TODO: add properly these classes in the reportsForm.jspx (note one obj can have multiple classes
 	    	$(".specificDI").hide();
 	        $(".specificDD").show();
 	        $(".specificFT").hide();
+	        $(".specificFTDD").show();
 	    	break;
 	    }
 	});

@@ -23,6 +23,8 @@ public class JdbcClient {
 
 	private static final String FT_MESSAGES_QUERY = "select distinct friendlyname from fincfg.msgtypes where businessarea = 'Funds Transfer'";
 	private static final String DI_MESSAGES_QUERY = "select distinct friendlyname from fincfg.msgtypes where businessarea = 'Debit Instruments'";
+	private static final String DD_MESSAGES_QUERY = "select distinct friendlyname from fincfg.msgtypes where businessarea = 'Direct Debit'";
+	
 	private static final String BIC_CODES_QUERY = "select bic from fincfg.biccodes";
 	private static final String CURRENCIES_QUERY = "select currency from fincfg.currencies";
 	private static final String STATES_QUERY = "select status from fincfg.reportingtxstates";
@@ -111,30 +113,16 @@ public class JdbcClient {
 		return connection.createStatement().executeQuery(query);
 	}
 
-	
-	
-	public MessageReportInstance getReport(String correlId) throws SQLException {
-		String whereClause = " where correlid = '" + correlId + "'";
-
-		ResultSet resultSetFT = performGenericQuery(
-				MessageReportInstance.reportsProjectionFT, whereClause, "", "");
-		ResultSet resultSetDI = performGenericQuery(
-				MessageReportInstance.reportsProjectionDI, whereClause, "", "");
-
-		String payload = getPayload(correlId);
-		String path = getClass().getClassLoader()
-				.getResource(MessageController.NESTED_TABLES_XSLT).getPath();
-		String friendlyPayload = MessageController.applyXSLT(payload, path);
-		
-		return null;
-	}
-
 	public ArrayList<String> getFTMessageTypes() throws SQLException {
 		return getDistinctTypes(FT_MESSAGES_QUERY, "friendlyname");
 	}
 
 	public ArrayList<String> getDIMessageTypes() throws SQLException {
 		return getDistinctTypes(DI_MESSAGES_QUERY, "friendlyname");
+	}
+	
+	public ArrayList<String> getDDMessageTypes() throws SQLException {
+		return getDistinctTypes(DD_MESSAGES_QUERY, "friendlyname");
 	}
 
 	public ArrayList<String> getBicCodes() throws SQLException {
