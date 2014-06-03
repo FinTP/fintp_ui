@@ -41,8 +41,8 @@ public class MessagesJdbcDao implements MessagesDao {
 			+ " else state||' ['||errcode||']'"
 			+ " end state,batchid,userid "
 			+ " from findata.repstatdi ";
-	private static final String debitDirectQuery = "select  insertdate,msgtype,sender,receiver,trn,issdate,matdate,amount,currency,"
-			+ "	dbtaccount,dbtcustname,dbtid,cdtaccount,cdtcustname,cdtid,"
+	private static final String debitDirectQuery = "select insertdate,msgtype,sender,receiver,trn,valuedate,amount,currency,"
+			+ " dbtaccount,dbtcustname,cdtaccount,cdtcustname,cdtid,"
 			+ " direction, correlid, case when errcode is null then state"
 			+ " else state||' ['||errcode||']'"
 			+ " end state,batchid,userid "
@@ -433,11 +433,9 @@ public class MessagesJdbcDao implements MessagesDao {
 					}
 					statement.execute();
 					ResultSet resultSet = (ResultSet) statement.getObject(25);
-					System.out.println(statement);
 					boolean gotTotal = false;
 					while (resultSet.next()) {
 						reportInstances.add(new MessageDI(resultSet));
-						System.out.println(resultSet.getString(2));
 						if (!gotTotal) {
 							total.append(resultSet.getInt("rnummax"));
 							gotTotal = true;
@@ -659,6 +657,7 @@ public class MessagesJdbcDao implements MessagesDao {
 			
 			PreparedStatement pstmt = jdbcClient.getConnection().prepareStatement(debitDirectQuery + whereClause);
 			ResultSet resultSet = pstmt.executeQuery();
+			System.out.println(debitDirectQuery + whereClause);
 			if(resultSet.next()){
 				MessageDD message = new MessageDD(resultSet);
 				return message;
