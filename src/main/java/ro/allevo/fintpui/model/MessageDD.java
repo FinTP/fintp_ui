@@ -5,13 +5,28 @@ import java.sql.SQLException;
 
 public class MessageDD extends MessageInReports {
 
+	private final String cdtid;
+	private final String valuedate;
+
 	public MessageDD(ResultSet resultSet) throws SQLException {
 		super(resultSet);
+		cdtid = resultSet.getString("cdtid");
+		valuedate = resultSet.getString("valuedate");
 	}
 
 	@Override
 	public String getTag() {
 		return "DD";
+	}
+
+	
+
+	public String getCdtid() {
+		return cdtid;
+	}
+
+	public String getValuedate() {
+		return valuedate;
 	}
 
 	@Override
@@ -25,8 +40,6 @@ public class MessageDD extends MessageInReports {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	
 
 	
 

@@ -86,6 +86,12 @@
 								<td id="valuedate">${message.dbtid}</td>
 							</tr>
 						</c:when>
+						<c:when test="${businessArea == 'Direct Debit'}">
+							<tr>
+								<td><b><spring:message code="reports.headerCdtid" /></b></td>
+								<td id="valuedate">${message.cdtid}</td>
+							</tr>
+						</c:when>
 					</c:choose>
 					<tr>
 						<td><b><spring:message code="reports.headerCdtaccount" /></b></td>

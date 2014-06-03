@@ -166,7 +166,7 @@
 				<tr style="display: none" class="specificDD">
 					<td><span><b><spring:message
 									code="reports.headerCdtrid" /></b></span></td>
-					<td><input type="text" id="cdtrid" name="cdtrid" /></td>
+					<td><input type="text" id="cdtid" name="cdtid" /></td>
 				</tr>
 				<tr>
 					<td class="title"><b><spring:message code="reports.headerCurrency"/></b></td>

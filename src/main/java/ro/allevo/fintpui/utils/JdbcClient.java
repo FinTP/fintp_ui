@@ -16,7 +16,6 @@ import javax.sql.DataSource;
 
 import oracle.jdbc.OracleTypes;
 import ro.allevo.fintpui.controllers.MessageController;
-import ro.allevo.fintpui.model.MessageReportInstance;
 import ro.allevo.fintpui.model.MessagesGroup;
 
 public class JdbcClient {

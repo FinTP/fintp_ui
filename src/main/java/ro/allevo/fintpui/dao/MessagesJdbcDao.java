@@ -22,7 +22,7 @@ import ro.allevo.fintpui.model.MessageDD;
 import ro.allevo.fintpui.model.MessageDI;
 import ro.allevo.fintpui.model.MessageFT;
 import ro.allevo.fintpui.model.MessageInReports;
-import ro.allevo.fintpui.model.MessageReportInstance;
+
 import ro.allevo.fintpui.utils.JdbcClient;
 
 public class MessagesJdbcDao implements MessagesDao {
@@ -41,6 +41,12 @@ public class MessagesJdbcDao implements MessagesDao {
 			+ " else state||' ['||errcode||']'"
 			+ " end state,batchid,userid "
 			+ " from findata.repstatdi ";
+	private static final String debitDirectQuery = "select  insertdate,msgtype,sender,receiver,trn,issdate,matdate,amount,currency,"
+			+ "	dbtaccount,dbtcustname,dbtid,cdtaccount,cdtcustname,cdtid,"
+			+ " direction, correlid, case when errcode is null then state"
+			+ " else state||' ['||errcode||']'"
+			+ " end state,batchid,userid "
+			+ " from findata.repstatdd ";
 	
 	@Override
 	public String getPayload(String correlId){
@@ -228,9 +234,9 @@ public class MessagesJdbcDao implements MessagesDao {
 					}
 
 					if (!requestParameters.get("userid").equals("")) {
-						statement.setString(21, requestParameters.get("userid"));
+						statement.setInt(21, Integer.parseInt(requestParameters.get("userid")));
 					} else {
-						statement.setNull(21, Types.VARCHAR);
+						statement.setNull(21, Types.INTEGER);
 					}
 
 					if (requestParameters.containsKey("orderField")
@@ -390,9 +396,9 @@ public class MessagesJdbcDao implements MessagesDao {
 					}
 
 					if (!requestParameters.get("userid").equals("")) {
-						statement.setString(20, requestParameters.get("userid"));
+						statement.setInt(20, Integer.parseInt(requestParameters.get("userid")));
 					} else {
-						statement.setNull(20, Types.VARCHAR);
+						statement.setNull(20, Types.INTEGER);
 					}
 
 					if (requestParameters.containsKey("orderField")
@@ -440,7 +446,157 @@ public class MessagesJdbcDao implements MessagesDao {
 					}
 					connection.setAutoCommit(true);
 				}
+				if (requestParameters.get("businessArea").equals("Direct Debit")) {
 
+					String procedure = getProcedureCallString(
+							"findata.getddpayments", 24);
+					connection.setAutoCommit(false);
+					CallableStatement statement = connection.prepareCall(procedure);
+					statement.setString(1, minDate);
+					statement.setString(2, maxDate);
+					if (!requestParameters.get("messageTypes").equals("")) {
+						statement.setString(3,
+								requestParameters.get("messageTypes"));
+					} else {
+						statement.setNull(3, Types.VARCHAR);
+					}
+					if (!requestParameters.get("sender").equals("")) {
+						statement.setString(4, requestParameters.get("sender"));
+					} else {
+						statement.setNull(4, Types.VARCHAR);
+					}
+					if (!requestParameters.get("receiver").equals("")) {
+						statement.setString(5, requestParameters.get("receiver"));
+					} else {
+						statement.setNull(5, Types.VARCHAR);
+					}
+					if (!requestParameters.get("trn").equals("")) {
+						statement.setString(6, requestParameters.get("trn"));
+					} else {
+						statement.setNull(6, Types.VARCHAR);
+					}
+					if (!requestParameters.get("valueDate").equals("")) {
+						String valueDate = valueDateDBFormat.format(valueDateFormat
+								.parse(requestParameters.get("valueDate")));
+						statement.setString(7, valueDate);
+					} else {
+						statement.setNull(7, Types.VARCHAR);
+					}
+					if (!requestParameters.get("minAmount").equals("")) {
+						statement.setBigDecimal(8,
+								new BigDecimal(requestParameters.get("minAmount")));
+					} else {
+						statement.setNull(8, Types.NUMERIC);
+					}
+					if (!requestParameters.get("maxAmount").equals("")) {
+						statement.setBigDecimal(9,
+								new BigDecimal(requestParameters.get("maxAmount")));
+					} else {
+						statement.setNull(9, Types.NUMERIC);
+					}
+					if (!requestParameters.get("currency").equals("")) {
+						statement.setString(10, requestParameters.get("currency"));
+					} else {
+						statement.setNull(10, Types.VARCHAR);
+					}
+					if (!requestParameters.get("dbtaccount").equals("")) {
+						statement
+								.setString(11, requestParameters.get("dbtaccount"));
+					} else {
+						statement.setNull(11, Types.VARCHAR);
+					}
+					if (!requestParameters.get("dbtcustname").equals("")) {
+						statement.setString(12,
+								requestParameters.get("dbtcustname"));
+					} else {
+						statement.setNull(12, Types.VARCHAR);
+					}
+					if (!requestParameters.get("cdtid").equals("")) {
+						statement.setString(13, requestParameters.get("cdtid"));
+					} else {
+						statement.setNull(13, Types.VARCHAR);
+					}
+					
+					if (!requestParameters.get("cdtaccount").equals("")) {
+						statement
+								.setString(14, requestParameters.get("cdtaccount"));
+					} else {
+						statement.setNull(14, Types.VARCHAR);
+					}
+					if (!requestParameters.get("cdtcustname").equals("")) {
+						statement.setString(15,
+								requestParameters.get("cdtcustname"));
+					} else {
+						statement.setNull(15, Types.VARCHAR);
+					}
+					
+					if (!requestParameters.get("direction").equals("")) {
+						statement.setString(16, requestParameters.get("direction"));
+					} else {
+						statement.setNull(16, Types.VARCHAR);
+					}
+					if (!requestParameters.get("state").equals("")) {
+						statement.setString(17, requestParameters.get("state"));
+					} else {
+						statement.setNull(17, Types.VARCHAR);
+					}
+					if (!requestParameters.get("batchID").equals("")) {
+						statement.setString(18, requestParameters.get("batchID"));
+					} else {
+						statement.setNull(18, Types.VARCHAR);
+					}
+
+					if (!requestParameters.get("userid").equals("")) {
+						statement.setInt(19, Integer.parseInt(requestParameters.get("userid")));
+					} else {
+						statement.setNull(19, Types.INTEGER);
+					}
+
+					if (requestParameters.containsKey("orderField")
+							&& requestParameters.get("orderField") != null) {
+						statement
+								.setString(20, requestParameters.get("orderField"));
+					} else {
+						statement.setNull(20, Types.VARCHAR);
+					}
+					if (requestParameters.containsKey("order")
+							&& requestParameters.get("order") != null) {
+						statement.setString(21, requestParameters.get("order"));
+					} else {
+						statement.setNull(21, Types.VARCHAR);
+					}
+					if (requestParameters.get("offset") != null) {
+						statement.setInt(22,
+								Integer.parseInt(requestParameters.get("offset")));
+					} else {
+						statement.setNull(22, Types.INTEGER);
+					}
+					if (requestParameters.get("limit") != null) {
+						statement.setInt(23,
+								Integer.parseInt(requestParameters.get("limit")));
+					} else {
+						statement.setNull(23, Types.INTEGER);
+					}
+					if (jdbcClient.getDriver().contains("oracle")) {
+						statement.registerOutParameter(24, OracleTypes.CURSOR);
+					} else {
+						statement.registerOutParameter(24, Types.OTHER);
+					}
+					System.out.println(statement);
+					statement.execute();
+					
+					ResultSet resultSet = (ResultSet) statement.getObject(24);
+					boolean gotTotal = false;
+					while (resultSet.next()) {
+						reportInstances.add(new MessageDD(resultSet));
+						if (!gotTotal) {
+							total.append(resultSet.getInt("rnummax"));
+							gotTotal = true;
+						}
+					}
+					connection.setAutoCommit(true);
+
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 
@@ -498,7 +654,19 @@ public class MessagesJdbcDao implements MessagesDao {
 
 	@Override
 	public MessageDD getDirectDebitMessage(String id) {
-		// TODO Auto-generated method stub
+		String whereClause = " where correlid = '" + id +"'";
+		try {
+			
+			PreparedStatement pstmt = jdbcClient.getConnection().prepareStatement(debitDirectQuery + whereClause);
+			ResultSet resultSet = pstmt.executeQuery();
+			if(resultSet.next()){
+				MessageDD message = new MessageDD(resultSet);
+				return message;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 	

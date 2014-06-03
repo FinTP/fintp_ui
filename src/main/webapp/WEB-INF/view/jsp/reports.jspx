@@ -184,6 +184,11 @@
 			<spring:message code="reports.headerDbtid" />: <b>${param.dbtid}</b>; 
 		</c:when>
 	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.cdtid}">
+			<spring:message code="reports.headerCdtid" />: <b>${param.cdtid}</b>; 
+		</c:when>
+	</c:choose>
 	<br />
 
 	<!-- PAGINATOR -->
@@ -436,7 +441,13 @@
 											value="${message.dbtcustname}" /></a></td>
 							</c:when>
 						</c:choose>
-
+						<c:choose>
+							<c:when
+								test="${param.dbtcdtrCheck eq 'on' and param.businessArea eq 'Direct Debit'}">
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.cdtid}" /></a></td>
+							</c:when>
+						</c:choose>
 						<c:choose>
 							<c:when test="${param.businessArea eq 'Debit Instruments'}">
 
@@ -471,6 +482,13 @@
 											value="${message.cdtcustname}" /></a></td>
 							</c:when>
 						</c:choose>
+						
+						<c:choose>
+							<c:when test="${param.cdtrCheck eq 'on' and param.businessArea eq 'Debit Direct'}">
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.cdtid}" /></a></td>
+							</c:when>
+						</c:choose>
 						<c:choose>
 							<c:when
 								test="${param.serviceCheck eq 'on'  and param.businessArea eq 'Funds Transfer'}">
@@ -492,8 +510,8 @@
 						</c:choose>
 						<c:choose>
 							<c:when test="${param.batchidCheck eq 'on'}">
-								<td width="100%"><a href="${viewMessageUrl}">
-										<c:out value="${message.batchid}" />
+								<td width="100%"><a href="${viewMessageUrl}"> <c:out
+											value="${message.batchid}" />
 								</a></td>
 							</c:when>
 						</c:choose>
@@ -522,6 +540,7 @@
 			name="currency" type="hidden" value="${param.currency}" /> <input
 			name="dbtaccount" type="hidden" value="${param.dbtaccount}" /> <input
 			name="dbtcustname" type="hidden" value="${param.dbtcustname}" /> <input
+			name="cdtid" type="hidden" value="${param.cdtid}" /> <input
 			name="cdtaccount" type="hidden" value="${param.cdtaccount}" /> <input
 			name="cdtcustname" type="hidden" value="${param.cdtcustname}" /> <input
 			name="benbank" type="hidden" value="${param.benbank}" /> <input
@@ -557,5 +576,6 @@
 			name="directionCheck" type="hidden" value="${param.directionCheck}" />
 		<input name="stateCheck" type="hidden" value="${param.stateCheck}" />
 		<input name="batchidCheck" type="hidden" value="${param.batchidCheck}" />
+		<input name="cdtrCheck" type="hidden" value="${param.cdtrCheck}" />
 	</form>
 </div>

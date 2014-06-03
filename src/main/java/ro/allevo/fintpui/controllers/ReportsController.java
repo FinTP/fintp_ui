@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ro.allevo.fintpui.model.MessageInReports;
-import ro.allevo.fintpui.model.MessageReportInstance;
 import ro.allevo.fintpui.service.MessageService;
 import ro.allevo.fintpui.utils.JdbcClient;
 
