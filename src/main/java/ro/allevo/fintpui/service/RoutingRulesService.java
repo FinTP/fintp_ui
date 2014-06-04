@@ -1,11 +1,19 @@
 package ro.allevo.fintpui.service;
 
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+
+import javax.ws.rs.core.UriBuilder;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.client.RestTemplate;
 
 import ro.allevo.fintpui.dao.RoutingRuleDao;
 import ro.allevo.fintpui.model.RoutingRule;
+import ro.allevo.fintpui.model.RoutingRules;
+import ro.allevo.fintpui.utils.RestClient;
 
 public class RoutingRulesService {
 	
@@ -71,5 +79,20 @@ public class RoutingRulesService {
 		for(RoutingRule rule : rulesToBeCopied){
 			routingRuleDao.deleteRoutingRule(""+rule.getGuid());
 		}
+	}
+	
+	public HashMap<String, ArrayList<RoutingRule>> getRulesGroupedByQueues(RoutingRule[] rules){
+		HashMap<String, ArrayList<RoutingRule>> map = new HashMap<>();
+		for(RoutingRule rule : rules){
+			String queueName = rule.getQueue();
+			if(!map.containsKey(queueName)){
+				ArrayList<RoutingRule> routingRules = new ArrayList<>();
+				routingRules.add(rule);
+				map.put(queueName, routingRules);
+			}else{
+				map.get(queueName).add(rule);
+			}
+		}
+		return map;
 	}
 }

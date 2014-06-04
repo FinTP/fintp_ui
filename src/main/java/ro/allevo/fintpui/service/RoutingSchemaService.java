@@ -3,9 +3,11 @@ package ro.allevo.fintpui.service;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.client.RestTemplate;
 
 import ro.allevo.fintpui.dao.RoutingSchemaDao;
 import ro.allevo.fintpui.model.RoutingSchema;
+import ro.allevo.fintpui.utils.RestClient;
 
 public class RoutingSchemaService {
 

@@ -9,15 +9,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.client.RestTemplate;
-
-import ro.allevo.fintpui.model.RoutingRule;
 import ro.allevo.fintpui.model.RoutingSchema;
-import ro.allevo.fintpui.model.RoutingSchemas;
 import ro.allevo.fintpui.service.RoutingRulesService;
 import ro.allevo.fintpui.service.RoutingSchemaService;
 import ro.allevo.fintpui.service.TimeLimitsService;
-import ro.allevo.fintpui.utils.RestClient;
 import ro.allevo.fintpui.utils.servlets.ServletsHelper;
 
 @Controller
@@ -25,16 +20,16 @@ import ro.allevo.fintpui.utils.servlets.ServletsHelper;
 public class RoutingSchemasController {
 
 		@Autowired
-		ServletsHelper servletsHelper;
+		private ServletsHelper servletsHelper;
 		
 		@Autowired
-		RoutingSchemaService routingSchemaService;
+		private RoutingSchemaService routingSchemaService;
 		
 		@Autowired
-		RoutingRulesService routingRulesService;
+		private RoutingRulesService routingRulesService;
 		
 		@Autowired
-		TimeLimitsService timeLimitsService;
+		private TimeLimitsService timeLimitsService;
 		
 		private static Logger logger = LogManager.getLogger(RoutingSchemasController.class
 				.getName());
@@ -45,18 +40,12 @@ public class RoutingSchemasController {
 		@RequestMapping(value="/schemas", method = RequestMethod.GET)
 		public String printSchemas(ModelMap model){
 			logger.info("/schemas requested");
-			RoutingSchema[] routingSchemas = getRoutingSchemas();
+			RoutingSchema[] routingSchemas = routingSchemaService.getAllRoutingSchemas();
 			model.addAttribute("schemas", routingSchemas);
 			return "tiles/schemas";
 		}
 		
-		private RoutingSchema[] getRoutingSchemas() {
-			RestTemplate client = new RestClient();
-			String url = servletsHelper.getUrl() + "/routingschemas";
-			RoutingSchemas schemasJSON = client.getForObject(url, RoutingSchemas.class);
-			return schemasJSON.getRoutingschemas();
-		}
-		
+	
 		/*
 		 * INSERT
 		 */
@@ -72,7 +61,7 @@ public class RoutingSchemasController {
 		public String insertSchema(@ModelAttribute("schema") RoutingSchema routingSchema){
 			logger.info("/insert routing schema requested");
 			routingSchemaService.insertRoutingSchema(routingSchema);
-			
+			//if the user chose to initialize schema with copies from other schema, do so
 			if(!routingSchema.getSchemaCopy().equals("")){
 				routingRulesService.copyRules(routingSchema.getSchemaCopy(), routingSchema.getName());
 			}

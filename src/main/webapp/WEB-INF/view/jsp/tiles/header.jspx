@@ -24,10 +24,12 @@
 				</ul>
 			</li>
 			
-			<li class="main-menu"><a href="#"><spring:message code="header.menuLiquidity"/></a></li>
 			<li class="main-menu"><a
-				href="${pageContext.servletContext.contextPath}/schemas.htm"><spring:message
-						code="header.menuSchemasRules" /></a>
+				href="${pageContext.servletContext.contextPath}/schemas.htm">Administration</a>
+				<ul>
+					<li><a href="${pageContext.servletContext.contextPath}/schemas.htm"><spring:message code="header.menuSchemas"/></a></li>
+					<li><a href="${pageContext.servletContext.contextPath}/routingrules.htm"><spring:message code="header.menuRules"/></a></li>
+				</ul>
 			</li>
 	
 			<li class="right">

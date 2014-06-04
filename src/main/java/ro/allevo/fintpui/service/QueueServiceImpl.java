@@ -124,4 +124,14 @@ public class QueueServiceImpl implements QueueService{
 		return messageTypes;
 		
 	}
+
+	@Override
+	public ArrayList<String> getQueuesNames() {
+		ArrayList<String> names = new ArrayList<>();
+		Queue[] queues = getQueueList();
+		for(Queue queue : queues){
+			names.add(queue.getName());
+		}
+		return names;
+	}
 }

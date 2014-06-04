@@ -30,18 +30,23 @@
 	<!-- required for FF3 and Opera -->
 	</script>
 
-	<h1><spring:message code="routingrules.schema"/> </h1>
-	<span><spring:message code="routingschemas.name"/> : <b>${schema.name}</b>; </span>
-	<span><spring:message code="routingschemas.startlimit"/> : <b>${schema.startlimit}</b>; </span>
-	<span><spring:message code="routingschemas.stoplimit"/> :<b>${schema.stoplimit}</b>; </span>
+	
+	<c:choose>
+		<c:when test="${not empty schema}">
+			<h2><spring:message code="routingrules.schema"/> </h2>
+			<span><spring:message code="routingschemas.name" /> : <b>${schema.name}</b>;</span>
+			<span><spring:message code="routingschemas.startlimit" /> : <b>${schema.startlimit}</b>;</span>
+			<span><spring:message code="routingschemas.stoplimit" /> :<b>${schema.stoplimit}</b>;</span>
+		</c:when>
+	</c:choose>
 	<br/>
-	<h1><spring:message code="routingrules.rules"/> </h1>
 	
 	<c:choose>
 		<c:when test="${empty rules}">
 			There are no routing rules.
 		</c:when>
 		<c:otherwise>
+			<button id="addRule" class="submitButton">Add routing rule</button>
 			<c:forEach var="entry" items="${mappedRules}">
 				<c:set var="rulesList" value="${entry.value}" />
 				<h3>${entry.key}</h3>

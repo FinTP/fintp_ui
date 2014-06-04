@@ -18,7 +18,11 @@ public interface QueueService {
 	 * @return Queue[] 
 	 */
 	public Queue[] getQueueList();
-	
+	/**
+	 * Return list of names of queues
+	 * @return
+	 */
+	public ArrayList<String> getQueuesNames();
 	/**
 	 * Returns a JSON containing queues as the FintpApi returns them
 	 * @return JSONObject

@@ -1,8 +1,13 @@
 package ro.allevo.fintpui.dao;
 
+import java.net.URI;
+
+import javax.ws.rs.core.UriBuilder;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 
+import ro.allevo.fintpui.model.RoutingSchema;
 import ro.allevo.fintpui.model.TimeLimit;
 import ro.allevo.fintpui.model.TimeLimits;
 import ro.allevo.fintpui.utils.RestClient;
@@ -23,28 +28,29 @@ public class TimeLimitsRestApiDao implements TimeLimitsDao {
 
 	@Override
 	public void insertTimeLimit(TimeLimit timelimit) {
-		// TODO Auto-generated method stub
-		
+		URI uri = UriBuilder.fromUri(servletsHelper.getUrl()).path("timelimits").build();
+		servletsHelper.postAPIResource(uri, timelimit);
 	}
 
 	@Override
 	public void updateTimeLimit(String limitName, TimeLimit timelimit) {
-		// TODO Auto-generated method stub
-		
+		URI uri = UriBuilder.fromUri(servletsHelper.getUrl())
+				.path("timelimits").path(limitName).build();
+		servletsHelper.putAPIResource(uri, limitName, timelimit);
 	}
 
 	@Override
 	public void deleteTimeLimit(String limitName) {
-		// TODO Auto-generated method stub
-		
+		URI uri = UriBuilder.fromUri(servletsHelper.getUrl())
+				.path("timelimits").path(limitName).build();
+		servletsHelper.deleteAPIResource(uri);
 	}
 
 	@Override
 	public TimeLimit getTimeLimit(String limitName) {
-		// TODO Auto-generated method stub
-		return null;
+		RestTemplate client = new RestClient();
+		String url = servletsHelper.getUrl() + "/timelimit/"+limitName;
+		TimeLimit entity = client.getForObject(url, TimeLimit.class);
+		return entity;
 	}
-	
-	
-
 }
