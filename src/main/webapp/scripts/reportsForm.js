@@ -44,6 +44,11 @@ $(function() {
 				e.preventDefault();
 			}
 		}
+		if($("input[name='interval']:checked").val() == "current"){
+			if(!(valid = validateTime())){
+				e.preventDefault();
+			}
+		}
 		
 	});
 	
@@ -92,14 +97,22 @@ function selectInterval(){
 		$(this).removeClass("disabled");
 	});
 }
-
+function validateTime(){
+	var startTime = $("#startTime").val();
+	var endTime = $("#endTime").val();
+	if (startTime == "" || endTime == "") {
+		alert("`Start Time` and `End Time` must be selected");
+		return false;
+	}
+	return true;
+}
 function validateInterval() {
 	var startDate = $("#startDate").val();
 	var endDate = $("#endDate").val();
 	var startTime = $("#startTime").val();
 	var endTime = $("#endTime").val();
 	if (startDate == "" || endDate == "" || startTime == "" || endTime == "") {
-		alert("Start date, start time and end date, end time must be selected");
+		alert("`Start Date`, `Start Time` and `End Date`, `End Time` must be selected");
 		return false;
 	}
 	//TODO: verify that startDate < endDate

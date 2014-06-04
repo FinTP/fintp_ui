@@ -63,7 +63,8 @@
 				arguments="${param.startDate},${param.endDate},${param.startTime},${param.endTime}" />
 		</c:when>
 		<c:otherwise>
-			<b><spring:message code="reports.current" /></b>
+			<spring:message code="reports.current" 
+			arguments="${param.startTime},${param.endTime}" />
 		</c:otherwise>
 	</c:choose>
 	<c:choose>

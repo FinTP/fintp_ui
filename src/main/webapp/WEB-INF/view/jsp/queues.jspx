@@ -39,7 +39,7 @@
 						<td><c:out value="${queue.name}" /></td>
 						<td><c:out value="${queue.description}" /></td>
 						<td class="centered"><c:out value="${queue.holdstatus}" /></td>
-						<td class="centered"></td>
+						<td class="centered"><img width="16px" height="16px" src="${styleUrl}/images/loading_no_messages.gif" alt="Loading..."></img></td>
 						<td>
 							<button class="view"></button>
 							<button class="edit"></button>

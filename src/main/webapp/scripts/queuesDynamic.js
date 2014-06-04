@@ -64,6 +64,7 @@ function ajaxGetQueues(){
 }
 
 function getQueuesArray(){
+	
 	var data = [];
 	$("#queuesTable tr td:first-child").each(function(){
 		data.push($(this).text());
