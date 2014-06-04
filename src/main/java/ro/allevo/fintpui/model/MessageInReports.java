@@ -45,6 +45,7 @@ public abstract class MessageInReports {
 		batchid = resultSet.getString("batchid");
 		correlid = resultSet.getString("correlid");
 		userid = resultSet.getString("userid");
+		
 	}
 	
 	public abstract String getTag();

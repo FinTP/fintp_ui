@@ -27,8 +27,12 @@ public class ReportsFormController {
 		logger.info("/reportsForm requested");
 		try{
 			dbClient.getConnection();
-			ArrayList<String> messageTypes = dbClient.getFTMessageTypes();
-			model.addAttribute("messageTypes", messageTypes);
+			ArrayList<String> messageTypesDI = dbClient.getDIMessageTypes();
+			model.addAttribute("messageTypesDI", messageTypesDI);
+			ArrayList<String> messageTypesDD = dbClient.getDDMessageTypes();
+			model.addAttribute("messageTypesDD", messageTypesDD);
+			ArrayList<String> messageTypesFT = dbClient.getFTMessageTypes();
+			model.addAttribute("messageTypesFT", messageTypesFT);
 			model.addAttribute("states", dbClient.getStates());
 			model.addAttribute("bicCodes", dbClient.getBicCodes());
 			model.addAttribute("currencies", dbClient.getCurrencies());

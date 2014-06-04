@@ -74,11 +74,31 @@
 						
 					</td>
 				</tr>
-				<tr>
+				<tr class="specificFT">
 					<td class="title"><b><spring:message code="reports.headerMsgtype"/></b></td>
 					<td><select id="messageTypes" name="messageTypes" class="text5">
 							<option selected="selected"></option>
-							<c:forEach var="mt" items="${messageTypes}">
+							<c:forEach var="mt" items="${messageTypesFT}">
+								<option><c:out value="${mt}"/></option>
+							</c:forEach>
+						</select>
+					</td>
+				</tr>
+				<tr style="display: none" class="specificDD">
+					<td class="title"><b><spring:message code="reports.headerMsgtype"/></b></td>
+					<td><select id="messageTypes" name="messageTypes" class="text5">
+							<option selected="selected"></option>
+							<c:forEach var="mt" items="${messageTypesDD}">
+								<option><c:out value="${mt}"/></option>
+							</c:forEach>
+						</select>
+					</td>
+				</tr>
+				<tr style="display: none"  class="specificDI">
+					<td class="title"><b><spring:message code="reports.headerMsgtype"/></b></td>
+					<td><select id="messageTypes" name="messageTypes" class="text5">
+							<option selected="selected"></option>
+							<c:forEach var="mt" items="${messageTypesDI}">
 								<option><c:out value="${mt}"/></option>
 							</c:forEach>
 						</select>
