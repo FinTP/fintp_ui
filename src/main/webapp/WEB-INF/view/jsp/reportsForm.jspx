@@ -43,12 +43,14 @@
 							name="interval" value="interval" checked="checked">Interval</input>
 					</td>
 					<td>
-						<div id="intervalPicker">
+						
 						<table>
 							<tr>
-								<td>
+							
+								<td><div id="intervalPickerStartDate">
 									<span><b><spring:message code="reportsForm.startDate"/></b></span>
 									<input maxlength="10" size="10" type="text" id="startDate" name = "startDate" />
+								</div>
 								</td>
 								
 								<td >
@@ -58,9 +60,10 @@
 								
 							</tr>
 							<tr>
-								<td>
+								<td><div id="intervalPickerEndDate">
 									<span><b><spring:message code="reportsForm.endDate"/></b> </span>
 									<input maxlength="10" size="10" type="text" id="endDate" name ="endDate"/>
+								</div>
 								</td>
 								<td>
 									<span><b><spring:message code="reportsForm.endTime"/></b> </span>
@@ -68,7 +71,7 @@
 								</td>
 							</tr>
 						</table>
-						</div>
+						
 					</td>
 				</tr>
 				<tr>
@@ -119,11 +122,7 @@
 					<td><input type="text" id="matdate" name="matdate" />
 					</td>
 				</tr>
-				<tr style="display: none" class="specificDI">
-					<td><span><b><spring:message
-									code="reports.headerDbtid" /></b></span></td>
-					<td><input type="text" id="dbtid" name="dbtid" /></td>
-				</tr>
+				
 
 				<tr>
 					<td class="title"><b><spring:message code="reports.headerTrn"/></b></td>
@@ -161,7 +160,7 @@
 				<tr style="display: none" class="specificDI">
 					<td><span><b><spring:message
 									code="reports.headerDbtid" /></b></span></td>
-					<td><input type="text" id="dbtID" name="dbtID" /></td>
+					<td><input type="text" id="dbtid" name="dbtid" /></td>
 				</tr>
 				<tr style="display: none" class="specificDD">
 					<td><span><b><spring:message
@@ -315,7 +314,7 @@
 									code="reports.headerMaturitydate" /></td>
 						</tr>
 						<tr style="display: none" class="specificDI">
-							<td><input type="checkbox" name="dbtrCheck"
+							<td><input type="checkbox" name="dbtidCheck"
 								checked="checked" /> <spring:message
 									code="reports.headerDbtid" /></td>
 						</tr>

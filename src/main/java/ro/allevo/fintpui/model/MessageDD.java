@@ -32,7 +32,7 @@ public class MessageDD extends MessageInReports {
 	@Override
 	public boolean hasPayload() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override

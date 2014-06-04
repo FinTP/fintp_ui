@@ -112,8 +112,8 @@ public class MessagesJdbcDao implements MessagesDao {
 				if (requestParameters.get("interval").equals("current")) {
 					// if current date is selected, pass as arguments the beggining and
 					// ending of current day
-					minDate = dbFormatDateOnly.format(new Date()) + " 00:00:00";
-					maxDate = dbFormatDateOnly.format(new Date()) + " 23:59:59";
+					minDate = dbFormatDateOnly.format(new Date()) + " "+ requestParameters.get("startTime");
+					maxDate = dbFormatDateOnly.format(new Date()) + " "+ requestParameters.get("endTime");
 				} else {
 					minDate = dbFormatDateOnly.format(DateFormat
 							.parse(requestParameters.get("startDate")))
@@ -580,7 +580,7 @@ public class MessagesJdbcDao implements MessagesDao {
 					} else {
 						statement.registerOutParameter(24, Types.OTHER);
 					}
-					System.out.println(statement);
+					//System.out.println(statement);
 					statement.execute();
 					
 					ResultSet resultSet = (ResultSet) statement.getObject(24);
@@ -657,7 +657,7 @@ public class MessagesJdbcDao implements MessagesDao {
 			
 			PreparedStatement pstmt = jdbcClient.getConnection().prepareStatement(debitDirectQuery + whereClause);
 			ResultSet resultSet = pstmt.executeQuery();
-			System.out.println(debitDirectQuery + whereClause);
+			//System.out.println(debitDirectQuery + whereClause);
 			if(resultSet.next()){
 				MessageDD message = new MessageDD(resultSet);
 				return message;

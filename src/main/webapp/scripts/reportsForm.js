@@ -59,23 +59,36 @@ $(function() {
 });
 
 function selectCurrentDate(){
-	$("#intervalPicker").find("input").each(function() {
+	$("#intervalPickerStartDate").find("input").each(function() {
 		$(this).val("");
 		$(this).text("");
 		$(this).prop("disabled", true);
 	});
-	$("#intervalPicker").find("span").each(function() {
+	$("#intervalPickerStartDate").find("span").each(function() {
 		$(this).addClass("disabled");
 	});
-	
+	$("#intervalPickerEndDate").find("input").each(function() {
+		$(this).val("");
+		$(this).text("");
+		$(this).prop("disabled", true);
+	});
+	$("#intervalPickerEndDate").find("span").each(function() {
+		$(this).addClass("disabled");
+	});
 	
 }
 
 function selectInterval(){
-	$("#intervalPicker").find("input").each(function() {
+	$("#intervalPickerStartDate").find("input").each(function() {
 		$(this).prop("disabled", false);
 	});
-	$("#intervalPicker").find("span").each(function() {
+	$("#intervalPickerStartDate").find("span").each(function() {
+		$(this).removeClass("disabled");
+	});
+	$("#intervalPickerEndDate").find("input").each(function() {
+		$(this).prop("disabled", false);
+	});
+	$("#intervalPickerEndDate").find("span").each(function() {
 		$(this).removeClass("disabled");
 	});
 }
