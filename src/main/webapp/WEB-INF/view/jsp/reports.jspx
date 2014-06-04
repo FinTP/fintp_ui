@@ -197,10 +197,10 @@
 		id="itemsPerPage">
 		<option>5</option>
 		<option>10</option>
-		<option>20</option>
+		<option selected="selected">20</option>
 		<option>25</option>
 		<option>50</option>
-		<option selected="selected">100</option>
+		<option>100</option>
 	</select> <br /> <b>Total: </b><span id="total">${total}</span>
 
 	<div id="paginatorLocation">
