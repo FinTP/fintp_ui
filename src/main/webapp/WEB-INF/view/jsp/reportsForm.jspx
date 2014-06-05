@@ -55,7 +55,7 @@
 								
 								<td >
 									<span><b><spring:message code="reportsForm.startTime"/></b> </span>
-									<input maxlength="5" size="5" type="text" id="startTime" name = "startTime" />
+									<input maxlength="5" size="5" type="text" id="startTime" name = "startTime" value="00:00" />
 								</td> 
 								
 							</tr>
@@ -67,16 +67,18 @@
 								</td>
 								<td>
 									<span><b><spring:message code="reportsForm.endTime"/></b> </span>
-									<input maxlength="5" size="5" type="text" id="endTime" name ="endTime"/>
+									<input maxlength="5" size="5" type="text" id="endTime" name ="endTime" value="23:59"/>
 								</td>
 							</tr>
 						</table>
 						
 					</td>
 				</tr>
+				
+						
 				<tr class="specificFT">
 					<td class="title"><b><spring:message code="reports.headerMsgtype"/></b></td>
-					<td><select id="messageTypes" name="messageTypes" class="text5">
+					<td><select id="messageTypesFT" name="messageTypesFT" class="text5">
 							<option selected="selected"></option>
 							<c:forEach var="mt" items="${messageTypesFT}">
 								<option><c:out value="${mt}"/></option>
@@ -86,7 +88,7 @@
 				</tr>
 				<tr style="display: none" class="specificDD">
 					<td class="title"><b><spring:message code="reports.headerMsgtype"/></b></td>
-					<td><select id="messageTypes" name="messageTypes" class="text5">
+					<td><select id="messageTypesDD" name="messageTypesDD" class="text5">
 							<option selected="selected"></option>
 							<c:forEach var="mt" items="${messageTypesDD}">
 								<option><c:out value="${mt}"/></option>
@@ -96,7 +98,7 @@
 				</tr>
 				<tr style="display: none"  class="specificDI">
 					<td class="title"><b><spring:message code="reports.headerMsgtype"/></b></td>
-					<td><select id="messageTypes" name="messageTypes" class="text5">
+					<td><select id="messageTypesDI" name="messageTypesDI" class="text5">
 							<option selected="selected"></option>
 							<c:forEach var="mt" items="${messageTypesDI}">
 								<option><c:out value="${mt}"/></option>
@@ -163,20 +165,7 @@
 		</table>
 		<table class = "left">
 			<tbody>
-			<tr style="display: none" class="specificDI">
-						<td >
-							<span><b><spring:message code="reports.headerIssuancedate"/></b></span>
-						</td>
-						<td>
-							<input  type="text" id="issuanceDate" name="issuanceDate"/>
-						</td>
-				</tr>
-				<tr style="display: none" class="specificDI">
-					<td><span><b><spring:message
-									code="reports.headerMaturitydate" /></b></span></td>
-					<td><input type="text" id="maturityDate" name="maturityDate" />
-					</td>
-				</tr>
+			
 				<tr style="display: none" class="specificDI">
 					<td><span><b><spring:message
 									code="reports.headerDbtid" /></b></span></td>

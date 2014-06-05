@@ -133,9 +133,9 @@ public class MessagesJdbcDao implements MessagesDao {
 					CallableStatement statement = connection.prepareCall(procedure);
 					statement.setString(1, minDate);
 					statement.setString(2, maxDate);
-					if (!requestParameters.get("messageTypes").equals("")) {
+					if (!requestParameters.get("messageTypesFT").equals("")) {
 						statement.setString(3,
-								requestParameters.get("messageTypes"));
+								requestParameters.get("messageTypesFT"));
 					} else {
 						statement.setNull(3, Types.VARCHAR);
 					}
@@ -292,9 +292,9 @@ public class MessagesJdbcDao implements MessagesDao {
 					CallableStatement statement = connection.prepareCall(procedure);
 					statement.setString(1, minDate);
 					statement.setString(2, maxDate);
-					if (!requestParameters.get("messageTypes").equals("")) {
+					if (!requestParameters.get("messageTypesDI").equals("")) {
 						statement.setString(3,
-								requestParameters.get("messageTypes"));
+								requestParameters.get("messageTypesDI"));
 					} else {
 						statement.setNull(3, Types.VARCHAR);
 					}
@@ -452,9 +452,9 @@ public class MessagesJdbcDao implements MessagesDao {
 					CallableStatement statement = connection.prepareCall(procedure);
 					statement.setString(1, minDate);
 					statement.setString(2, maxDate);
-					if (!requestParameters.get("messageTypes").equals("")) {
+					if (!requestParameters.get("messageTypesDD").equals("")) {
 						statement.setString(3,
-								requestParameters.get("messageTypes"));
+								requestParameters.get("messageTypesDD"));
 					} else {
 						statement.setNull(3, Types.VARCHAR);
 					}
