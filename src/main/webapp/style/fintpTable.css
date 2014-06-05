@@ -87,7 +87,7 @@ form select{
 }
 
 form input[type='submit']{
-	width: 100%;
+	width: inherit;
 }
 
 .centeredTable{
