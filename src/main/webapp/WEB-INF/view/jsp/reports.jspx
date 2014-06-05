@@ -217,7 +217,6 @@
 		<option>50</option>
 		<option>100</option>
 	</select> <br /> <b>Total: </b><span id="total">${total}</span>
-
 	<div id="paginatorLocation">
 		<div id="paginator" />
 	</div>
