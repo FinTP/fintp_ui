@@ -20,9 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import ro.allevo.fintpui.model.MessageDD;
 import ro.allevo.fintpui.model.MessageDI;
+import ro.allevo.fintpui.model.MessageDuplicate;
 import ro.allevo.fintpui.model.MessageFT;
 import ro.allevo.fintpui.model.MessageInReports;
-
 import ro.allevo.fintpui.utils.JdbcClient;
 
 public class MessagesJdbcDao implements MessagesDao {
@@ -87,6 +87,52 @@ public class MessagesJdbcDao implements MessagesDao {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	public ArrayList<MessageDuplicate> getDuplicatesMessageDetails(Map<String, String> requestParameters) {
+	ArrayList<MessageDuplicate> msgDupl = new ArrayList<> ();
+	try {
+		Connection connection = jdbcClient.getConnection();
+
+		String procedure = getProcedureCallString(
+				"findata.GetDuplicateMsgDetails", 3);
+		connection.setAutoCommit(false);
+		CallableStatement statement = connection.prepareCall(procedure);
+		
+		if (!requestParameters.get("inMsgID").equals("")) {
+			statement.setString(1,
+					requestParameters.get("inMsgID"));
+		} else {
+			statement.setNull(1, Types.VARCHAR);
+		}
+		
+		if (!requestParameters.get("inLiveArch").equals("")) {
+			statement.setBigDecimal(2,
+					new BigDecimal(requestParameters.get("inLiveArch")));
+		} else {
+			statement.setNull(2, Types.NUMERIC);
+		}
+		
+		if (!requestParameters.get("inQueueName").equals("")) {
+			statement.setString(3,
+					requestParameters.get("inQueueName"));
+		} else {
+			statement.setNull(3, Types.VARCHAR);
+		}
+		statement.execute();
+		ResultSet resultSet = (ResultSet) statement.getObject(3);
+		
+		while (resultSet.next()) {
+			msgDupl.add(new MessageDuplicate(resultSet));
+		}
+		connection.setAutoCommit(true);
+		
+	} catch (SQLException e) {
+		e.printStackTrace();
+
+	} 
+	return msgDupl;
+	
 	}
 
 	@Override

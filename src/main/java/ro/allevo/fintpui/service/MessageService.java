@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Map;
 
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ro.allevo.fintpui.controllers.MessageController;
 import ro.allevo.fintpui.dao.MessagesDao;
+import ro.allevo.fintpui.model.MessageDuplicate;
 import ro.allevo.fintpui.model.MessageInReports;
 
 
@@ -52,6 +55,11 @@ public class MessageService {
 		default:
 			throw new RuntimeException("Requested unexpected type of business area");
 		}
+	}
+
+	public ArrayList<MessageDuplicate> getDuplicateMessageDetails(
+			Map<String, String> allRequestParams) {
+		return messagesDao.getDuplicatesMessageDetails(allRequestParams);
 	}
 	
 }
