@@ -10,8 +10,17 @@
 			No payload available for the given id and type.
 		</c:when>
 		<c:otherwise>
-			 <input type="button" name="cancel" value="View possible duplicates"
-onclick="window.location='${pageContext.servletContext.contextPath}/viewDuplicates.htm'" class="submitButton" style="margin-left:20px" /><br/>
+		<c:set var="viewDuplUrl">
+						<c:url value="./viewDuplicates.htm">
+							<c:param name="inMsgID" value="${param.id}" />
+							<c:param name="inLiveArch" value="" />
+							<c:param name="type" value="${param.type}" />
+							<c:param name="inQueueName" value="${param.queue}" />
+							<c:param name="dupID" value="" />
+							<c:param name="dupQueue" value="" />
+						</c:url>
+					</c:set>
+			<a href="${viewDuplUrl}" class="submitButton" style="margin-left:20px">View Possible Duplicates</a><br/>
 			<spring:message code="payloadView.messageId"/>: ${param.id}<br/>
 			<spring:message code="payloadView.messageType"/>: ${param.type}<br/>
 			${payload}

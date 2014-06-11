@@ -95,7 +95,7 @@ public class MessagesJdbcDao implements MessagesDao {
 		Connection connection = jdbcClient.getConnection();
 
 		String procedure = getProcedureCallString(
-				"findata.GetDuplicateMsgDetails", 3);
+				"findata.getduplicatemsgdetails", 4);
 		connection.setAutoCommit(false);
 		CallableStatement statement = connection.prepareCall(procedure);
 		
@@ -110,7 +110,7 @@ public class MessagesJdbcDao implements MessagesDao {
 			statement.setBigDecimal(2,
 					new BigDecimal(requestParameters.get("inLiveArch")));
 		} else {
-			statement.setNull(2, Types.NUMERIC);
+			statement.setNull(2, Types.INTEGER);
 		}
 		
 		if (!requestParameters.get("inQueueName").equals("")) {
@@ -119,8 +119,13 @@ public class MessagesJdbcDao implements MessagesDao {
 		} else {
 			statement.setNull(3, Types.VARCHAR);
 		}
+		if (jdbcClient.getDriver().contains("oracle")) {
+			statement.registerOutParameter(4, OracleTypes.CURSOR);
+		} else {
+			statement.registerOutParameter(4, Types.OTHER);
+		}
 		statement.execute();
-		ResultSet resultSet = (ResultSet) statement.getObject(3);
+		ResultSet resultSet = (ResultSet) statement.getObject(4);
 		
 		while (resultSet.next()) {
 			msgDupl.add(new MessageDuplicate(resultSet));

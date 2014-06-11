@@ -55,15 +55,18 @@ public class MessageDuplicatesController {
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public String getMessagePayload(ModelMap model, 
-			@RequestParam(value = "id", required = true) String id,
+			@RequestParam(value = "inMsgID", required = true) String id,
 			@RequestParam(value = "type", required = true) String type,
-			@RequestParam(value = "queue", required = true) String queue){
+			@RequestParam(value = "inQueueName", required = true) String queue,
+			@RequestParam(value = "inLiveArch", required = true) String livearch,
+			@RequestParam(value = "dupID", required = false) String dupid,
+			@RequestParam(value = "dupQueue", required = false) String dupqueue){
 		logger.info("/duplicates view requested");
 		
 		Map<String,String> allRequestParams = new HashMap<String,String> ();
-		//allRequestParams.put("inMsgID", guid);
+		allRequestParams.put("inMsgID", id);
 		allRequestParams.put("inQueueName", queue);
-		allRequestParams.put("inLiveArch", "1");
+		allRequestParams.put("inLiveArch", livearch);
 		
 		client.getConnection();
 		ArrayList<MessageDuplicate> msgdupl = messageService.getDuplicateMessageDetails(allRequestParams);
@@ -82,13 +85,36 @@ public class MessageDuplicatesController {
 					.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
 			JSONObject responseEntity = clientResponse
 					.getEntity(JSONObject.class);
+			System.out.println(uri);
 			String payload = responseEntity.getString("payload");
 			//now, get friendly payload
 			String path = getClass().getClassLoader()
 					.getResource(NESTED_TABLES_XSLT).getPath();
 			String friendlyPayload = applyXSLT(payload, path);
 			
+			if (dupid != "") 
+				{
+				final Client clientd = servletsHelper.getAPIClient();
+			
+			URI urid = UriBuilder.fromPath(servletsHelper.getUrl())
+					.path("queues").path(dupqueue)
+					.path("messages").path(dupid).queryParam("type", type).build();
+			WebResource webResourced = clientd.resource(urid.toString());
+			ClientResponse clientResponsed = webResourced
+					.accept(MediaType.APPLICATION_JSON)
+					.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+			JSONObject responseEntityd = clientResponsed
+					.getEntity(JSONObject.class);
+			System.out.println(urid);
+			String payloadd = responseEntityd.getString("payload");
+			//now, get friendly payload
+			String pathd = getClass().getClassLoader()
+					.getResource(NESTED_TABLES_XSLT).getPath();
+			String friendlyPayloaddupl = applyXSLT(payloadd, pathd);
+			model.addAttribute("duplpayload", friendlyPayloaddupl);
+				}
 			model.addAttribute("origpayload", friendlyPayload);
+			
 			model.addAttribute("duplicate", msgdupl);
 		} catch (JSONException e) {
 			e.printStackTrace();
