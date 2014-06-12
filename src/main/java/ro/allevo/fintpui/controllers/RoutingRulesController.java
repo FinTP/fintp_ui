@@ -2,6 +2,7 @@ package ro.allevo.fintpui.controllers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -53,7 +54,7 @@ public class RoutingRulesController {
 			model.addAttribute("schema", routingSchemaService.getRoutingSchema(schemaName));
 		}
 		model.addAttribute("rules", rules);
-		HashMap<String, ArrayList<RoutingRule>> mappedRules = routingRulesService
+		Map<String, ArrayList<RoutingRule>> mappedRules = routingRulesService
 				.getRulesGroupedByQueues(rules);
 		model.addAttribute("mappedRules", mappedRules);
 		return "tiles/routingrules";

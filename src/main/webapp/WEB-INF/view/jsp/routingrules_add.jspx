@@ -34,7 +34,7 @@
 					<td><form:select path="queue" items="${queues}"/></td>
 				</tr>
 				<tr>
-					<td>Routing schema: ${schema.name}</td>
+					<td>Routing schema:</td>
 					<td><form:select path="schema" items="${schemas}"/></td>
 				</tr>
 				<tr>
