@@ -14,6 +14,7 @@ $(function() {
 		});
 	});
 	$("#addRule").click(function(){
-		document.location.href = "./addRule.htm";
+		var schemaName = $(this).attr("var");
+		document.location.href = "./addRule.htm?schema="+schemaName;
 	});
 });

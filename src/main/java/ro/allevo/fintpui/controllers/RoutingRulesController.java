@@ -11,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import ro.allevo.fintpui.model.RoutingRule;
+import ro.allevo.fintpui.model.RoutingSchema;
 import ro.allevo.fintpui.service.QueueService;
 import ro.allevo.fintpui.service.RoutingRulesService;
 import ro.allevo.fintpui.service.RoutingSchemaService;
@@ -75,7 +76,8 @@ public class RoutingRulesController {
 	public String insertRule(@ModelAttribute("rule") RoutingRule routingRule){
 		logger.info("/insert routing rule requested");
 		routingRulesService.insertRoutingRule(routingRule);
-		return "redirect:/routingrules.htm";
+		
+		return "redirect:/routingrules.htm?schema="+routingRule.getSchema();
 	}
 	
 	/*
@@ -97,7 +99,7 @@ public class RoutingRulesController {
 	public String updateRule(@ModelAttribute("rule") RoutingRule rule, @RequestParam("init_name") String initialName){
 		logger.info("/update routing rule requested");
 		routingRulesService.updateRoutingRUle(initialName, rule);
-		return "redirect:/routingrules.htm";
+		return "redirect:/routingrules.htm?schema="+rule.getSchema();
 	}
 	
 	/*
@@ -106,7 +108,8 @@ public class RoutingRulesController {
 	@RequestMapping(value = "routingrules/deleteRule")
 	public String deleteRule(@RequestParam("rule") String ruleId){
 		logger.info("/delete rule requested");
+		 RoutingRule rule = routingRulesService.getRoutingRule(ruleId);
 		routingRulesService.deleteRoutingRule(ruleId);
-		return "redirect:/routingrules.htm";
+		return "redirect:/routingrules.htm?schema="+rule.getSchema();
 	}
 }
