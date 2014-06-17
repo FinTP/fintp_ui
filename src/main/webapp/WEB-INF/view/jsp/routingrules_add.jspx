@@ -13,6 +13,8 @@
 	<spring:url var="jquery_js_url"
 		value="/scripts/jquery/jquery-1.10.1.js" />
 	<spring:url var="jquery_ui_url" value="/scripts/jquery/jquery-ui.js" />
+	<spring:url var="routingrules_add_url" value="/scripts/routingrules_add.js" />
+	
 
 	<script src="${locale_js_url}" type="text/javascript">
 	<!-- required for FF3 and Opera -->
@@ -21,6 +23,9 @@
 	<!-- required for FF3 and Opera -->
 	</script>
 	<script src="${jquery_ui_url}" type="text/javascript">
+	<!-- required for FF3 and Opera -->
+	</script>
+	<script src="${routingrules_add_url}" type="text/javascript">
 	<!-- required for FF3 and Opera -->
 	</script>
 	
@@ -55,10 +60,15 @@
 				</tr>
 				<tr>
 					<td>Action on source: </td>
-					<td><form:select id="action" path="action">
-							<form:options items="${actions}"/>
-						</form:select>
-					<!-- <form:input class="actionParameter"/>  -->
+					<form:hidden path="action" id="action"/>
+					<td>
+						<select id="actionSelect">
+							<c:forEach items="${actions}" var ="currAction">
+								<option value="${currAction}">${currAction}</option>
+							</c:forEach>
+						</select>
+						<br/>
+						<input id="actionParameter" style="display: none;"/> 
 					</td>
 				</tr>
 				<tr>
@@ -85,5 +95,18 @@
 		</table>
 
 	</form:form>
+	<ul style="display: none" id = "actionsNoParamList">
+		<c:forEach var="actionNP" items="${actionsNoParam}">
+			<li id="actionsNoParam">${actionNP}</li>
+		</c:forEach>
+	</ul>
+
+	<ul style="display: none" id = "actionsParamList">
+		<c:forEach var="actionP" items="${actionsParam}">
+			<li id="actionsParam">${actionP}</li>
+		</c:forEach>
+	</ul>
+
+
 
 </div>

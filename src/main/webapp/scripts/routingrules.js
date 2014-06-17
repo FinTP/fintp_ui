@@ -18,16 +18,4 @@ $(function() {
 		document.location.href = "./addRule.htm?schema="+schemaName;
 	});
 	
-	$("#action").change(function(){
-		  var value = this.value;
-		  if (RULES_ACTIONS_NO_PARAM.contains(value)){
-		    $(".actionParameter").hide();
-		   
-		  }
-		  
-		  if (RULES_ACTIONS_PARAM.contains(value)){
-			    $(".actionParameter").show();
-			   
-			  }
-		});
 });
