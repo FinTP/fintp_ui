@@ -13,7 +13,7 @@
 		<c:set var="viewDuplUrl">
 						<c:url value="./viewDuplicates.htm">
 							<c:param name="inMsgID" value="${param.id}" />
-							<c:param name="inLiveArch" value="" />
+							<c:param name="inLiveArch" value="1" />
 							<c:param name="type" value="${param.type}" />
 							<c:param name="inQueueName" value="${param.queue}" />
 							<c:param name="dupID" value="" />

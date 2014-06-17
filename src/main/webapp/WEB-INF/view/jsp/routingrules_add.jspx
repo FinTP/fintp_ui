@@ -55,9 +55,10 @@
 				</tr>
 				<tr>
 					<td>Action on source: </td>
-					<td><form:select path="action">
+					<td><form:select id="action" path="action">
 							<form:options items="${actions}"/>
 						</form:select>
+					<!-- <form:input class="actionParameter"/>  -->
 					</td>
 				</tr>
 				<tr>

@@ -9,8 +9,9 @@
 	<table class="fintpTable" style="width: 35%">
 		<thead style="overflow: not-scrollable;">
 			<tr>
-				<th>Reference</th>
+				<th>Duplicate Message Reference</th>
 				<th>Status</th>
+				<th>Current Queue</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -19,20 +20,35 @@
 				<c:set var="viewDuplicateUrl">
 					<c:url value="./viewDuplicates.htm">
 						<c:param name="inMsgID" value="${param.inMsgID}" />
-						<c:param name="inLiveArch" value="" />
+						<c:param name="inLiveArch" value="1" />
 						<c:param name="type" value="${param.type}" />
 						<c:param name="inQueueName" value="${param.inQueueName}" />
-						<c:param name="dupID" value="${duplicat.correlationid}" />
-						<c:param name="dupQueue" value="${duplicat.dupqueue}" />
+						<c:param name="dupID" value="${duplicat.guid}" />
+						<c:param name="dupQueue" value="${duplicat.queuename}" />
 					</c:url>
 				</c:set>
 				<tr>
-					<td><a href="${viewDuplicateUrl}">${duplicat.correlationid}</a></td>
-					<td><a href="${viewDuplicateUrl}">${duplicat.feedback}</a></td>
+					<td>
+					<c:if test="${duplicat.guid == param.dupID}"> <c:out value="&lt;b&gt;" escapeXml="false"/></c:if>
+					<c:choose>
+						<c:when test="${param.inMsgID==duplicat.guid}">
+						<i style="color:red"> <a href="${viewDuplicateUrl}">${duplicat.trn}</a> Original Message</i>
+						</c:when>
+						<c:otherwise><i style="color:green"> <a href="${viewDuplicateUrl}">${duplicat.trn}</a></i></c:otherwise></c:choose></td>
+					<td><c:if test="${duplicat.guid == param.dupID}"> 
+						<c:out value="&lt;b&gt;" escapeXml="false"/></c:if>
+							<a href="${viewDuplicateUrl}"><i>${duplicat.feedback}</i></a>
+					</td>
+					<td><c:if test="${duplicat.guid == param.dupID}"> 
+						<c:out value="&lt;b&gt;" escapeXml="false"/></c:if>
+							<a href="${viewDuplicateUrl}"><i>${duplicat.queuename}</i></a>
+					</td>
+					 <c:if test="${duplicat.guid == param.dupID}">  <c:out value="&lt;/b&gt;" escapeXml="false"/></c:if> 
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
+	<br />
 	<table class="fintpTable">
 		<thead>
 
@@ -45,7 +61,14 @@
 			<tr>
 				<td><spring:message code="payloadView.messageId" />:
 					${param.inMsgID}<br /></td>
-				<td>Duplicate Message ID</td>
+				<td><c:choose>
+						<c:when test="${!empty duplpayload}">
+						
+						<spring:message code="payloadView.duplicateMessageId" />:
+					${param.dupID}<br /> 
+					</c:when>
+						
+					</c:choose></td>
 			</tr>
 			<tr>
 				<td>${origpayload}</td>

@@ -1,6 +1,5 @@
 package ro.allevo.fintpui.controllers;
 
-
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.URI;
@@ -34,109 +33,115 @@ import ro.allevo.fintpui.service.MessageService;
 import ro.allevo.fintpui.utils.JdbcClient;
 import ro.allevo.fintpui.utils.servlets.ServletsHelper;
 
-
-
 @Controller
 @RequestMapping("/viewDuplicates")
 public class MessageDuplicatesController {
 	@Autowired
 	private JdbcClient client;
-	
-	@Autowired 
+
+	@Autowired
 	private MessageService messageService;
-	
-	private static Logger logger = LogManager.getLogger(ReportsFormController.class
-			.getName());
-	
+
+	private static Logger logger = LogManager
+			.getLogger(ReportsFormController.class.getName());
+
 	@Autowired
 	private ServletsHelper servletsHelper;
-	
+
 	public static String NESTED_TABLES_XSLT = "nestedTables.xslt";
-	
-	@RequestMapping(method=RequestMethod.GET)
-	public String getMessagePayload(ModelMap model, 
+
+	@RequestMapping(method = RequestMethod.GET)
+	public String getMessagePayload(
+			ModelMap model,
 			@RequestParam(value = "inMsgID", required = true) String id,
 			@RequestParam(value = "type", required = true) String type,
 			@RequestParam(value = "inQueueName", required = true) String queue,
 			@RequestParam(value = "inLiveArch", required = true) String livearch,
 			@RequestParam(value = "dupID", required = false) String dupid,
-			@RequestParam(value = "dupQueue", required = false) String dupqueue){
+			@RequestParam(value = "dupQueue", required = false) String dupqueue) {
 		logger.info("/duplicates view requested");
-		
-		Map<String,String> allRequestParams = new HashMap<String,String> ();
+
+		Map<String, String> allRequestParams = new HashMap<String, String>();
 		allRequestParams.put("inMsgID", id);
 		allRequestParams.put("inQueueName", queue);
 		allRequestParams.put("inLiveArch", livearch);
-		
+		/*
+		 * allRequestParams.put("dupID", dupid);
+		 * allRequestParams.put("dupQueue", dupqueue);
+		 */
+
 		client.getConnection();
-		ArrayList<MessageDuplicate> msgdupl = messageService.getDuplicateMessageDetails(allRequestParams);
+		ArrayList<MessageDuplicate> msgdupl = messageService
+				.getDuplicateMessageDetails(allRequestParams);
 		client.closeConnection();
-		
-		
+
 		try {
 
 			final Client client = servletsHelper.getAPIClient();
 			URI uri = UriBuilder.fromPath(servletsHelper.getUrl())
-					.path("queues").path(queue)
-					.path("messages").path(id).queryParam("type", type).build();
+					.path("queues").path(queue).path("messages").path(id)
+					.queryParam("type", type).build();
 			WebResource webResource = client.resource(uri.toString());
 			ClientResponse clientResponse = webResource
 					.accept(MediaType.APPLICATION_JSON)
 					.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
 			JSONObject responseEntity = clientResponse
 					.getEntity(JSONObject.class);
-			System.out.println(uri);
+
 			String payload = responseEntity.getString("payload");
-			//now, get friendly payload
+			// now, get friendly payload
 			String path = getClass().getClassLoader()
 					.getResource(NESTED_TABLES_XSLT).getPath();
 			String friendlyPayload = applyXSLT(payload, path);
-			
-			if (dupid != "") 
-				{
+
+			if (dupid.equals("") == false) {
 				final Client clientd = servletsHelper.getAPIClient();
-			
-			URI urid = UriBuilder.fromPath(servletsHelper.getUrl())
-					.path("queues").path(dupqueue)
-					.path("messages").path(dupid).queryParam("type", type).build();
-			WebResource webResourced = clientd.resource(urid.toString());
-			ClientResponse clientResponsed = webResourced
-					.accept(MediaType.APPLICATION_JSON)
-					.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
-			JSONObject responseEntityd = clientResponsed
-					.getEntity(JSONObject.class);
-			System.out.println(urid);
-			String payloadd = responseEntityd.getString("payload");
-			//now, get friendly payload
-			String pathd = getClass().getClassLoader()
-					.getResource(NESTED_TABLES_XSLT).getPath();
-			String friendlyPayloaddupl = applyXSLT(payloadd, pathd);
-			model.addAttribute("duplpayload", friendlyPayloaddupl);
-				}
+
+				URI urid = UriBuilder.fromPath(servletsHelper.getUrl())
+						.path("queues").path(dupqueue).path("messages")
+						.path(dupid).queryParam("type", type).build();
+				WebResource webResourced = clientd.resource(urid.toString());
+				ClientResponse clientResponsed = webResourced
+						.accept(MediaType.APPLICATION_JSON)
+						.type(MediaType.APPLICATION_JSON)
+						.get(ClientResponse.class);
+				JSONObject responseEntityd = clientResponsed
+						.getEntity(JSONObject.class);
+
+				String payloadd = responseEntityd.getString("payload");
+				// now, get friendly payload
+				String pathd = getClass().getClassLoader()
+						.getResource(NESTED_TABLES_XSLT).getPath();
+				String friendlyPayloaddupl = applyXSLT(payloadd, pathd);
+				model.addAttribute("duplpayload", friendlyPayloaddupl);
+			}
 			model.addAttribute("origpayload", friendlyPayload);
-			
+
 			model.addAttribute("duplicate", msgdupl);
+
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 		return "tiles/viewDuplicates";
 	}
-	public static String applyXSLT(String input, String xsltPath){
-		
+
+	public static String applyXSLT(String input, String xsltPath) {
+
 		try {
-		    StringReader reader = new StringReader(input);
-		    StringWriter writer = new StringWriter();
-		    TransformerFactory tFactory = TransformerFactory.newInstance();
-		    Transformer transformer = tFactory.newTransformer(
-		            new javax.xml.transform.stream.StreamSource(xsltPath));
+			StringReader reader = new StringReader(input);
+			StringWriter writer = new StringWriter();
+			TransformerFactory tFactory = TransformerFactory.newInstance();
+			Transformer transformer = tFactory
+					.newTransformer(new javax.xml.transform.stream.StreamSource(
+							xsltPath));
 
-		    transformer.transform(
-		            new javax.xml.transform.stream.StreamSource(reader), 
-		            new javax.xml.transform.stream.StreamResult(writer));
+			transformer.transform(new javax.xml.transform.stream.StreamSource(
+					reader),
+					new javax.xml.transform.stream.StreamResult(writer));
 
-		    return writer.toString();
+			return writer.toString();
 		} catch (Exception e) {
-		    e.printStackTrace();
+			e.printStackTrace();
 		}
 		return null;
 	}

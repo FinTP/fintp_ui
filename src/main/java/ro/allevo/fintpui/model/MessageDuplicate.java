@@ -9,11 +9,11 @@ import ro.allevo.fintpui.service.MessageService;
 public class MessageDuplicate {
 
 	private final String guid;
-	private final String correlid;
+	private final String correlationid;
 	private final String trn;
 	private final String livearch;
 	private final String feedback;
-	private final String dupqueue;
+	private final String queuename;
 	
 	
 	
@@ -21,17 +21,15 @@ public class MessageDuplicate {
 		
 		trn = resultSet.getString("trn");
 		guid = resultSet.getString("guid");
-		correlid = resultSet.getString("correlid");
+		correlationid = resultSet.getString("correlationid");
 		livearch = resultSet.getString("livearch");
 		feedback = resultSet.getString("feedback");
-		dupqueue = resultSet.getString("dupqueue");
+		queuename = resultSet.getString("queuename");
 		
 	}
 	
 
-	public String getCorrelid() {
-		return correlid;
-	}
+	
 
 	public String getTrn() {
 		return trn;
@@ -41,8 +39,8 @@ public class MessageDuplicate {
 		return livearch;
 	}
 
-	public String getDupqueue() {
-		return dupqueue;
+	public String getQueuename() {
+		return queuename;
 	}
 
 	public String getFeedback() {
@@ -51,6 +49,13 @@ public class MessageDuplicate {
 
 	public String getGuid() {
 		return guid;
+	}
+
+
+
+
+	public String getCorrelationid() {
+		return correlationid;
 	}
 
 }

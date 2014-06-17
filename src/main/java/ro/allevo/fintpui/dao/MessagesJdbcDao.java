@@ -107,8 +107,8 @@ public class MessagesJdbcDao implements MessagesDao {
 		}
 		
 		if (!requestParameters.get("inLiveArch").equals("")) {
-			statement.setBigDecimal(2,
-					new BigDecimal(requestParameters.get("inLiveArch")));
+			statement.setInt(2,
+					new Integer(Integer.parseInt(requestParameters.get("inLiveArch"))));
 		} else {
 			statement.setNull(2, Types.INTEGER);
 		}
@@ -124,6 +124,7 @@ public class MessagesJdbcDao implements MessagesDao {
 		} else {
 			statement.registerOutParameter(4, Types.OTHER);
 		}
+		
 		statement.execute();
 		ResultSet resultSet = (ResultSet) statement.getObject(4);
 		
