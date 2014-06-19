@@ -44,9 +44,11 @@
 	<c:choose>
 		<c:when test="${empty rules}">
 			There are no routing rules.
+			<br/>
+			<button id="addRule" class="submitButton" var="${schema.name}">Add routing rule</button>
 		</c:when>
 		<c:otherwise>
-			<button id="addRule" class="submitButton">Add routing rule</button>
+			<button id="addRule" class="submitButton" var="${schema.name}">Add routing rule</button>
 			<c:forEach var="entry" items="${mappedRules}">
 				<c:set var="rulesList" value="${entry.value}" />
 				<h3>${entry.key}</h3>

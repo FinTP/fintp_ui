@@ -2,8 +2,8 @@ $(function() {
 	$("#startDate").datepicker();
 	$("#endDate").datepicker();
 	$("#valueDate").datepicker();
-	$("#issuanceDate").datepicker();
-	$("#maturityDate").datepicker();
+	$("#issdate").datepicker();
+	$("#matdate").datepicker();
 	$("#startTime").timepicker();
 	$("#endTime").timepicker();
 	$("input[name='interval']").change(function() {

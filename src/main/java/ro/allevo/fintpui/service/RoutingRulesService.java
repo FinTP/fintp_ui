@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.ws.rs.core.UriBuilder;
 
@@ -81,7 +83,8 @@ public class RoutingRulesService {
 		}
 	}
 	
-	public HashMap<String, ArrayList<RoutingRule>> getRulesGroupedByQueues(RoutingRule[] rules){
+	
+	public Map<String, ArrayList<RoutingRule>> getRulesGroupedByQueues(RoutingRule[] rules){
 		HashMap<String, ArrayList<RoutingRule>> map = new HashMap<>();
 		for(RoutingRule rule : rules){
 			String queueName = rule.getQueue();
@@ -93,6 +96,7 @@ public class RoutingRulesService {
 				map.get(queueName).add(rule);
 			}
 		}
-		return map;
+		Map<String, ArrayList<RoutingRule>> sortedMap = new TreeMap<String, ArrayList<RoutingRule>>(map);
+		return sortedMap;
 	}
 }

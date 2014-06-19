@@ -82,7 +82,10 @@
 				</tr>
 				<tr>
 					<td></td>
-					<td><input type="submit" value="Save" class="submitButton" /></td>
+					<td><input type="submit" value="Save" class="submitButton"  style="margin-left:10px;width:70px"/>
+				
+					 <input type="button" name="cancel" value="Cancel"
+onclick="window.location='${pageContext.servletContext.contextPath}/schemas.htm'" class="submitButton" style="margin-left:20px" /></td>
 				</tr>
 			</tbody>
 		</table>

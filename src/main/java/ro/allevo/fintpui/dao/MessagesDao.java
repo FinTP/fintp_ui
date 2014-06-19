@@ -5,6 +5,7 @@ import java.util.Map;
 
 import ro.allevo.fintpui.model.MessageDD;
 import ro.allevo.fintpui.model.MessageDI;
+import ro.allevo.fintpui.model.MessageDuplicate;
 import ro.allevo.fintpui.model.MessageFT;
 import ro.allevo.fintpui.model.MessageInReports;
 
@@ -21,4 +22,6 @@ public interface MessagesDao {
 
 	public ArrayList<MessageInReports> getMeseagesInReport(Map<String, String> requestParameters,
 			StringBuilder total);
+	public ArrayList<MessageDuplicate> getDuplicatesMessageDetails(
+			Map<String, String> requestParameters);
 }

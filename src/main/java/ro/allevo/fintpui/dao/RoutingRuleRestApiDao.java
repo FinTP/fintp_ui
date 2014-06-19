@@ -62,5 +62,4 @@ public class RoutingRuleRestApiDao implements RoutingRuleDao{
 		servletsHelper.deleteAPIResource(uri);
 	}
 
-
 }

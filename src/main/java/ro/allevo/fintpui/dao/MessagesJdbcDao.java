@@ -20,9 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import ro.allevo.fintpui.model.MessageDD;
 import ro.allevo.fintpui.model.MessageDI;
+import ro.allevo.fintpui.model.MessageDuplicate;
 import ro.allevo.fintpui.model.MessageFT;
 import ro.allevo.fintpui.model.MessageInReports;
-
 import ro.allevo.fintpui.utils.JdbcClient;
 
 public class MessagesJdbcDao implements MessagesDao {
@@ -88,6 +88,58 @@ public class MessagesJdbcDao implements MessagesDao {
 			return null;
 		}
 	}
+	
+	public ArrayList<MessageDuplicate> getDuplicatesMessageDetails(Map<String, String> requestParameters) {
+	ArrayList<MessageDuplicate> msgDupl = new ArrayList<> ();
+	try {
+		Connection connection = jdbcClient.getConnection();
+
+		String procedure = getProcedureCallString(
+				"findata.getduplicatemsgdetails", 4);
+		connection.setAutoCommit(false);
+		CallableStatement statement = connection.prepareCall(procedure);
+		
+		if (!requestParameters.get("inMsgID").equals("")) {
+			statement.setString(1,
+					requestParameters.get("inMsgID"));
+		} else {
+			statement.setNull(1, Types.VARCHAR);
+		}
+		
+		if (!requestParameters.get("inLiveArch").equals("")) {
+			statement.setInt(2,
+					new Integer(Integer.parseInt(requestParameters.get("inLiveArch"))));
+		} else {
+			statement.setNull(2, Types.INTEGER);
+		}
+		
+		if (!requestParameters.get("inQueueName").equals("")) {
+			statement.setString(3,
+					requestParameters.get("inQueueName"));
+		} else {
+			statement.setNull(3, Types.VARCHAR);
+		}
+		if (jdbcClient.getDriver().contains("oracle")) {
+			statement.registerOutParameter(4, OracleTypes.CURSOR);
+		} else {
+			statement.registerOutParameter(4, Types.OTHER);
+		}
+		
+		statement.execute();
+		ResultSet resultSet = (ResultSet) statement.getObject(4);
+		
+		while (resultSet.next()) {
+			msgDupl.add(new MessageDuplicate(resultSet));
+		}
+		connection.setAutoCommit(true);
+		
+	} catch (SQLException e) {
+		e.printStackTrace();
+
+	} 
+	return msgDupl;
+	
+	}
 
 	@Override
 	public ArrayList<MessageInReports> getMeseagesInReport(Map<String, String> requestParameters,
@@ -133,9 +185,9 @@ public class MessagesJdbcDao implements MessagesDao {
 					CallableStatement statement = connection.prepareCall(procedure);
 					statement.setString(1, minDate);
 					statement.setString(2, maxDate);
-					if (!requestParameters.get("messageTypes").equals("")) {
+					if (!requestParameters.get("messageTypesFT").equals("")) {
 						statement.setString(3,
-								requestParameters.get("messageTypes"));
+								requestParameters.get("messageTypesFT"));
 					} else {
 						statement.setNull(3, Types.VARCHAR);
 					}
@@ -292,9 +344,9 @@ public class MessagesJdbcDao implements MessagesDao {
 					CallableStatement statement = connection.prepareCall(procedure);
 					statement.setString(1, minDate);
 					statement.setString(2, maxDate);
-					if (!requestParameters.get("messageTypes").equals("")) {
+					if (!requestParameters.get("messageTypesDI").equals("")) {
 						statement.setString(3,
-								requestParameters.get("messageTypes"));
+								requestParameters.get("messageTypesDI"));
 					} else {
 						statement.setNull(3, Types.VARCHAR);
 					}
@@ -452,9 +504,9 @@ public class MessagesJdbcDao implements MessagesDao {
 					CallableStatement statement = connection.prepareCall(procedure);
 					statement.setString(1, minDate);
 					statement.setString(2, maxDate);
-					if (!requestParameters.get("messageTypes").equals("")) {
+					if (!requestParameters.get("messageTypesDD").equals("")) {
 						statement.setString(3,
-								requestParameters.get("messageTypes"));
+								requestParameters.get("messageTypesDD"));
 					} else {
 						statement.setNull(3, Types.VARCHAR);
 					}

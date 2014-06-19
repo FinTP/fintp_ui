@@ -190,6 +190,21 @@
 			<spring:message code="reports.headerCdtid" />: <b>${param.cdtid}</b>; 
 		</c:when>
 	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.messageTypesFT}">
+			<spring:message code="reports.headerMsgtype" />: <b>${param.messageTypesFT}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.messageTypesDD}">
+			<spring:message code="reports.headerMsgtype" />: <b>${param.messageTypesDD}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.messageTypesDI}">
+			<spring:message code="reports.headerMsgtype" />: <b>${param.messageTypesDI}</b>; 
+		</c:when>
+	</c:choose>
 	<br />
 
 	<!-- PAGINATOR -->
@@ -202,13 +217,12 @@
 		<option>50</option>
 		<option>100</option>
 	</select> <br /> <b>Total: </b><span id="total">${total}</span>
-
 	<div id="paginatorLocation">
 		<div id="paginator" />
 	</div>
 	<div style="overflow: scroll;">
 		<table class="reportsTable jtable">
-			<thead>
+			<thead style="overflow: not-scrollable;">
 				<tr>
 					<c:choose>
 						<c:when test="${param.insertdateCheck eq 'on'}">
