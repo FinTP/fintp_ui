@@ -69,6 +69,11 @@
 						</select>
 						<br/>
 						<input id="actionParameter" style="display: none;"/> 
+						<select id="actionArgSelect" style="display: none;">
+							<c:forEach items="${queues}" var ="currQueue">
+								<option value="${currQueue}">${currQueue}</option>
+							</c:forEach>
+						</select>
 					</td>
 				</tr>
 				<tr>
@@ -97,15 +102,22 @@
 	</form:form>
 	<ul style="display: none" id = "actionsNoParamList">
 		<c:forEach var="actionNP" items="${actionsNoParam}">
-			<li id="actionsNoParam">${actionNP}</li>
+			<li>${actionNP}</li>
 		</c:forEach>
 	</ul>
 
 	<ul style="display: none" id = "actionsParamList">
 		<c:forEach var="actionP" items="${actionsParam}">
-			<li id="actionsParam">${actionP}</li>
+			<li>${actionP}</li>
 		</c:forEach>
 	</ul>
+	
+	<ul style="display: none" id = "actionsDropDownList">
+		<c:forEach var="actionP" items="${actionsDropDown}">
+			<li>${actionP}</li>
+		</c:forEach>
+	</ul>
+	
 
 
 

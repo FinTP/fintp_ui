@@ -15,6 +15,7 @@
 	<spring:url var="jquery_js_url"
 		value="/scripts/jquery/jquery-1.10.1.js" />
 	<spring:url var="jquery_ui_url" value="/scripts/jquery/jquery-ui.js" />
+	<spring:url var="routingrules_add_url" value="/scripts/routingrules_add.js" />
 
 	<script src="${locale_js_url}" type="text/javascript">
 	<!-- required for FF3 and Opera -->
@@ -23,6 +24,9 @@
 	<!-- required for FF3 and Opera -->
 	</script>
 	<script src="${jquery_ui_url}" type="text/javascript">
+	<!-- required for FF3 and Opera -->
+	</script>
+	<script src="${routingrules_add_url}" type="text/javascript">
 	<!-- required for FF3 and Opera -->
 	</script>
 	
@@ -88,21 +92,53 @@
 				</tr>
 				<tr>
 					<td>Action on source:</td>
-					<td><spring:bind path="action">
-							<select name="actions">
-								<c:forEach var="action" items="${actions}">
-									<c:choose>
-										<c:when test="${fn:containsIgnoreCase( rule.action, action) }">
-											<option value="${action}" selected="selected">${action}</option>
-										</c:when>
-										<c:otherwise>
-											<option value="${action}">${action}</option>
-										</c:otherwise>
-									</c:choose>
-								</c:forEach>
-							</select>
-						</spring:bind>
-						
+					<form:hidden path="action" id="action" />
+					<td>
+						<select id="actionSelect">
+							<c:forEach var="action" items="${actions}">
+								<c:choose>
+									<c:when test="${fn:containsIgnoreCase( rule.action, action) }">
+										<option value="${action}" selected="selected">${action}</option>
+									</c:when>
+									<c:otherwise>
+										<option value="${action}">${action}</option>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</select> <br />
+						<c:choose>
+							<c:when test="${actionType eq 'NO_ARGUMENT'}">
+								<input id="actionParameter" style="display: none;" />
+								<select id="actionArgSelect" style="display: none;">
+									<c:forEach items="${queues}" var="currQueue">
+										<option value="${currQueue}">${currQueue}</option>
+									</c:forEach>
+								</select>
+							</c:when>
+							<c:when test="${actionType eq 'TEXT_ARGUMENT'}">
+								<input id="actionParameter" value="${argument}" />
+								<select id="actionArgSelect" style="display: none;">
+									<c:forEach items="${queues}" var="currQueue">
+										<option value="${currQueue}">${currQueue}</option>
+									</c:forEach>
+								</select>
+							</c:when>
+							<c:when test="${actionType eq 'LIST_ARGUMENT'}">
+								<input id="actionParameter" style="display: none;" />
+								<select id="actionArgSelect">
+									<c:forEach items="${queues}" var="currQueue">
+										<c:choose>
+											<c:when test="${currQueue eq argument}">
+												<option value="${currQueue}" selected="selected">${currQueue}</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${currQueue}">${currQueue}</option>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+								</select>
+							</c:when>
+						</c:choose>
 					</td>
 				</tr>
 				<tr>
@@ -139,4 +175,22 @@ onclick="window.location='${pageContext.servletContext.contextPath}/routingrules
 
 	</form:form>
 
+	<ul style="display: none" id = "actionsNoParamList">
+		<c:forEach var="actionNP" items="${actionsNoParam}">
+			<li>${actionNP}</li>
+		</c:forEach>
+	</ul>
+
+	<ul style="display: none" id = "actionsParamList">
+		<c:forEach var="actionP" items="${actionsParam}">
+			<li>${actionP}</li>
+		</c:forEach>
+	</ul>
+	
+	<ul style="display: none" id = "actionsDropDownList">
+		<c:forEach var="actionP" items="${actionsDropDown}">
+			<li>${actionP}</li>
+		</c:forEach>
+	</ul>
+	
 </div>

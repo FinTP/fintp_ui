@@ -70,6 +70,9 @@ public class RoutingRulesController {
 		model.addAttribute("schemas", routingSchemaService.getAllRoutingSchemaNames());
 		model.addAttribute("types", Invariants.RULES_TYPES);
 		model.addAttribute("actions", Invariants.RULES_ACTIONS);
+		model.addAttribute("actionsNoParam", Invariants.RULES_ACTIONS_NO_PARAM);
+		model.addAttribute("actionsParam", Invariants.RULES_ACTIONS_WITH_PARAM);
+		model.addAttribute("actionsDropDown", Invariants.RULES_ACTIONS_WITH_DROP_DOWN);
 		return "tiles/routingrules_add";
 	}
 	
@@ -93,6 +96,38 @@ public class RoutingRulesController {
 		model.addAttribute("schemas", routingSchemaService.getAllRoutingSchemaNames());
 		model.addAttribute("types", Invariants.RULES_TYPES);
 		model.addAttribute("actions", Invariants.RULES_ACTIONS);
+		model.addAttribute("actionsNoParam", Invariants.RULES_ACTIONS_NO_PARAM);
+		model.addAttribute("actionsParam", Invariants.RULES_ACTIONS_WITH_PARAM);
+		model.addAttribute("actionsDropDown", Invariants.RULES_ACTIONS_WITH_DROP_DOWN);
+		
+		
+		//if action contains argument, extract the action name
+		String action;
+		if(rule.getAction().contains("(")){
+			action = rule.getAction().substring(0,rule.getAction().indexOf("("));
+		}else{
+			action = rule.getAction();
+		}
+		logger.info(action);
+		logger.info(Invariants.RULES_ACTIONS_WITH_DROP_DOWN.contains(action));
+		if(Invariants.RULES_ACTIONS_NO_PARAM.contains(action)){
+			logger.info("NO ARGUMENT");
+			model.addAttribute("actionType", "NO_ARGUMENT");
+		}
+		if(Invariants.RULES_ACTIONS_WITH_PARAM.contains(action)){
+			logger.info("TEXT ARGUMENT");
+			String argument = rule.getAction().substring(rule.getAction().indexOf("(") + 1, rule.getAction().length() - 1);
+			model.addAttribute("actionType", "TEXT_ARGUMENT");
+			model.addAttribute("argument", argument);
+		}
+		if(Invariants.RULES_ACTIONS_WITH_DROP_DOWN.contains(action)){
+			String argument = rule.getAction().substring(rule.getAction().indexOf("(") + 1, rule.getAction().length() - 1);
+			model.addAttribute("actionType", "LIST_ARGUMENT");
+			model.addAttribute("argument", argument);
+			logger.info("DROP DOWN ARGUMENT");
+			logger.info("dest queue " + argument);
+		}
+		
 		return "tiles/routingrules_edit";
 	}
 	
