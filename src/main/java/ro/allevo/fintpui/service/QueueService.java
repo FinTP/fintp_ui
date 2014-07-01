@@ -1,9 +1,7 @@
 package ro.allevo.fintpui.service;
 
 import java.util.ArrayList;
-
 import org.codehaus.jettison.json.JSONObject;
-
 import ro.allevo.fintpui.model.Queue;
 
 public interface QueueService {

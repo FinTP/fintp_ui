@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import com.sun.jersey.api.client.ClientResponse;
 
 import ro.allevo.fintpui.dao.QueueDao;
+import ro.allevo.fintpui.exception.NotAuthorizedException;
 import ro.allevo.fintpui.model.Queue;
 import ro.allevo.fintpui.model.QueueType;
 import ro.allevo.fintpui.model.QueueTypes;
@@ -109,7 +110,7 @@ public class QueueServiceImpl implements QueueService{
 		ClientResponse response = servletsHelper.getAPIResource(uri);
 		JSONObject jsonResponse = response.getEntity(JSONObject.class);
 		if(response.getStatus() == 403){
-			return null;
+			throw new NotAuthorizedException("You don't have enough rights to view messages in this queue");
 		}
 		JSONArray jsonArray;
 		try {
