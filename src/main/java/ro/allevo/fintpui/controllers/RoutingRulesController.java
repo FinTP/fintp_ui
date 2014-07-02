@@ -44,7 +44,7 @@ public class RoutingRulesController {
 	@RequestMapping(value = "/routingrules", method = RequestMethod.GET)
 	public String printRules(ModelMap model, @RequestParam(value = "schema", required = false) String schemaName){
 		logger.info("/routingrules requested with arguments [schema:" + schemaName+ "]");
-		final RoutingRule[] rules;
+		final ArrayList<RoutingRule> rules;
 		
 		
 		if(schemaName == null){

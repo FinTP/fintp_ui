@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import ro.allevo.fintpui.exception.ConflictException;
 import ro.allevo.fintpui.exception.NotAuthorizedException;
-import ro.allevo.fintpui.exception.TestException;
+
 
 @ControllerAdvice
 public class GlobalExceptionHandlerController {
@@ -33,12 +34,12 @@ public class GlobalExceptionHandlerController {
 		return modelAndView;
 	}
 	
-
-	@ResponseStatus(value = HttpStatus.FORBIDDEN)
-	@ExceptionHandler({TestException.class})
-	public void test(){
-		System.out.println("=====================");
-		System.out.println("TEST");
-		System.out.println("=====================");
+	@ResponseStatus(value = HttpStatus.CONFLICT)
+	@ExceptionHandler(ConflictException.class)
+	public ModelAndView handleConflict(Exception exception){
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("message", exception.getMessage());
+		modelAndView.setViewName(DEFAULT_ERROR_VIEW);
+		return modelAndView;
 	}
 }

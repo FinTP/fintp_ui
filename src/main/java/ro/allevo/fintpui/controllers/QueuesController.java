@@ -1,12 +1,17 @@
 package ro.allevo.fintpui.controllers;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 
 
+
+import javax.ws.rs.core.UriBuilder;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,6 +24,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import org.springframework.web.servlet.ModelAndView;
 
+import com.sun.jersey.api.client.ClientResponse;
+
+import ro.allevo.fintpui.exception.NotAuthorizedException;
 import ro.allevo.fintpui.model.MessagesGroup;
 import ro.allevo.fintpui.model.Queue;
 import ro.allevo.fintpui.service.QueueService;
@@ -82,6 +90,15 @@ public class QueuesController {
 	@RequestMapping(value = "/editQueue", method = RequestMethod.GET)
 	public String editQueue(ModelMap model, @RequestParam(value="queue", required=true) String queueName){
 		logger.info("/editQueue requested");
+		
+		URI uri = UriBuilder.fromPath(servletsHelper.getUrl()).path("queues")
+				.path(queueName).path("messagetypes").build();
+		ClientResponse response = servletsHelper.getAPIResource(uri);
+		JSONObject jsonResponse = response.getEntity(JSONObject.class);
+		if(response.getStatus() == 403){
+			throw new NotAuthorizedException("You don't have enough rights to edit this queue");
+		}
+		
 		Queue queue = queueService.getQueue(queueName);
 		model.addAttribute("queue", queue);
 		model.addAttribute("types", queueService.getQueueTypes());
@@ -103,6 +120,13 @@ public class QueuesController {
 	@RequestMapping(value = "/queues/deleteQueue")
 	public String deleteQueue(@RequestParam("queue") String queueName){
 		logger.info("/delete queue requested");
+		URI uri = UriBuilder.fromPath(servletsHelper.getUrl()).path("queues")
+				.path(queueName).path("messagetypes").build();
+		ClientResponse response = servletsHelper.getAPIResource(uri);
+		JSONObject jsonResponse = response.getEntity(JSONObject.class);
+		if(response.getStatus() == 403){
+			throw new NotAuthorizedException("You don't have enough rights to delete this queue");
+		}
 		queueService.deleteQueue(queueName);
 		return "redirect:/queues.htm";
 	}

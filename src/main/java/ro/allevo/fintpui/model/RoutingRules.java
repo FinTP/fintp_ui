@@ -9,7 +9,17 @@ public class RoutingRules {
 	@JsonProperty("_type")
 	private String type;
 	@JsonProperty("has_more")
-	private boolean hasMore;
+	private String hasMore;
+	
+	public boolean hasMore() {
+		if (this.hasMore==null)
+			return false;
+		
+		if(hasMore.equals("true"))
+			return true;
+		
+		return false;
+	}
 	
 	public String getHref() {
 		return href;

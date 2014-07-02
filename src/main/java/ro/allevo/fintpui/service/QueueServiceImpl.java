@@ -55,6 +55,8 @@ public class QueueServiceImpl implements QueueService{
 	
 	@Override
 	public void updateQueue(String queueName, Queue queue) {
+		
+		
 		queueDao.updateQueue(queueName, queue);
 	}
 	

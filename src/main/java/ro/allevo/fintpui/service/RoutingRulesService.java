@@ -22,11 +22,11 @@ public class RoutingRulesService {
 	@Autowired
 	private RoutingRuleDao routingRuleDao;
 	
-	public RoutingRule[] getAllRoutingRules(){
+	public ArrayList<RoutingRule> getAllRoutingRules(){
 		return routingRuleDao.getAllRoutingRules();
 	}
 	
-	public RoutingRule[] getRoutingRulesBySchema(String schemaName) {
+	public  ArrayList<RoutingRule> getRoutingRulesBySchema(String schemaName) {
 		return routingRuleDao.getRoutingRulesBySchema(schemaName);
 	}
 	
@@ -64,7 +64,7 @@ public class RoutingRulesService {
 	
 	public void copyRules(String sourceSchema, String destSchema){
 		//get rules from source
-		RoutingRule[] rulesToBeCopied = routingRuleDao.getRoutingRulesBySchema(sourceSchema);
+		 ArrayList<RoutingRule> rulesToBeCopied = routingRuleDao.getRoutingRulesBySchema(sourceSchema);
 		
 		//set them the new schema, then post
 		for(RoutingRule rule : rulesToBeCopied){
@@ -75,7 +75,7 @@ public class RoutingRulesService {
 	
 	public void deleteRulesFromSchema(String sourceSchema){
 		
-		RoutingRule[] rulesToBeCopied = routingRuleDao.getRoutingRulesBySchema(sourceSchema);
+		 ArrayList<RoutingRule> rulesToBeCopied = routingRuleDao.getRoutingRulesBySchema(sourceSchema);
 		
 		//set them the new schema, then post
 		for(RoutingRule rule : rulesToBeCopied){
@@ -84,7 +84,7 @@ public class RoutingRulesService {
 	}
 	
 	
-	public Map<String, ArrayList<RoutingRule>> getRulesGroupedByQueues(RoutingRule[] rules){
+	public Map<String, ArrayList<RoutingRule>> getRulesGroupedByQueues(ArrayList<RoutingRule> rules){
 		HashMap<String, ArrayList<RoutingRule>> map = new HashMap<>();
 		for(RoutingRule rule : rules){
 			String queueName = rule.getQueue();
