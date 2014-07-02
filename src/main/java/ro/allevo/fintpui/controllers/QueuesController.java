@@ -89,14 +89,6 @@ public class QueuesController {
 	@RequestMapping(value = "/editQueue", method = RequestMethod.GET)
 	public String editQueue(ModelMap model, @RequestParam(value="queue", required=true) String queueName){
 		logger.info("/editQueue requested");
-		
-		URI uri = UriBuilder.fromPath(servletsHelper.getUrl()).path("queues")
-				.path(queueName).path("messagetypes").build();
-		ClientResponse response = servletsHelper.getAPIResource(uri);
-		if(response.getStatus() == 403){
-			throw new NotAuthorizedException("You don't have enough rights to edit this queue");
-		}
-		
 		Queue queue = queueService.getQueue(queueName);
 		model.addAttribute("queue", queue);
 		model.addAttribute("types", queueService.getQueueTypes());
@@ -118,12 +110,6 @@ public class QueuesController {
 	@RequestMapping(value = "/queues/deleteQueue")
 	public String deleteQueue(@RequestParam("queue") String queueName){
 		logger.info("/delete queue requested");
-		URI uri = UriBuilder.fromPath(servletsHelper.getUrl()).path("queues")
-				.path(queueName).path("messagetypes").build();
-		ClientResponse response = servletsHelper.getAPIResource(uri);
-		if(response.getStatus() == 403){
-			throw new NotAuthorizedException("You don't have enough rights to delete this queue");
-		}
 		queueService.deleteQueue(queueName);
 		return "redirect:/queues.htm";
 	}

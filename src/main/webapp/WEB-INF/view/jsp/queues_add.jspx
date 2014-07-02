@@ -25,14 +25,13 @@
 	</script>
 	<script src="${jquery_ui_url}" type="text/javascript">
 	<!-- required for FF3 and Opera -->
-		
 	</script>
+	
 	<script src="${queue_add_js_url}" type="text/javascript">
 	<!-- required for FF3 and Opera -->
-		
 	</script>
+	
 	<input id="apiUri" type="hidden" value="${apiUri}" />
-
 	<form:form method="post"
 		action="${pageContext.servletContext.contextPath}/queues/insert.htm"
 		modelAttribute="queue">
