@@ -168,7 +168,7 @@
 					<td><input type="submit" value="Save" class="submitButton"  style="margin-left:10px;width:70px"/>
 				
 					 <input type="button" name="cancel" value="Cancel"
-onclick="window.location='${pageContext.servletContext.contextPath}/routingrules.htm'" class="submitButton" style="margin-left:20px" /></td>
+onclick="window.history.back();" class="submitButton" style="margin-left:20px" /></td>
 				</tr>
 			</tbody>
 		</table>
