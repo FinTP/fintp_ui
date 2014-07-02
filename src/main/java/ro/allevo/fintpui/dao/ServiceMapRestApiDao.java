@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 
-import ro.allevo.fintpui.model.Queues;
 import ro.allevo.fintpui.model.ServiceMap;
 import ro.allevo.fintpui.model.ServiceMaps;
 import ro.allevo.fintpui.utils.RestClient;

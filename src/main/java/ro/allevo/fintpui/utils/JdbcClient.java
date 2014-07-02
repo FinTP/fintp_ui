@@ -4,7 +4,6 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +14,6 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import oracle.jdbc.OracleTypes;
-import ro.allevo.fintpui.controllers.MessageController;
 import ro.allevo.fintpui.model.MessagesGroup;
 
 public class JdbcClient {
@@ -104,14 +102,7 @@ public class JdbcClient {
 		}
 	}
 
-	private ResultSet performGenericQuery(String selectClause,
-			String whereClause, String orderClause, String limitClause)
-			throws SQLException {
-		String query = selectClause + " " + whereClause + " " + orderClause
-				+ " " + limitClause;
-		return connection.createStatement().executeQuery(query);
-	}
-
+	
 	public ArrayList<String> getFTMessageTypes() throws SQLException {
 		return getDistinctTypes(FT_MESSAGES_QUERY, "friendlyname");
 	}
@@ -222,28 +213,6 @@ public class JdbcClient {
 		questionMarks += "?";
 		return "{call " + procedureName + "(" + questionMarks + ")}";
 	}
-
-	private String getPayload(String correlId) {
-
-		String query = "select payload " + "from feedbackagg "
-				+ "where correlid = '" + correlId + "'";
-		Statement statement;
-		try {
-			statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(query);
-			if (!resultSet.next()) {
-				return null;
-			} else {
-				return resultSet.getString("payload");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return null;
-	}
-
-
 
 	public ArrayList<String> getServices() {
 		return services;

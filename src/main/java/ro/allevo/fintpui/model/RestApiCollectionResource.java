@@ -8,8 +8,9 @@ public class RestApiCollectionResource<ResourceType> {
 	private String href;
 	@JsonProperty("_type")
 	private String type;
-	@JsonProperty("timelimits")
+	@JsonProperty("collection")
 	private ResourceType[] collection;
+	
 	
 	public String getHref() {
 		return href;

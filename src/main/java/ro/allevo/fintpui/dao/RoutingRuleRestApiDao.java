@@ -11,10 +11,8 @@ import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 
-import com.sun.jersey.api.client.ClientResponse;
 
 import ro.allevo.fintpui.exception.ConflictException;
-import ro.allevo.fintpui.exception.NotAuthorizedException;
 import ro.allevo.fintpui.model.RoutingRule;
 import ro.allevo.fintpui.model.RoutingRules;
 import ro.allevo.fintpui.utils.RestClient;

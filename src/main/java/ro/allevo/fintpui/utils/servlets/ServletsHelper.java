@@ -1,8 +1,6 @@
 package ro.allevo.fintpui.utils.servlets;
 
 import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.net.URI;
 
 import javax.ws.rs.core.MediaType;
@@ -17,8 +15,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;

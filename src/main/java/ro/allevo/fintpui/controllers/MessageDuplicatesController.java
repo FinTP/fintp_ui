@@ -28,7 +28,6 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
 import ro.allevo.fintpui.model.MessageDuplicate;
-import ro.allevo.fintpui.model.MessageInReports;
 import ro.allevo.fintpui.service.MessageService;
 import ro.allevo.fintpui.utils.JdbcClient;
 import ro.allevo.fintpui.utils.servlets.ServletsHelper;

@@ -2,8 +2,6 @@ package ro.allevo.fintpui.utils.servlets;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.Enumeration;
-import java.util.Map;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;

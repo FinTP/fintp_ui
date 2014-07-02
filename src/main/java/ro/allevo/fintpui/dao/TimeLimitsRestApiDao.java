@@ -7,7 +7,6 @@ import javax.ws.rs.core.UriBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 
-import ro.allevo.fintpui.model.RoutingSchema;
 import ro.allevo.fintpui.model.TimeLimit;
 import ro.allevo.fintpui.model.TimeLimits;
 import ro.allevo.fintpui.utils.RestClient;

@@ -1,21 +1,14 @@
 package ro.allevo.fintpui.service;
 
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.ws.rs.core.UriBuilder;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.client.RestTemplate;
 
 import ro.allevo.fintpui.dao.RoutingRuleDao;
 import ro.allevo.fintpui.model.RoutingRule;
-import ro.allevo.fintpui.model.RoutingRules;
-import ro.allevo.fintpui.utils.RestClient;
 
 public class RoutingRulesService {
 	

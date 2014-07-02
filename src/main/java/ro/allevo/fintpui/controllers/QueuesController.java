@@ -11,7 +11,6 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -94,7 +93,6 @@ public class QueuesController {
 		URI uri = UriBuilder.fromPath(servletsHelper.getUrl()).path("queues")
 				.path(queueName).path("messagetypes").build();
 		ClientResponse response = servletsHelper.getAPIResource(uri);
-		JSONObject jsonResponse = response.getEntity(JSONObject.class);
 		if(response.getStatus() == 403){
 			throw new NotAuthorizedException("You don't have enough rights to edit this queue");
 		}
@@ -123,7 +121,6 @@ public class QueuesController {
 		URI uri = UriBuilder.fromPath(servletsHelper.getUrl()).path("queues")
 				.path(queueName).path("messagetypes").build();
 		ClientResponse response = servletsHelper.getAPIResource(uri);
-		JSONObject jsonResponse = response.getEntity(JSONObject.class);
 		if(response.getStatus() == 403){
 			throw new NotAuthorizedException("You don't have enough rights to delete this queue");
 		}

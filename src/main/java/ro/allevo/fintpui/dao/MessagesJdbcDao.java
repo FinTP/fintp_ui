@@ -145,9 +145,6 @@ public class MessagesJdbcDao implements MessagesDao {
 	public ArrayList<MessageInReports> getMeseagesInReport(Map<String, String> requestParameters,
 			StringBuilder total) {
 		
-			SimpleDateFormat html5Format = new SimpleDateFormat(
-					"yyyy-MM-dd'T'hh:mm");
-			SimpleDateFormat dbFormat = new SimpleDateFormat("dd MM yyyy hh:mm:ss");
 			SimpleDateFormat dbFormatDateOnly = new SimpleDateFormat("dd MM yyyy");
 			SimpleDateFormat DateFormat = new SimpleDateFormat("MM/dd/yyyy");
 			// TODO: change valueDateFormat or html5Format to pe the same

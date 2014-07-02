@@ -1,7 +1,6 @@
 package ro.allevo.fintpui.controllers;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -12,7 +11,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import ro.allevo.fintpui.model.RoutingRule;
-import ro.allevo.fintpui.model.RoutingSchema;
 import ro.allevo.fintpui.service.QueueService;
 import ro.allevo.fintpui.service.RoutingRulesService;
 import ro.allevo.fintpui.service.RoutingSchemaService;

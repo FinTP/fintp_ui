@@ -2,9 +2,6 @@ package ro.allevo.fintpui.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-
-import ro.allevo.fintpui.service.MessageService;
 
 public abstract class MessageInReports {
 
