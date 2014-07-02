@@ -94,7 +94,8 @@
 				</tr>
 				<tr>
 					<td></td>
-					<td><input type="submit" value="Create" class="submitButton" /></td>
+					<td><input type="submit" value="Create" class="submitButton" /><input type="button" name="Cancel" value="Cancel"
+onclick="window.history.back();" class="submitButton" style="margin-left:20px" /></td>
 				</tr>
 			</tbody>
 		</table>

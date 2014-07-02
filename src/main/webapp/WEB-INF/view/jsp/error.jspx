@@ -4,5 +4,7 @@ xmlns:tiles="http://tiles.apache.org/tags-tiles"
 xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
 
 	<h3>${message}</h3>
-
+	<br/>
+ <input type="button" name="Back" value="Back"
+onclick="window.history.back();" class="submitButton" style="margin-left:20px" />
 </div>
