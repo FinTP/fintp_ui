@@ -56,7 +56,7 @@
 						</spring:bind></td>
 				</tr>
 				<tr>
-					<td>Connector:</td>
+					<td>Exit point:</td>
 					<td>
 						<spring:bind path="connector">
 							<select name="connector">
@@ -100,10 +100,6 @@
 							</select>
 						</spring:bind>
 					</td>
-				</tr>
-				<tr>
-					<td>Priority:</td>
-					<td><form:input path="priority"/></td>
 				</tr>
 				<tr>
 					<td></td>

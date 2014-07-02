@@ -49,7 +49,7 @@
 						</form:select></td>
 				</tr>
 				<tr>
-					<td>Connector:</td>
+					<td>Exit Point:</td>
 					<td>
 						<form:select path="connector">
 							<form:option value=""/>
@@ -60,10 +60,6 @@
 				<tr>
 					<td>Type:</td>
 					<td><form:select path="type" items="${types}" /></td>
-				</tr>
-				<tr>
-					<td>Priority:</td>
-					<td><form:input path="priority" /></td>
 				</tr>
 				<tr>
 					<td></td>
