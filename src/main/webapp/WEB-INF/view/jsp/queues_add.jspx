@@ -13,6 +13,7 @@
 	<spring:url var="jquery_js_url"
 		value="/scripts/jquery/jquery-1.10.1.js" />
 	<spring:url var="jquery_ui_url" value="/scripts/jquery/jquery-ui.js" />
+	<spring:url var="queue_add_js_url" value="/scripts/queue_add.js" />
 
 	<script src="${locale_js_url}" type="text/javascript">
 	<!-- required for FF3 and Opera -->
@@ -23,6 +24,10 @@
 		
 	</script>
 	<script src="${jquery_ui_url}" type="text/javascript">
+	<!-- required for FF3 and Opera -->
+		
+	</script>
+	<script src="${queue_add_js_url}" type="text/javascript">
 	<!-- required for FF3 and Opera -->
 		
 	</script>
@@ -50,12 +55,10 @@
 				</tr>
 				<tr>
 					<td>Connector:</td>
-					<td>
-						<form:select path="connector">
-							<form:option value=""/>
-							<form:options items="${connectors}"/>
-						</form:select>
-					</td>
+					<td><form:select path="connector">
+							<form:option value="" />
+							<form:options items="${connectors}" />
+						</form:select></td>
 				</tr>
 				<tr>
 					<td>Type:</td>
@@ -68,9 +71,9 @@
 				<tr>
 					<td></td>
 					<td><input type="submit" value="Save" class="submitButton" />
-					<input type="button" name="Cancel" value="Cancel"
-onclick="window.history.back();" class="submitButton" style="margin-left:20px" />
-</td>
+						<input type="button" name="Cancel" value="Cancel"
+						onclick="window.history.back();" class="submitButton"
+						style="margin-left: 20px" /></td>
 				</tr>
 
 			</tbody>
