@@ -38,6 +38,10 @@ $(function() {
 		
 		
 	});
+	$(".submitButton").click(function() {
+		var actionparameter = $("#actionParameter").val();
+		$("#actionParameter").val(actionparameter.replace(/ /g,''));
+	});
 	
 	$("form").submit(function(){
 		var actionString = $("#actionSelect").val();
@@ -53,5 +57,9 @@ $(function() {
 			actionString += "(" + actionTextParam + ")";
 		}
 		$("#action").val(actionString);
+		
+		
+		
 	});
+	
 });
