@@ -48,7 +48,7 @@ public class TimeLimitsRestApiDao implements TimeLimitsDao {
 	@Override
 	public TimeLimit getTimeLimit(String limitName) {
 		RestTemplate client = new RestClient();
-		String url = servletsHelper.getUrl() + "/timelimit/"+limitName;
+		String url = servletsHelper.getUrl() + "/timelimits/"+limitName;
 		TimeLimit entity = client.getForObject(url, TimeLimit.class);
 		return entity;
 	}
