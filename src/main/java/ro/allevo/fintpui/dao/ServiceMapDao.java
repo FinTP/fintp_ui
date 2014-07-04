@@ -11,5 +11,6 @@ public interface ServiceMapDao {
 	public void insertServiceMap(ServiceMap serviceMap);
 	public void updateServiceMap(String friendlyName, ServiceMap serviceMap);
 	public void deleteServiceMap(String friendlyName);
+	public ServiceMap getServiceMap(String serviceMap);
 
 }

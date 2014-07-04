@@ -19,6 +19,10 @@ public class ServiceMapService {
 	public ArrayList<String> getServiceMapNamesList(){
 		return serviceMapDao.getServiceMapNamesList();
 	}
+	
+	public ServiceMap getServiceMap(String friendlyName){
+		return serviceMapDao.getServiceMap(friendlyName);
+	}
 
 	public void insertServiceMap(ServiceMap serviceMap) {
 		serviceMapDao.insertServiceMap(serviceMap);
@@ -28,7 +32,7 @@ public class ServiceMapService {
 		serviceMapDao.deleteServiceMap(friendlyName);
 	}
 
-	public void updateQueue(String friendlyName, ServiceMap serviceMap) {
+	public void updateServiceMap(String friendlyName, ServiceMap serviceMap) {
 		serviceMapDao.updateServiceMap(friendlyName, serviceMap);
 	}
 }

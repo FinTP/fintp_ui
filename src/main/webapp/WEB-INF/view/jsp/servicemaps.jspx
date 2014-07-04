@@ -1,0 +1,66 @@
+<div xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
+	
+	<spring:url value="/style" var="styleUrl" />
+	<link href="${styleUrl}/fintpTable.css" rel="stylesheet"/>
+	<link href="${styleUrl}/jquery/jquery-ui-1.10.4.custom.css"
+		rel="stylesheet" />
+	
+	<spring:url value="/scripts/locale.js" var="locale_js_url" />
+	<spring:url var="jquery_js_url" value="/scripts/jquery/jquery-1.10.1.js" />
+	<spring:url var="jquery_ui_url" value="/scripts/jquery/jquery-ui.js" />
+	<spring:url var="servicemaps_url" value="/scripts/servicemaps.js" />
+	
+	<script src="${locale_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+	<script src="${jquery_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+	<script src="${jquery_ui_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+	<script src="${servicemaps_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+	
+	<input id="apiUri" type="hidden" value="${apiUri}"/>
+	
+		
+	<c:choose>
+		<c:when test="${empty servicemaps}">
+			No Service Maps.
+		</c:when>
+		<c:otherwise>
+			<table id="connectorsTable" class="fintpTable" style="width: auto;">
+				<tbody>
+					<tr>
+						<th>Actions</th>
+						<th>Name</th>
+						<th>Status</th>
+						<th>LastSessionId</th>
+						<th>HeartbeatInterval</th>
+						<th>LastHeartbeat</th>
+						<th>Service Type</th>
+						<th>IO Identifier</th>
+						<th>ExitPoint</th>
+						
+						
+					</tr>
+				<c:forEach var="servicemap" items="${servicemaps}">
+					<tr>
+						<td>
+							<button class="edit"></button>
+						</td>
+						<td><c:out value="${servicemap.friendlyname}" /></td>
+						<td><c:out value="${servicemap.status}" /></td>
+						<td><c:out value="${servicemap.lastsessionid}" /></td>
+						<td><c:out value="${servicemap.heartbeatinterval}" /></td>
+						<td><c:out value="${servicemap.lastheartbeat}" /></td>
+						<td><c:out value="${servicemap.servicetype}" /></td>
+						<td><c:out value="${servicemap.ioidentifier}" /></td>
+						<td><c:out value="${servicemap.exitpoint}" /></td>
+						
+						
+					</tr>				
+				</c:forEach>
+				</tbody>
+			</table>
+		</c:otherwise>
+	</c:choose>
+	
+	</div>

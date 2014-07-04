@@ -30,6 +30,7 @@
 					<li><a href="${pageContext.servletContext.contextPath}/schemas.htm"><spring:message code="header.menuSchemas"/></a></li>
 					<li><a href="${pageContext.servletContext.contextPath}/routingrules.htm"><spring:message code="header.menuRules"/></a></li>
 					<li><a href="${pageContext.servletContext.contextPath}/timelimits.htm"><spring:message code="header.menuTimelimits"/></a></li>
+					<li><a href="${pageContext.servletContext.contextPath}/connectors.htm"><spring:message code="header.menuConnectors"/></a></li>
 				</ul>
 			</li>
 	
