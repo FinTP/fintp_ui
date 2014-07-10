@@ -37,64 +37,84 @@
 	<form:form method="post"
 		action="${pageContext.servletContext.contextPath}/servicemaps/update.htm"
 		modelAttribute="servicemap">
-		<input name="friendlyname" type="hidden" value="${servicemap.friendlyname}"/>
+		<input name="friendlyname" type="hidden"
+			value="${servicemap.friendlyname}" />
 		<table class="centeredTable" style="width: auto;">
 			<tbody>
 				<tr>
-					<td style="text-align:right;">Friendly Name:</td>
+					<td style="text-align: right;">Friendly Name:</td>
 					<td>${servicemap.friendlyname}</td>
 				</tr>
 				<tr>
-					<td style="text-align:right;">Status:</td>
+					<td style="text-align: right;">Status:</td>
 					<td>${servicemap.status}</td>
 				</tr>
 				<tr>
-					<td style="text-align:right;">LastSessionId:</td>
+					<td style="text-align: right;">LastSessionId:</td>
 					<td>${servicemap.lastsessionid}</td>
 				</tr>
 				<tr>
-					<td style="text-align:right;">HeartbeatInterval:</td>
+					<td style="text-align: right;">HeartbeatInterval:</td>
 					<td>${servicemap.heartbeatinterval}</td>
 				</tr>
 				<tr>
-					<td style="text-align:right;">LastHeartbeat:</td>
+					<td style="text-align: right;">LastHeartbeat:</td>
 					<td>${servicemap.lastheartbeat}</td>
 				</tr>
 				<tr>
-					<td style="text-align:right;">Version:</td>
+					<td style="text-align: right;">Version:</td>
 					<td>${servicemap.version}</td>
 				</tr>
 				<tr>
-					<td style="text-align:right;">Application:</td>
+					<td style="text-align: right;">Application:</td>
 					<td>${servicemap.partner}</td>
 				</tr>
 				<tr>
-					<td style="text-align:right;">Service type:</td>
+					<td style="text-align: right;">Service type:</td>
 					<td>${servicemap.servicetype}</td>
 				</tr>
 				<tr>
-					<td style="text-align:right;">Check Duplicates</td>
-					<td>${servicemap.duplicatecheck}</td>
+					<td style="text-align: right;">Check Duplicates</td>
+					<td><form:select path="duplicatecheck">
+							<form:option value="0">No</form:option>
+							<form:option value="1">Yes</form:option>
+						</form:select></td>
 				</tr>
 				<tr>
-					<td style="text-align:right;">Duplicates Queue Name</td>
-					<td>${servicemap.duplicateq}</td>
+					<td style="text-align: right;">Duplicates Queue Name</td>
+					<td><form:select path="duplicateq" name="duplicateq">
+							<form:option value=""></form:option>
+							<c:forEach var="queueName" items="${queues}">
+								<form:option value="${queueName}">${queueName}</form:option>
+							</c:forEach>
+						</form:select></td>
 				</tr>
 				<tr>
-					<td style="text-align:right;">Duplicate Map</td>
-					<td><form:input path="duplicatemap"/></td>
+					<td style="text-align: right;">Duplicate Map</td>
+					<td><form:input path="duplicatemap" /></td>
 				</tr>
 				<tr>
-					<td style="text-align:right;">Duplicate Notifications Queue Name</td>
-					<td>${servicemap.duplicatenotifq}</td>
+					<td style="text-align: right;">Duplicate Notifications Queue
+						Name</td>
+					<td><form:select path="duplicatenotifq" name="duplicatenotifq">
+							<form:option value=""></form:option>
+							<c:forEach var="queueName" items="${queues}">
+								<form:option value="${queueName}">${queueName}</form:option>
+							</c:forEach>
+						</form:select></td>
 				</tr>
 				<tr>
-					<td style="text-align:right;">Delayed Queue Name</td>
-					<td>${servicemap.delayednotifq}</td>
+					<td style="text-align: right;">Delayed Queue Name</td>
+					<td><form:select path="delayednotifq" name="delayednotifq">
+							<form:option value=""></form:option>
+							<c:forEach var="queueName" items="${queues}">
+								<form:option value="${queueName}">${queueName}</form:option>
+							</c:forEach>
+						</form:select></td>
 				</tr>
 				<tr>
-					<td style="text-align:right;">ExitPoint:</td>
-					<td><form:textarea path="exitpoint"/></td>
+					<td style="text-align: right;">ExitPoint:</td>
+					<td><form:textarea path="exitpoint" /></td>
 				</tr>
 
 				<tr>

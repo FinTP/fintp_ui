@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ro.allevo.fintpui.model.ServiceMap;
 import ro.allevo.fintpui.model.TimeLimit;
+import ro.allevo.fintpui.service.QueueService;
 import ro.allevo.fintpui.service.ServiceMapService;
 import ro.allevo.fintpui.utils.JdbcClient;
 import ro.allevo.fintpui.utils.servlets.ServletsHelper;
@@ -27,6 +28,9 @@ public class ServiceMapsController {
 	@Autowired
 	private ServiceMapService serviceMapService;
 
+	@Autowired 
+	private QueueService queueService;
+	
 	private static Logger logger = LogManager.getLogger(ServiceMapsController.class
 			.getName());
 	
@@ -39,6 +43,7 @@ public class ServiceMapsController {
 		logger.info("/connectors requested");
 		ServiceMap[] servicemaps = serviceMapService.getServiceMapsList();
 		model.addAttribute("servicemaps", servicemaps);
+		
 		model.addAttribute("apiUri", servletsHelper.getUrl());
 		return "tiles/servicemaps";
 	}
@@ -51,6 +56,7 @@ public class ServiceMapsController {
 		logger.info("/editConnector requested");
 		ServiceMap servicemap = serviceMapService.getServiceMap(servicemapname);
 		model.addAttribute("servicemap", servicemap);
+		model.addAttribute("queues", queueService.getQueuesNames());
 		model.addAttribute("apiUri", servletsHelper.getUrl());
 		return "tiles/servicemap_edit";
 	}
