@@ -124,7 +124,18 @@ function loadTable(table, isTotalRequested,  filterArguments){
 				var messageId = $(this).closest("tr").attr("id");
 				var $parentTable = $(this).closest("table");
 				var messageType = $parentTable.find("input[name='messageType']").val();
-				var functionCall = "viewPayload('"+ messageId + "', '" + messageType + "');";
+				var childMessageType = $parentTable.find("input[name='childMessageType']").val();
+				var isParent = $parentTable.find("input[name='isParent']").val();
+			
+				if (isParent == 'false'){
+					var functionCall = "viewPayload('"+ messageId + "', '" + messageType + "');";
+
+				}
+				else if (isParent == 'true')
+					{
+						var functionCall = "viewChild('"+ childMessageType + "');";
+						
+					}
 				$(this).attr("onclick", functionCall);
 				
 			});
@@ -142,6 +153,10 @@ function loadTable(table, isTotalRequested,  filterArguments){
 function viewPayload(id, type) {
 		document.location.href = '../viewPayload.htm?id=' + id + '&type='
 			+ type + '&queue=' + $("#queueName").text();
+}
+
+function viewChild(type) {
+	document.location.href = '../queues/' + $("#queueName").text()+'.htm?type=' + type + '&isComposedMsgType=true'+ '&queue=' + $("#queueName").text();
 }
 
 

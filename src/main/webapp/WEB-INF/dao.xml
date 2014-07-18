@@ -11,4 +11,5 @@
 	<bean id="timeLimitsDao" class="ro.allevo.fintpui.dao.TimeLimitsRestApiDao"></bean>
 	<bean id="routingSchemaDao" class="ro.allevo.fintpui.dao.RoutingSchemaRestApiDao" ></bean>
 	<bean id="routingRuleDao" class="ro.allevo.fintpui.dao.RoutingRuleRestApiDao" ></bean>
+	<bean id="messageTypesDao" class="ro.allevo.fintpui.dao.MessageTypesRestApiDao" ></bean>
 </beans>

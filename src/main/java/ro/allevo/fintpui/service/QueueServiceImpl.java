@@ -13,8 +13,10 @@ import org.springframework.web.client.RestTemplate;
 
 import com.sun.jersey.api.client.ClientResponse;
 
+import ro.allevo.fintpui.dao.MessageTypesDao;
 import ro.allevo.fintpui.dao.QueueDao;
 import ro.allevo.fintpui.exception.NotAuthorizedException;
+import ro.allevo.fintpui.model.MessageType;
 import ro.allevo.fintpui.model.Queue;
 import ro.allevo.fintpui.model.QueueType;
 import ro.allevo.fintpui.model.QueueTypes;
@@ -25,6 +27,9 @@ public class QueueServiceImpl implements QueueService{
 
 	@Autowired
 	QueueDao queueDao;
+	
+	@Autowired
+	MessageTypesDao messageTypesDao;
 	
 	@Autowired
 	ServletsHelper servletsHelper;
@@ -106,25 +111,45 @@ public class QueueServiceImpl implements QueueService{
 
 	@Override
 	public ArrayList<String> getMessageTypesInQueue(String queueName) {
-		ArrayList<String> messageTypes = new ArrayList<>();
-		URI uri = UriBuilder.fromPath(servletsHelper.getUrl()).path("queues")
-				.path(queueName).path("messagetypes").build();
-		ClientResponse response = servletsHelper.getAPIResource(uri);
-		JSONObject jsonResponse = response.getEntity(JSONObject.class);
-		if(response.getStatus() == 403){
-			throw new NotAuthorizedException("You don't have enough rights to view messages in this queue");
-		}
-		JSONArray jsonArray;
-		try {
-			jsonArray = jsonResponse.getJSONArray("messagetypes");
-			for(int i = 0; i < jsonArray.length(); i++){
-				messageTypes.add(jsonArray.getString(i));
+		
+		ArrayList<String> result = new ArrayList<>();
+		for(MessageType messageType : messageTypesDao.getMessageTypesInQueue(queueName)){
+			if(messageType.getParentmsgtype()!= null){
+				result.add(messageType.getParentmsgtype());
+			}else{
+				result.add(messageType.getMessagetype());
 			}
-			
-		} catch (JSONException e) {
-			throw new RuntimeException("Failed : MessageTypes resource doesn't provide messagetypes Array");
 		}
-		return messageTypes;
+		return result;
+		
+	}
+	@Override
+	public ArrayList<Boolean> getIsParrentMessageInQueue(String queueName) {
+		ArrayList<Boolean> result = new ArrayList<>();
+		for(MessageType messageType : messageTypesDao.getMessageTypesInQueue(queueName)){
+			if(messageType.getParentmsgtype()!= null){
+				result.add(true);
+			}else{
+				result.add(false);
+			}
+		}
+		return result;
+		
+	}
+	
+	@Override
+	public ArrayList<String> getChildMessageTypes(String queueName) {
+		
+		ArrayList<String> result = new ArrayList<>();
+		for(MessageType messageType : messageTypesDao.getMessageTypesInQueue(queueName)){
+			if(messageType.getParentmsgtype() != null){
+				result.add(messageType.getMessagetype());
+				System.out.println(result);
+			}else{
+				result.add(null);
+			}
+		}
+		return result;
 		
 	}
 

@@ -1,7 +1,9 @@
 package ro.allevo.fintpui.service;
 
 import java.util.ArrayList;
+
 import org.codehaus.jettison.json.JSONObject;
+
 import ro.allevo.fintpui.model.Queue;
 
 public interface QueueService {
@@ -59,6 +61,8 @@ public interface QueueService {
 	 * Reutrns the distinct types of messages in the specified queue
 	 */
 	public ArrayList<String> getMessageTypesInQueue(String queueName);
+	public ArrayList<Boolean> getIsParrentMessageInQueue(String queueName);
+	ArrayList<String> getChildMessageTypes(String queueName);
 	
 	
 }
