@@ -11,4 +11,6 @@
 	<bean id="timeLimitsService" class="ro.allevo.fintpui.service.TimeLimitsService" ></bean>
 	<bean id="routingSchemaService" class="ro.allevo.fintpui.service.RoutingSchemaService" ></bean>
 	<bean id="routingRulesService" class="ro.allevo.fintpui.service.RoutingRulesService" ></bean>
+	<bean id="EventService" class="ro.allevo.fintpui.service.EventService" ></bean>
+	<bean id="UserService" class="ro.allevo.fintpui.service.UserService" ></bean>
 </beans>
