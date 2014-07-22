@@ -1,0 +1,63 @@
+<div xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
+
+	<spring:url value="/style" var="styleUrl" />
+	<link href="${styleUrl}/fintpTable.css" rel="stylesheet" />
+	<link href="${styleUrl}/jquery/jquery-ui-1.10.4.custom.css"
+		rel="stylesheet" />
+
+	<spring:url value="/scripts/locale.js" var="locale_js_url" />
+	<spring:url var="jquery_js_url" value="/scripts/jquery/jquery-1.10.1.js" />
+	<spring:url var="jquery_ui_url" value="/scripts/jquery/jquery-ui.js" />
+	<spring:url var="users_url" value="/scripts/users.js" />
+	
+	<script src="${locale_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+	<script src="${jquery_js_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+	<script src="${jquery_ui_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+	<script src="${users_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+	
+	
+	<form:form method="post"
+		action="${pageContext.servletContext.contextPath}/users/insert.htm"
+		modelAttribute="user">
+		<table class="centeredTable" style="width: auto;">
+			<tbody>
+				<tr>
+					<td><spring:message code="users.username"/>: </td>
+					<td><form:input path="username" /></td>
+				</tr>
+				<tr>
+					<td><spring:message code="users.password"/>: </td>
+					<td><form:input path="password" /></td>
+				</tr>
+				<tr>
+					<td><spring:message code="users.firstname"/>: </td>
+					<td><form:input path="firstname" /></td>
+				</tr>
+				<tr>
+					<td><spring:message code="users.lastname"/>: </td>
+					<td><form:input path="lastname" /></td>
+				</tr>
+				<tr>
+					<td><spring:message code="users.skincolor"/>: </td>
+					<td><form:input path="skincolor" /></td>
+				</tr>
+				<tr>
+					<td><spring:message code="users.email"/>: </td>
+					<td><form:input path="email" /></td>
+				</tr>
+			
+				<tr>
+					<td></td>
+					<td><input type="submit" value="Create" class="submitButton" /></td>
+				</tr>
+
+			</tbody>
+		</table>
+
+	</form:form>
+
+</div>
