@@ -125,7 +125,7 @@
 					<c:choose>
 
 						<c:when test="${empty groupsList or isComposedMsgType eq true}">
-					
+
 							<div id="tabs-${messageType}">
 								Total:<span class="total">0</span> <input type="hidden"
 									name="total" value="0" /> <input type="hidden" name="page"
@@ -135,31 +135,74 @@
 								<button class="authorizeButton" type="button">Authorize</button>
 								<button class="moveButton" type="button">Move</button>
 								<button class="rejectButton" type="button">Reject</button>
+								<c:choose>
+									<c:when test="${isParent[messageType]}">
+										<table class="fintpTable notGroupable ">
+											<input type="hidden" name="messageType"
+												value="${messageType}" />
+												<input type="hidden" name="id"
+												value="${stmtuid}" />
+												<input type="hidden" name="composedMsgId"
+												value="${composedMsgId}" />	
+											<input type="hidden" name="childMessageType"
+												value="${childMsgType[messageType]}" />
+
+											<input type="hidden" name="isParent"
+												value="${isParent[messageType]}" />
+											<thead>
+												<tr>
+													<th />
+													<c:forEach var="tableHeader"
+														items="${headers[messageType]}" varStatus="loop">
+														<th class="sortable">${tableHeader}<input
+															type="hidden" name="field"
+															value="${columns[messageType][loop.index]}" /> <input
+															type="hidden" name="sortOrder" /> <span
+															class="sortable-icon"></span>
+														</th>
+													</c:forEach>
+												</tr>
+											</thead>
+											<tbody>
+
+											</tbody>
+										</table>
+									</c:when>
 
 
-								<table class="fintpTable notGroupable">
-									<input type="hidden" name="messageType" value="${messageType}" />
-									<input type="hidden" name="childMessageType" value="${childMsgType[messageType]}" />
-									
-									<input type="hidden" name="isParent"
-										value="${isParent[messageType]}" />
-									<thead>
-										<tr>
-											<th />
-											<c:forEach var="tableHeader" items="${headers[messageType]}"
-												varStatus="loop">
-												<th class="sortable">${tableHeader}<input type="hidden"
-													name="field" value="${columns[messageType][loop.index]}" />
-													<input type="hidden" name="sortOrder" /> <span
-													class="sortable-icon"></span>
-												</th>
-											</c:forEach>
-										</tr>
-									</thead>
-									<tbody>
+									<c:otherwise>
+										<table class="fintpTable notGroupable isComposedMsgType">
+											<input type="hidden" name="messageType"
+												value="${messageType}" />
+												<input type="hidden" name="id"
+												value="${stmtuid}" />
+											<input type="hidden" name="composedMsgId"
+												value="${composedMsgId}" />	
+											<input type="hidden" name="childMessageType"
+												value="${childMsgType[messageType]}" />
 
-									</tbody>
-								</table>
+											<input type="hidden" name="isParent"
+												value="${isParent[messageType]}" />
+											<thead>
+												<tr>
+													<th />
+													<c:forEach var="tableHeader"
+														items="${headers[messageType]}" varStatus="loop">
+														<th class="sortable">${tableHeader}<input
+															type="hidden" name="field"
+															value="${columns[messageType][loop.index]}" /> <input
+															type="hidden" name="sortOrder" /> <span
+															class="sortable-icon"></span>
+														</th>
+													</c:forEach>
+												</tr>
+											</thead>
+											<tbody>
+
+											</tbody>
+										</table>
+									</c:otherwise>
+								</c:choose>
 								<br /> <span class="paginator" />
 							</div>
 						</c:when>
@@ -167,7 +210,7 @@
 						<c:otherwise>
 							<div id="tabs-${messageType}">
 								<button class="batch" type="button">Batch</button>
-								
+
 								<div class="accordion">
 									<c:forEach var="group" items="${groupsMap[messageType]}">
 										<h3>

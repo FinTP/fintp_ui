@@ -96,6 +96,30 @@ public class QueueServiceImpl implements QueueService{
 		
 		
 	}
+	
+	@Override
+	public String getMessagesOfGivenType (String queueName, String type) {
+		URI uri = UriBuilder.fromPath(servletsHelper.getUrl()).path("queues")
+				.path(queueName).path("messages").queryParam("type", type)
+				.build();
+		System.out.println(uri);
+		ClientResponse response = servletsHelper.getAPIResource(uri);
+		switch (response.getStatus()) {
+		case 200:
+			JSONObject entity = response.getEntity(JSONObject.class);
+			try {
+				return entity.getString("uri");
+			} catch (JSONException e) {
+				throw new RuntimeException("Failed : Requested stmtuid field but not provided by API");
+			}
+		default:
+			throw new RuntimeException("Failed : HTTP error code : "
+					+ response.getStatus() + " => handle this type of response: "
+					+ "at GET " + uri);
+		}
+		
+		
+	}
 
 	@Override
 	public ArrayList<String> getQueueTypes() {
@@ -144,7 +168,7 @@ public class QueueServiceImpl implements QueueService{
 		for(MessageType messageType : messageTypesDao.getMessageTypesInQueue(queueName)){
 			if(messageType.getParentmsgtype() != null){
 				result.add(messageType.getMessagetype());
-				System.out.println(result);
+				
 			}else{
 				result.add(null);
 			}

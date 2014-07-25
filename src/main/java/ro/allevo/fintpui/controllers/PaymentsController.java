@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class PaymentsController {
 	
-	private static Logger logger = LogManager.getLogger(UserController.class
+	private static Logger logger = LogManager.getLogger(UsersController.class
 			.getName());
 
 	/**

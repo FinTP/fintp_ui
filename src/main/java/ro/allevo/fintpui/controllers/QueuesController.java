@@ -117,6 +117,9 @@ public class QueuesController {
 			@PathVariable String queueName,
 			@RequestParam(value = "isComposedMsgType", required = false) boolean isComposedMsgType,
 			@RequestParam(value = "type", required = false) String type,
+			@RequestParam(value = "id", required = false) String id,
+			@RequestParam(value = "composedMsgId", required = false) String composedMsgId,
+			
 			ModelMap model) {
 		logger.info("/queues/" + queueName + " requested");
 
@@ -201,6 +204,7 @@ public class QueuesController {
 				model.addAttribute("groupsMap", groupsMap);
 				model.addAttribute("groupFieldNames", groupFieldsMap);
 				model.addAttribute("isComposedMsgType", isComposedMsgType);
+				model.addAttribute("composedMsgId", composedMsgId);
 				System.out.println(headersMap + "headersMap");
 				System.out.println(columnsMap + "columnsMap");
 				System.out.println(groupsMap + "groupsMap");
@@ -278,9 +282,10 @@ public class QueuesController {
 					msgType.put(messageTypes.get(i), false);
 				}
 				chldmsgtype.put(messageTypes.get(i),ChildMsgType.get(i));
-			
-
+				System.out.println(queueName + " - " +  messageTypes.get(i));
+				//id= queueService.getMessagesOfGivenType(queueName, messageTypes.get(i));
 			}
+			
 			
 			model.addAttribute("messageTypes", msgType.keySet());
 			model.addAttribute("isParent", msgType);
@@ -290,6 +295,7 @@ public class QueuesController {
 			model.addAttribute("groupFieldNames", groupFieldsMap);
 			model.addAttribute("isComposedMsgType", isComposedMsgType);
 			model.addAttribute("childMsgType", chldmsgtype);
+			model.addAttribute("stmtuid", id);
 			System.out.println(headersMap + "headersMap");
 			System.out.println(columnsMap + "columnsMap");
 			System.out.println(groupsMap + "groupsMap");

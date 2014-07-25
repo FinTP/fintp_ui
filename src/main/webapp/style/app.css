@@ -45,6 +45,7 @@ nav ul li a {
 nav ul ul {
 	background: #5f6975; border-radius: 0px; padding: 0;
 	position: absolute; top: 100%;
+	z-index: 10;
 }
 
 nav ul ul li {

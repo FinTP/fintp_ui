@@ -63,6 +63,7 @@ public interface QueueService {
 	public ArrayList<String> getMessageTypesInQueue(String queueName);
 	public ArrayList<Boolean> getIsParrentMessageInQueue(String queueName);
 	ArrayList<String> getChildMessageTypes(String queueName);
+	public String getMessagesOfGivenType(String queueName, String type);
 	
 	
 }
