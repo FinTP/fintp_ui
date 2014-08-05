@@ -83,6 +83,9 @@
 		</tbody>
 
 	</table>
-
+<input
+						type="button" name="Back" value="Back"
+						onclick="window.history.back();" class="submitButton"
+						style="margin-left: 20px" />
 
 </div>

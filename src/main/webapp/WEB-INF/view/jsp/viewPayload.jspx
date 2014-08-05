@@ -5,6 +5,8 @@
 
 	<spring:url value="/style" var="styleUrl" />
 	<link href="${styleUrl}/fintpTable.css" rel="stylesheet" />
+	
+	
 	<c:choose>
 		<c:when test="${empty payload}">
 			No payload available for the given id and type.
@@ -19,11 +21,28 @@
 							<c:param name="dupID" value="" />
 							<c:param name="dupQueue" value="" />
 						</c:url>
+		</c:set>
+		
+		<c:set var="viewHistorylUrl">
+						<c:url value="./viewHistory.htm">
+							<c:param name="id" value="${param.id}" />
+						</c:url>
 					</c:set>
-			<a href="${viewDuplUrl}" class="submitButton" style="margin-left:20px">View Possible Duplicates</a><br/>
+					<input
+						type="button" name="View Possible Duplicates" value="View Possible Duplicates"
+						onclick="location.href='${viewDuplUrl}'" class="submitButton"
+						style="margin-left: 20px" />
+					<input
+						type="button" name="View Message History" value="View Message History"
+						onclick="location.href='${viewHistorylUrl}'" class="submitButton"
+						style="margin-left: 20px" /><br/>
 			<spring:message code="payloadView.messageId"/>: ${param.id}<br/>
 			<spring:message code="payloadView.messageType"/>: ${param.type}<br/>
 			${payload}
 		</c:otherwise>
 	</c:choose>
+	<input
+						type="button" name="Back" value="Back"
+						onclick="window.history.back();" class="submitButton"
+						style="margin-left: 20px" />
 </div>

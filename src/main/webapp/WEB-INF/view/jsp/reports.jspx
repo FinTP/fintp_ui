@@ -192,7 +192,7 @@
 	</c:choose>
 	<c:choose>
 		<c:when test="${!empty param.messageTypesFT}">
-			<spring:message code="reports.headerMsgtype" />: <b>${param.messageTypesFT}</b>; 
+			<spring:message code="reports.headerMsgtype" />: <b>${param.messageTypesFT}</b>;
 		</c:when>
 	</c:choose>
 	<c:choose>
@@ -202,7 +202,7 @@
 	</c:choose>
 	<c:choose>
 		<c:when test="${!empty param.messageTypesDI}">
-			<spring:message code="reports.headerMsgtype" />: <b>${param.messageTypesDI}</b>; 
+			<spring:message code="reports.headerMsgtype" />: <b>${param.messageTypesDI}</b>;
 		</c:when>
 	</c:choose>
 	<br />
@@ -228,35 +228,35 @@
 						<c:when test="${param.insertdateCheck eq 'on'}">
 							<th class="sortable"><spring:message
 									code="reports.headerTime" /> <input type="hidden"
-								name="insertdate" value="" /></th>
+								name="insertdate"   /></th>
 						</c:when>
 					</c:choose>
 					<c:choose>
 						<c:when test="${param.msgtypeCheck eq 'on'}">
 							<th class="sortable"><spring:message
 									code="reports.headerMsgtype" /> <input type="hidden"
-								name="msgtype" value="" /></th>
+								name="msgtype"   /></th>
 						</c:when>
 					</c:choose>
 					<c:choose>
 						<c:when test="${param.senderCheck eq 'on'}">
 							<th class="sortable"><spring:message
 									code="reports.headerSender" /> <input type="hidden"
-								name="sender" value="" /></th>
+								name="sender"   /></th>
 						</c:when>
 					</c:choose>
 					<c:choose>
 						<c:when test="${param.receiverCheck eq 'on'}">
 							<th class="sortable"><spring:message
 									code="reports.headerReceiver" /> <input type="hidden"
-								name="receiver" value="" /></th>
+								name="receiver"   /></th>
 						</c:when>
 					</c:choose>
 					<c:choose>
 						<c:when test="${param.trnCheck eq 'on'}">
 							<th class="sortable"><spring:message
 									code="reports.headerTrn" /> <input type="hidden" name="trn"
-								value="" /></th>
+								  /></th>
 						</c:when>
 					</c:choose>
 					<c:choose>
@@ -264,14 +264,14 @@
 							test="${param.valuedateCheck eq 'on' and param.businessArea eq 'Funds Transfer' or param.businessArea eq 'Direct Debit'}">
 							<th class="sortable"><spring:message
 									code="reports.headerValuedate" /> <input type="hidden"
-								name="valuedate" value="" /></th>
+								name="valuedate"   /></th>
 						</c:when>
 					</c:choose>
 					<c:choose>
 						<c:when test="${param.issuanceCheck eq 'on' and param.businessArea eq 'Debit Instruments'}">
 							<th class="sortable"><spring:message
 									code="reports.headerIssuancedate" /> <input type="hidden"
-								name="issdate" value="" /></th>
+								name="issdate"   /></th>
 								</c:when>
 					</c:choose>
 					<c:choose>
@@ -279,35 +279,35 @@
 						
 							<th class="sortable"><spring:message
 									code="reports.headerMaturitydate" /> <input type="hidden"
-								name="matdate" value="" /></th>
+								name="matdate"   /></th>
 						</c:when>
 					</c:choose>
 					<c:choose>
 						<c:when test="${param.amountCheck eq 'on'}">
 							<th class="sortable"><spring:message
 									code="reports.headerAmount" /> <input type="hidden"
-								name="amount" value="" /></th>
+								name="amount"   /></th>
 						</c:when>
 					</c:choose>
 					<c:choose>
 						<c:when test="${param.currencyCheck eq 'on'}">
 							<th class="sortable"><spring:message
 									code="reports.headerCurrency" /> <input type="hidden"
-								name="currency" value="" /></th>
+								name="currency"   /></th>
 						</c:when>
 					</c:choose>
 					<c:choose>
 						<c:when test="${param.dbtaccountCheck eq 'on'}">
 							<th class="sortable"><spring:message
 									code="reports.headerDbtaccount" /> <input type="hidden"
-								name="dbtaccount" value="" /></th>
+								name="dbtaccount"   /></th>
 						</c:when>
 					</c:choose>
 					<c:choose>
 						<c:when test="${param.dbtcustnameCheck eq 'on'}">
 							<th class="sortable"><spring:message
 									code="reports.headerDbtcustname" /> <input type="hidden"
-								name="dbtcustname" value="" /></th>
+								name="dbtcustname"   /></th>
 						</c:when>
 						
 					</c:choose>
@@ -315,7 +315,7 @@
 						<c:when test="${param.businessArea eq 'Debit Instruments'}">
 							<th class="sortable"><spring:message
 									code="reports.headerDbtid" /> <input type="hidden"
-								name="dbtid" value="" /></th>
+								name="dbtid"   /></th>
 
 						</c:when>
 					</c:choose>
@@ -324,7 +324,7 @@
 							test="${param.ordbankCheck eq 'on' and param.businessArea eq 'Funds Transfer'}">
 							<th class="sortable"><spring:message
 									code="reports.headerOrdbank" /> <input type="hidden"
-								name="ordbank" value="" /></th>
+								name="ordbank"   /></th>
 						</c:when>
 					</c:choose>
 					<c:choose>
@@ -332,26 +332,26 @@
 							test="${param.benbankCheck eq 'on' and param.businessArea eq 'Funds Transfer'}">
 							<th class="sortable"><spring:message
 									code="reports.headerBenbank" /> <input type="hidden"
-								name="benbank" value="" /></th>
+								name="benbank"   /></th>
 						</c:when>
 					</c:choose>
 					<c:choose>
 						<c:when test="${param.cdtaccountCheck eq 'on'}">
 							<th class="sortable"><spring:message
 									code="reports.headerCdtaccount" /> <input type="hidden"
-								name="cdtaccount" value="" /></th>
+								name="cdtaccount"   /></th>
 						</c:when>
 					</c:choose>
 					<c:choose>
 						<c:when test="${param.cdtcustnameCheck eq 'on'}">
 							<th class="sortable"><spring:message
 									code="reports.headerCdtcustname" /> <input type="hidden"
-								name="cdtcustname" value="" /></th>
+								name="cdtcustname"   /></th>
 						</c:when>
 						<c:when test="${param.cdtrCheck eq 'on' and param.businessArea eq 'Direct Debit'}">
 							<th class="sortable"><spring:message
 									code="reports.headerCdtrid" /> <input type="hidden"
-								name="cdtid" value="" /></th>
+								name="cdtid"   /></th>
 						</c:when>
 					</c:choose>
 					<c:choose>
@@ -359,28 +359,28 @@
 							test="${param.serviceCheck eq 'on' and param.businessArea eq 'Funds Transfer'}">
 							<th class="sortable"><spring:message
 									code="reports.headerService" /> <input type="hidden"
-								name="service" value="" /></th>
+								name="service"   /></th>
 						</c:when>
 					</c:choose>
 					<c:choose>
 						<c:when test="${param.directionCheck eq 'on'}">
 							<th class="sortable"><spring:message
 									code="reports.headerDirection" /> <input type="hidden"
-								name="direction" value="" /></th>
+								name="direction"   /></th>
 						</c:when>
 					</c:choose>
 					<c:choose>
 						<c:when test="${param.stateCheck eq 'on'}">
 							<th class="sortable"><spring:message
 									code="reports.headerState" /> <input type="hidden"
-								name="state" value="" /></th>
+								name="state"   /></th>
 						</c:when>
 					</c:choose>
 					<c:choose>
 						<c:when test="${param.batchidCheck eq 'on'}">
 							<th class="sortable"><spring:message
 									code="reports.headerBatchid" /> <input type="hidden"
-								name="batchid" value="" /></th>
+								name="batchid"   /></th>
 						</c:when>
 					</c:choose>
 				</tr>
@@ -604,5 +604,9 @@
 		<input name="batchidCheck" type="hidden" value="${param.batchidCheck}" />
 		<input name="cdtrCheck" type="hidden" value="${param.cdtrCheck}" />
 		<input name="dbtidCheck" type="hidden" value="${param.dbtidCheck}" />
+			<input name="messageTypesDI" type="hidden" value="${param.messageTypesDI}" />
+			<input name="messageTypesDD" type="hidden" value="${param.messageTypesDD}" />
+			<input name="messageTypesFT" type="hidden" value="${param.messageTypesFT}" />
+		
 	</form>
 </div>

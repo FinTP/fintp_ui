@@ -251,7 +251,6 @@ function loadTableIsComposed(table, isTotalRequested, isComposedMsgType, filterA
 				var message = data.messages[index];
 			
 				if(isComposedMsgType && message.stmtuid== table.find("input[name='composedMsgId']").val())	{
-				//	alert("afiseaza mesaje cu message.stmtuid=  " + message.stmtuid);
 					var $tr = $("<tr>");
 					
 					$tr.attr("id", message.guid);
@@ -270,21 +269,6 @@ function loadTableIsComposed(table, isTotalRequested, isComposedMsgType, filterA
 				
 				}
 				
-			/*	var $tr = $("<tr>");
-					
-						$tr.attr("id", message.guid);
-						$tr.attr("stmtuid", message.stmtuid);
-					
-					$tr.append($("<td>").append(
-							$("<input>").attr("type", "checkbox").addClass(
-									"routeCheckbox")).append(
-							$("<button>").addClass("viewPayload")));
-					
-					
-					jQuery.each(fields, function(i, fieldName) {
-						$tr.append($("<td>").append(message[fieldName]));
-					});
-					$auxTbody.append($tr);*/
 				 }
 					if (isTotalRequested) {
 						$totalSpan.text(data.total);
