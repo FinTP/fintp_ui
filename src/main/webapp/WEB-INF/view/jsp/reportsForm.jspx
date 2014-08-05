@@ -17,7 +17,9 @@
 	
 	<spring:url var="reports_script_url" value="/scripts/reportsForm.js" />
 	<script src="${reports_script_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
-	
+	<h2>
+		<spring:message code="reports.title" />
+	</h2>
 
 	<form action="reports.htm" method="get">
 		
@@ -403,6 +405,9 @@
 		<input type="button" value="Set Table Headers" id="viewHeadersButton"/>
 		<br/>
 	</div>
+	
+	
+	
 	</form>
 
 

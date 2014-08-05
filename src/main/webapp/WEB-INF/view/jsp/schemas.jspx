@@ -19,6 +19,9 @@
 	<script src="${jquery_ui_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 	<script src="${schemas_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 	
+	<h2>
+		<spring:message code="routingschemas.schemas" />
+	</h2>
 	
 	<c:choose>
 		<c:when test="${empty schemas}">

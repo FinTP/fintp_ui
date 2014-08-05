@@ -27,6 +27,10 @@
 	<!-- required for FF3 and Opera -->
 	</script>
 	
+	<h2>
+		<spring:message code="routingschemas.schemasedit" />
+	</h2>
+	
 	<form:form method="post"
 		action="${pageContext.servletContext.contextPath}/schemas/update.htm"
 		modelAttribute="schema">

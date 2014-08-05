@@ -67,10 +67,10 @@
 							<select name="connector">
 								<c:choose>
 									<c:when test="${empty queue.connector}">
-										<option value="" selected="selected"></option>
+										<option selected="selected"></option>
 									</c:when>
 									<c:otherwise>
-										<option value=""></option>
+										<option ></option>
 									</c:otherwise>
 								</c:choose>
 								<c:forEach var="connectorVar" items="${connectors}">
