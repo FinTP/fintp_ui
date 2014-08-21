@@ -73,6 +73,8 @@ function loadTable(table, isTotalRequested, isComposedMsgType, filterArguments) 
 
 	var $listKeys = table.parent().find("ul[class='groupFields']");
 	var $listValues = table.parent().find("ul[class='groupValues']");
+	var trnSearch = table.find("input[name='searchTrnValue']").val();
+	var amntSearch =table.find("input[name='searchAmntValue']").val();
 	$listKeys.find("li").each(function() {
 		groupFieldsNames.push($(this).text());
 	});
@@ -82,7 +84,7 @@ function loadTable(table, isTotalRequested, isComposedMsgType, filterArguments) 
 	});
 
 	var $auxTbody = $("<tbody>");
-
+	//alert($amntSearch+" - "+$trnSearch);
 	$.ajax({
 
 		data : {
@@ -94,7 +96,9 @@ function loadTable(table, isTotalRequested, isComposedMsgType, filterArguments) 
 			sortOrder : sortOrder,
 			isTotalRequested : isTotalRequested,
 			groupFieldsNames : groupFieldsNames,
-			groupFieldsValues : groupFieldsValues
+			groupFieldsValues : groupFieldsValues,
+			trnSearch: trnSearch,
+			amountSearch : amntSearch
 		},
 		method : 'POST',
 		url : "../messagesDynamic",
@@ -211,6 +215,7 @@ function loadTableIsComposed(table, isTotalRequested, isComposedMsgType, filterA
 	var sortOrder = table.parent().find("input[name='sortOrder']").val();
 	var id = table.parent().find("input[name='id']").val();
 	var isParent = table.parent().find("input[name='isParent']").val();
+	var amntSearch =table.find("input[name='searchAmntValue']").val();
 
 	// if the table is grouped, find out the field names and
 	// values in order to filter properly
@@ -240,7 +245,10 @@ function loadTableIsComposed(table, isTotalRequested, isComposedMsgType, filterA
 			sortOrder : sortOrder,
 			isTotalRequested : isTotalRequested,
 			groupFieldsNames : groupFieldsNames,
-			groupFieldsValues : groupFieldsValues
+			groupFieldsValues : groupFieldsValues,
+			trnSearch: table.find("input[name='searchTrnValue']").val(),
+			amountSearch : amntSearch
+			
 		},
 		method : 'POST',
 		url : "../messagesDynamic",

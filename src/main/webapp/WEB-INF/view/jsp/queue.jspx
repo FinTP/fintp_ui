@@ -73,6 +73,7 @@
 
 
 	<h3 id="queueName">${queueName}</h3>
+
 	<c:choose>
 		<c:when test="${empty messageTypes}">
 			<spring:message code="queue.noMessages" />
@@ -117,6 +118,7 @@
 				<ul>
 					<c:forEach var="messageType" items="${messageTypes}">
 						<li><a href="#tabs-${messageType}">${messageType}</a></li>
+
 					</c:forEach>
 				</ul>
 				<c:forEach var="messageType" items="${messageTypes}">
@@ -127,6 +129,7 @@
 						<c:when test="${empty groupsList or isComposedMsgType eq true}">
 
 							<div id="tabs-${messageType}">
+
 								Total:<span class="total">0</span> <input type="hidden"
 									name="total" value="0" /> <input type="hidden" name="page"
 									value="1" /> <input type="hidden" name="sortField" /> <input
@@ -135,18 +138,22 @@
 								<button class="authorizeButton" type="button">Authorize</button>
 								<button class="moveButton" type="button">Move</button>
 								<button class="rejectButton" type="button">Reject</button>
+
 								<c:choose>
 									<c:when test="${isParent[messageType]}">
 										<table class="fintpTable notGroupable ">
 											<input type="hidden" name="messageType"
 												value="${messageType}" />
-												<input type="hidden" name="id"
-												value="${stmtuid}" />
-												<input type="hidden" name="composedMsgId"
-												value="${composedMsgId}" />	
+											<input type="hidden" name="id" value="${stmtuid}" />
+											<input type="hidden" name="composedMsgId"
+												value="${composedMsgId}" />
 											<input type="hidden" name="childMessageType"
 												value="${childMsgType[messageType]}" />
+											<input type="hidden" name="searchTrnValue"
+												value="${trnSearchValue}" />
 
+											<input type="hidden" name="searchAmntValue"
+												value="${amountSearchValue}" />
 											<input type="hidden" name="isParent"
 												value="${isParent[messageType]}" />
 											<thead>
@@ -171,18 +178,36 @@
 
 
 									<c:otherwise>
+										<form onsubmit="this.action=document.URL" method="get">
+											<input type="submit" value="Search" id="search" /> <input type="hidden" name="type"
+												value="${messageType}" /> <input type="hidden" name="id"
+												value="${stmtuid}" /> <input type="hidden"
+												name="composedMsgId" value="${composedMsgId}" /> <input
+												type="hidden" name="isComposedMsgType"
+												value="${isComposedMsgType}" /> <input type="hidden"
+												name="queue" value="${queueName}" />
+												 <input
+												type="text" id="search" placeholder="Reference or Amount"
+												name="search" />
+
+										</form>
 										<table class="fintpTable notGroupable isComposedMsgType">
+
 											<input type="hidden" name="messageType"
 												value="${messageType}" />
-												<input type="hidden" name="id"
-												value="${stmtuid}" />
+											<input type="hidden" name="id" value="${stmtuid}" />
 											<input type="hidden" name="composedMsgId"
-												value="${composedMsgId}" />	
+												value="${composedMsgId}" />
 											<input type="hidden" name="childMessageType"
 												value="${childMsgType[messageType]}" />
 
 											<input type="hidden" name="isParent"
 												value="${isParent[messageType]}" />
+											<input type="hidden" name="searchTrnValue"
+												value="${trnSearchValue}" />
+
+											<input type="hidden" name="searchAmntValue"
+												value="${amountSearchValue}" />
 											<thead>
 												<tr>
 													<th />
@@ -210,7 +235,13 @@
 						<c:otherwise>
 							<div id="tabs-${messageType}">
 								<button class="batch" type="button">Batch</button>
+								<form action="${queueName}.htm" method="get">
+									<input type="hidden" name="type" value="${messageType}" /> <input
+										type="submit" value="Search" id="search" /> <input
+										type="text" id="search" placeholder="Reference or Amount"
+										name="search" />
 
+								</form>
 								<div class="accordion">
 									<c:forEach var="group" items="${groupsMap[messageType]}">
 										<h3>
@@ -241,6 +272,12 @@
 											<button class="rejectButton" type="button">Reject</button>
 
 											<table class="fintpTable groupable">
+												<input type="hidden" name="searchTrnValue"
+													value="${trnSearchValue}" />
+
+												<input type="hidden" name="searchAmntValue"
+													value="${amountSearchValue}" />
+
 
 												<input type="hidden" name="messageType"
 													value="${messageType}" />
@@ -278,4 +315,5 @@
 			</div>
 		</c:otherwise>
 	</c:choose>
+
 </div>

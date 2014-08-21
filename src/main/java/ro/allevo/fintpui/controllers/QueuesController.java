@@ -3,11 +3,15 @@ package ro.allevo.fintpui.controllers;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,10 +20,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import org.springframework.web.servlet.ModelAndView;
 
+import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
 
 import ro.allevo.fintpui.exception.NotAuthorizedException;
 import ro.allevo.fintpui.model.MessagesGroup;
@@ -102,6 +107,22 @@ public class QueuesController {
 		return "redirect:/queues.htm";
 	}
 
+	public boolean containsOnlyNumbers(String str) {
+
+		// It can't contain only numbers if it's null or empty...
+		if (str == null || str.length() == 0)
+			return false;
+
+		for (int i = 0; i < str.length(); i++) {
+
+			// If we find a non-digit character we return false.
+			if (!Character.isDigit(str.charAt(i)))
+				return false;
+		}
+
+		return true;
+	}
+
 	/*
 	 * DELETE
 	 */
@@ -119,13 +140,14 @@ public class QueuesController {
 			@RequestParam(value = "type", required = false) String type,
 			@RequestParam(value = "id", required = false) String id,
 			@RequestParam(value = "composedMsgId", required = false) String composedMsgId,
-			
-			ModelMap model) {
+			@RequestParam(value = "search", required = false) String searchValue,
+
+			ModelMap model) throws JSONException {
 		logger.info("/queues/" + queueName + " requested");
 
 		try {
-			
-			if (isComposedMsgType==true){
+
+			if (isComposedMsgType == true) {
 				dbClient.getConnection();
 				Queue[] queues = queueService.getQueueList();
 				model.addAttribute("queues", queues);
@@ -134,69 +156,71 @@ public class QueuesController {
 				model.addAttribute("queueName", queueName);
 				ArrayList<String> messageTypes = new ArrayList<>();
 				ArrayList<Boolean> isParent = new ArrayList<>();
-				//ArrayList<String> ChildMsgType = new ArrayList<>();
+				// ArrayList<String> ChildMsgType = new ArrayList<>();
 				isParent.add(false);
-				
+
 				// add messagetypes array
 				messageTypes.add(type);
-				//ChildMsgType = queueService.getChildMessageTypes(queueName);
+				// ChildMsgType = queueService.getChildMessageTypes(queueName);
 
-				
-				System.out.println(messageTypes);
+				// System.out.println(messageTypes);
 				// build hashmap of headers (message type is the key, array
 				// containing table headers is the value)
 				// get groups for current message type
 				// if there are no groups, then treat as a non-batchalbe page
 
 				/*
-				 * headers Map is a hash in which key: messageType (s.a. 103) value:
-				 * array of strings which represent the table headers name (s.a.
-				 * Sender, Receiver, Reference ...)
+				 * headers Map is a hash in which key: messageType (s.a. 103)
+				 * value: array of strings which represent the table headers
+				 * name (s.a. Sender, Receiver, Reference ...)
 				 */
 				HashMap<String, ArrayList<String>> headersMap = new HashMap<>();
 				/*
-				 * columns Map is a hash in which key: messageType (s.a. 103) value:
-				 * array of strings which represent the fields contained by the json
-				 * object returned by fintp API (s.a. sender, receiver, trn ...)
-				 * they correspond in a 1-1 relantionship with headersMap
+				 * columns Map is a hash in which key: messageType (s.a. 103)
+				 * value: array of strings which represent the fields contained
+				 * by the json object returned by fintp API (s.a. sender,
+				 * receiver, trn ...) they correspond in a 1-1 relantionship
+				 * with headersMap
 				 */
 				HashMap<String, ArrayList<String>> columnsMap = new HashMap<>();
 
 				/*
-				 * gropsMap is a hash table in which key: message type value : list
-				 * of groups belonging to that message type
+				 * gropsMap is a hash table in which key: message type value :
+				 * list of groups belonging to that message type
 				 */
 				HashMap<String, ArrayList<MessagesGroup>> groupsMap = new HashMap<>();
 
 				/*
-				 * gropsFieldsMap is a hash table in which key: message type (that
-				 * admits groups/batches) value : "grouped by" fields
+				 * gropsFieldsMap is a hash table in which key: message type
+				 * (that admits groups/batches) value : "grouped by" fields
 				 */
 				HashMap<String, ArrayList<String>> groupFieldsMap = new HashMap<>();
 				HashMap<String, Boolean> msgType = new HashMap<>();
-				//HashMap<String, String> chldmsgtype = new HashMap<>();
-				
+				// HashMap<String, String> chldmsgtype = new HashMap<>();
+
 				for (int i = 0; i < messageTypes.size(); i++) {
 					ArrayList<String> columns = new ArrayList<>();
 					ArrayList<String> groupFields = new ArrayList<>();
-					//System.out.println(messageTypes.get(i));
-					headersMap.put(messageTypes.get(i), dbClient.getTableHeaders(
-							messageTypes.get(i), "T", columns));
+					// System.out.println(messageTypes.get(i));
+					headersMap
+							.put(messageTypes.get(i),
+									dbClient.getTableHeaders(
+											messageTypes.get(i), "T", columns));
 					columnsMap.put(messageTypes.get(i), columns);
 					groupsMap.put(messageTypes.get(i),
 							dbClient.getGroups(queueName, messageTypes.get(i)));
-					dbClient.getTableHeaders(messageTypes.get(i), "G", groupFields);
+					dbClient.getTableHeaders(messageTypes.get(i), "G",
+							groupFields);
 					groupFieldsMap.put(messageTypes.get(i), groupFields);
 					if (isParent.get(i) != false) {
 						msgType.put(messageTypes.get(i), true);
 					} else {
 						msgType.put(messageTypes.get(i), false);
 					}
-				//	chldmsgtype.put(messageTypes.get(i),ChildMsgType.get(i));
-				
+					// chldmsgtype.put(messageTypes.get(i),ChildMsgType.get(i));
 
 				}
-				
+
 				model.addAttribute("messageTypes", msgType.keySet());
 				model.addAttribute("isParent", msgType);
 				model.addAttribute("headers", headersMap);
@@ -205,103 +229,127 @@ public class QueuesController {
 				model.addAttribute("groupFieldNames", groupFieldsMap);
 				model.addAttribute("isComposedMsgType", isComposedMsgType);
 				model.addAttribute("composedMsgId", composedMsgId);
-				System.out.println(headersMap + "headersMap");
-				System.out.println(columnsMap + "columnsMap");
-				System.out.println(groupsMap + "groupsMap");
-				System.out.println(groupFieldsMap + "groupFieldsMap");
-			//	model.addAttribute("childMsgType", chldmsgtype);
-			}
-			
-			else {
-			dbClient.getConnection();
-			Queue[] queues = queueService.getQueueList();
-			model.addAttribute("queues", queues);
+				model.addAttribute("trnSearchValue", searchValue);
 
-			// add queue name attribute
-			model.addAttribute("queueName", queueName);
-			ArrayList<String> messageTypes = new ArrayList<>();
-			ArrayList<Boolean> isParent = new ArrayList<>();
-			ArrayList<String> ChildMsgType = new ArrayList<>();
-			isParent = queueService.getIsParrentMessageInQueue(queueName);
-			
-			// add messagetypes array
-			messageTypes = queueService.getMessageTypesInQueue(queueName);
-			ChildMsgType = queueService.getChildMessageTypes(queueName);
-
-			if (messageTypes == null) {
-				return "tiles/forbidden";
-			}
-
-			// build hashmap of headers (message type is the key, array
-			// containing table headers is the value)
-			// get groups for current message type
-			// if there are no groups, then treat as a non-batchalbe page
-
-			/*
-			 * headers Map is a hash in which key: messageType (s.a. 103) value:
-			 * array of strings which represent the table headers name (s.a.
-			 * Sender, Receiver, Reference ...)
-			 */
-			HashMap<String, ArrayList<String>> headersMap = new HashMap<>();
-			/*
-			 * columns Map is a hash in which key: messageType (s.a. 103) value:
-			 * array of strings which represent the fields contained by the json
-			 * object returned by fintp API (s.a. sender, receiver, trn ...)
-			 * they correspond in a 1-1 relantionship with headersMap
-			 */
-			HashMap<String, ArrayList<String>> columnsMap = new HashMap<>();
-
-			/*
-			 * gropsMap is a hash table in which key: message type value : list
-			 * of groups belonging to that message type
-			 */
-			HashMap<String, ArrayList<MessagesGroup>> groupsMap = new HashMap<>();
-
-			/*
-			 * gropsFieldsMap is a hash table in which key: message type (that
-			 * admits groups/batches) value : "grouped by" fields
-			 */
-			HashMap<String, ArrayList<String>> groupFieldsMap = new HashMap<>();
-			HashMap<String, Boolean> msgType = new HashMap<>();
-			HashMap<String, String> chldmsgtype = new HashMap<>();
-			
-			for (int i = 0; i < messageTypes.size(); i++) {
-				ArrayList<String> columns = new ArrayList<>();
-				ArrayList<String> groupFields = new ArrayList<>();
-				//System.out.println(messageTypes.get(i));
-				headersMap.put(messageTypes.get(i), dbClient.getTableHeaders(
-						messageTypes.get(i), "T", columns));
-				columnsMap.put(messageTypes.get(i), columns);
-				groupsMap.put(messageTypes.get(i),
-						dbClient.getGroups(queueName, messageTypes.get(i)));
-				dbClient.getTableHeaders(messageTypes.get(i), "G", groupFields);
-				groupFieldsMap.put(messageTypes.get(i), groupFields);
-				if (isParent.get(i) != false) {
-					msgType.put(messageTypes.get(i), true);
+				if (containsOnlyNumbers(searchValue)
+						&& searchValue.length() < 11) {
+					model.addAttribute("amountSearchValue", searchValue);
 				} else {
-					msgType.put(messageTypes.get(i), false);
+					model.addAttribute("amountSearchValue", 0);
 				}
-				chldmsgtype.put(messageTypes.get(i),ChildMsgType.get(i));
-				System.out.println(queueName + " - " +  messageTypes.get(i));
-				//id= queueService.getMessagesOfGivenType(queueName, messageTypes.get(i));
+				/*
+				 * System.out.println(headersMap + "headersMap");
+				 * System.out.println(columnsMap + "columnsMap");
+				 * System.out.println(groupsMap + "groupsMap");
+				 * System.out.println(groupFieldsMap + "groupFieldsMap"); //
+				 * model.addAttribute("childMsgType", chldmsgtype);
+				 */}
+
+			else {
+				dbClient.getConnection();
+				Queue[] queues = queueService.getQueueList();
+				model.addAttribute("queues", queues);
+
+				// add queue name attribute
+				model.addAttribute("queueName", queueName);
+				ArrayList<String> messageTypes = new ArrayList<>();
+				ArrayList<Boolean> isParent = new ArrayList<>();
+				ArrayList<String> ChildMsgType = new ArrayList<>();
+				isParent = queueService.getIsParrentMessageInQueue(queueName);
+
+				// add messagetypes array
+				messageTypes = queueService.getMessageTypesInQueue(queueName);
+				ChildMsgType = queueService.getChildMessageTypes(queueName);
+
+				if (messageTypes == null) {
+					return "tiles/forbidden";
+				}
+
+				// build hashmap of headers (message type is the key, array
+				// containing table headers is the value)
+				// get groups for current message type
+				// if there are no groups, then treat as a non-batchalbe page
+
+				/*
+				 * headers Map is a hash in which key: messageType (s.a. 103)
+				 * value: array of strings which represent the table headers
+				 * name (s.a. Sender, Receiver, Reference ...)
+				 */
+				HashMap<String, ArrayList<String>> headersMap = new HashMap<>();
+				/*
+				 * columns Map is a hash in which key: messageType (s.a. 103)
+				 * value: array of strings which represent the fields contained
+				 * by the json object returned by fintp API (s.a. sender,
+				 * receiver, trn ...) they correspond in a 1-1 relantionship
+				 * with headersMap
+				 */
+				HashMap<String, ArrayList<String>> columnsMap = new HashMap<>();
+
+				/*
+				 * gropsMap is a hash table in which key: message type value :
+				 * list of groups belonging to that message type
+				 */
+				HashMap<String, ArrayList<MessagesGroup>> groupsMap = new HashMap<>();
+
+				/*
+				 * gropsFieldsMap is a hash table in which key: message type
+				 * (that admits groups/batches) value : "grouped by" fields
+				 */
+				HashMap<String, ArrayList<String>> groupFieldsMap = new HashMap<>();
+				HashMap<String, Boolean> msgType = new HashMap<>();
+				HashMap<String, String> chldmsgtype = new HashMap<>();
+
+				for (int i = 0; i < messageTypes.size(); i++) {
+					ArrayList<String> columns = new ArrayList<>();
+					ArrayList<String> groupFields = new ArrayList<>();
+					// System.out.println(messageTypes.get(i));
+					headersMap
+							.put(messageTypes.get(i),
+									dbClient.getTableHeaders(
+											messageTypes.get(i), "T", columns));
+					columnsMap.put(messageTypes.get(i), columns);
+					groupsMap.put(messageTypes.get(i),
+							dbClient.getGroups(queueName, messageTypes.get(i)));
+					dbClient.getTableHeaders(messageTypes.get(i), "G",
+							groupFields);
+					groupFieldsMap.put(messageTypes.get(i), groupFields);
+					if (isParent.get(i) != false) {
+						msgType.put(messageTypes.get(i), true);
+					} else {
+						msgType.put(messageTypes.get(i), false);
+					}
+					chldmsgtype.put(messageTypes.get(i), ChildMsgType.get(i));
+					System.out.println(queueName + " - " + messageTypes.get(i));
+					// id= queueService.getMessagesOfGivenType(queueName,
+					// messageTypes.get(i));
+				}
+
+				model.addAttribute("messageTypes", msgType.keySet());
+				model.addAttribute("isParent", msgType);
+				model.addAttribute("headers", headersMap);
+				model.addAttribute("columns", columnsMap);
+				model.addAttribute("groupsMap", groupsMap);
+				model.addAttribute("groupFieldNames", groupFieldsMap);
+				model.addAttribute("isComposedMsgType", isComposedMsgType);
+				model.addAttribute("childMsgType", chldmsgtype);
+				model.addAttribute("stmtuid", id);
+				model.addAttribute("trnSearchValue", searchValue);
+
+				if (containsOnlyNumbers(searchValue)
+						&& searchValue.length() < 11) {
+					model.addAttribute("amountSearchValue", searchValue);
+				} else {
+					model.addAttribute("amountSearchValue", 0);
+				}
+
+				/*
+				 * System.out.println(headersMap + "headersMap");
+				 * System.out.println(columnsMap + "columnsMap");
+				 * System.out.println(groupsMap + "groupsMap");
+				 * System.out.println(groupFieldsMap + "groupFieldsMap");
+				 */
 			}
-			
-			
-			model.addAttribute("messageTypes", msgType.keySet());
-			model.addAttribute("isParent", msgType);
-			model.addAttribute("headers", headersMap);
-			model.addAttribute("columns", columnsMap);
-			model.addAttribute("groupsMap", groupsMap);
-			model.addAttribute("groupFieldNames", groupFieldsMap);
-			model.addAttribute("isComposedMsgType", isComposedMsgType);
-			model.addAttribute("childMsgType", chldmsgtype);
-			model.addAttribute("stmtuid", id);
-			System.out.println(headersMap + "headersMap");
-			System.out.println(columnsMap + "columnsMap");
-			System.out.println(groupsMap + "groupsMap");
-			System.out.println(groupFieldsMap + "groupFieldsMap");
-			}
-			
+
 		} finally {
 			dbClient.closeConnection();
 		}

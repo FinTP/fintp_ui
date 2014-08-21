@@ -56,7 +56,10 @@ public class MessagesServlet extends HttpServlet {
 				.getParameterValues("groupFieldsValues[]");
 		String sortField = request.getParameter("sortField");
 		String sortOrder = request.getParameter("sortOrder");
-
+		String trnSearch = request.getParameter("trnSearch");
+	
+		Integer amountSearch = Integer.parseInt(request.getParameter("amountSearch"));
+	
 		boolean isTotalRequested = Boolean.parseBoolean(request
 				.getParameter("isTotalRequested"));
 
@@ -64,7 +67,7 @@ public class MessagesServlet extends HttpServlet {
 		JSONObject responseData = new JSONObject();
 		try {
 			responseData = getTableInfo(client, queueName, type, page,
-					pageSize, sortField, sortOrder, isTotalRequested, groupFieldsNames, groupFieldsValues);
+					pageSize, sortField, sortOrder, isTotalRequested, groupFieldsNames, groupFieldsValues, trnSearch, amountSearch);
 
 			response.getWriter().println(responseData.toString());
 			response.getWriter().flush();
@@ -77,7 +80,7 @@ public class MessagesServlet extends HttpServlet {
 	public JSONObject getTableInfo(Client client, String queueName,
 			String type, String page, String pageSize, String sortField, String sortOrder,
 			boolean isTotalRequested, String[] groupFieldsNames,
-			String[] groupFieldsValues) throws ClientHandlerException,
+			String[] groupFieldsValues, String trnSearch, Integer amountSearch) throws ClientHandlerException,
 			UniformInterfaceException, JSONException {
 		URI uri = UriBuilder
 				.fromPath(servletsHelper.getUrl())
@@ -109,7 +112,15 @@ public class MessagesServlet extends HttpServlet {
 								groupFieldsValues[i]).build();
 			}
 		}
-
+		
+		if (trnSearch != null) {
+			uri = UriBuilder.fromUri(uri).queryParam("filter_trn", trnSearch)
+					.build();
+		}
+		if (amountSearch != 0) {
+			uri = UriBuilder.fromUri(uri).queryParam("filter_amount_exact", amountSearch)
+					.build();
+		}
 		WebResource webResource = client.resource(uri.toString());
 		ClientResponse response = webResource
 				.accept(MediaType.APPLICATION_JSON)
