@@ -238,7 +238,7 @@
 								<form action="${queueName}.htm" method="get">
 									<input type="hidden" name="type" value="${messageType}" /> <input
 										type="submit" value="Search" id="search" /> <input
-										type="text" id="search" placeholder="Reference or Amount"
+										type="text" id="search" size="26" placeholder="Partial Reference or Amount"
 										name="search" />
 
 								</form>

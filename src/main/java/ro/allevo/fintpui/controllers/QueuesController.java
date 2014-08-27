@@ -144,7 +144,7 @@ public class QueuesController {
 
 			ModelMap model) throws JSONException {
 		logger.info("/queues/" + queueName + " requested");
-
+		Integer amountSearchValue;
 		try {
 
 			if (isComposedMsgType == true) {
@@ -196,7 +196,16 @@ public class QueuesController {
 				 */
 				HashMap<String, ArrayList<String>> groupFieldsMap = new HashMap<>();
 				HashMap<String, Boolean> msgType = new HashMap<>();
+
 				// HashMap<String, String> chldmsgtype = new HashMap<>();
+				if (containsOnlyNumbers(searchValue)
+						&& searchValue.length() < 11) {
+					model.addAttribute("amountSearchValue", searchValue);
+					amountSearchValue = Integer.parseInt(searchValue);
+				} else {
+					model.addAttribute("amountSearchValue", 0);
+					amountSearchValue = 0;
+				}
 
 				for (int i = 0; i < messageTypes.size(); i++) {
 					ArrayList<String> columns = new ArrayList<>();
@@ -207,8 +216,9 @@ public class QueuesController {
 									dbClient.getTableHeaders(
 											messageTypes.get(i), "T", columns));
 					columnsMap.put(messageTypes.get(i), columns);
-					groupsMap.put(messageTypes.get(i),
-							dbClient.getGroups(queueName, messageTypes.get(i)));
+					groupsMap.put(messageTypes.get(i), dbClient.getGroups(
+							queueName, messageTypes.get(i), amountSearchValue,
+							searchValue));
 					dbClient.getTableHeaders(messageTypes.get(i), "G",
 							groupFields);
 					groupFieldsMap.put(messageTypes.get(i), groupFields);
@@ -231,12 +241,6 @@ public class QueuesController {
 				model.addAttribute("composedMsgId", composedMsgId);
 				model.addAttribute("trnSearchValue", searchValue);
 
-				if (containsOnlyNumbers(searchValue)
-						&& searchValue.length() < 11) {
-					model.addAttribute("amountSearchValue", searchValue);
-				} else {
-					model.addAttribute("amountSearchValue", 0);
-				}
 				/*
 				 * System.out.println(headersMap + "headersMap");
 				 * System.out.println(columnsMap + "columnsMap");
@@ -298,7 +302,14 @@ public class QueuesController {
 				HashMap<String, ArrayList<String>> groupFieldsMap = new HashMap<>();
 				HashMap<String, Boolean> msgType = new HashMap<>();
 				HashMap<String, String> chldmsgtype = new HashMap<>();
-
+				if (containsOnlyNumbers(searchValue)
+						&& searchValue.length() < 11) {
+					model.addAttribute("amountSearchValue", searchValue);
+					amountSearchValue = Integer.parseInt(searchValue);
+				} else {
+					model.addAttribute("amountSearchValue", 0);
+					amountSearchValue = 0;
+				}
 				for (int i = 0; i < messageTypes.size(); i++) {
 					ArrayList<String> columns = new ArrayList<>();
 					ArrayList<String> groupFields = new ArrayList<>();
@@ -308,8 +319,9 @@ public class QueuesController {
 									dbClient.getTableHeaders(
 											messageTypes.get(i), "T", columns));
 					columnsMap.put(messageTypes.get(i), columns);
-					groupsMap.put(messageTypes.get(i),
-							dbClient.getGroups(queueName, messageTypes.get(i)));
+					groupsMap.put(messageTypes.get(i), dbClient.getGroups(
+							queueName, messageTypes.get(i), amountSearchValue,
+							searchValue));
 					dbClient.getTableHeaders(messageTypes.get(i), "G",
 							groupFields);
 					groupFieldsMap.put(messageTypes.get(i), groupFields);
@@ -339,7 +351,7 @@ public class QueuesController {
 						&& searchValue.length() < 11) {
 					model.addAttribute("amountSearchValue", searchValue);
 				} else {
-					model.addAttribute("amountSearchValue", 0);
+					model.addAttribute("amountSearchValue", -1);
 				}
 
 				/*

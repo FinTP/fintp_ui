@@ -167,22 +167,25 @@ public class JdbcClient {
 		return headers;
 	}
 
-	public ArrayList<MessagesGroup> getGroups(String queue, String messageType) {
+	public ArrayList<MessagesGroup> getGroups(String queue, String messageType, int amountSearchValue, String searchValue) {
 		ArrayList<MessagesGroup> groups = new ArrayList<>();
 		String procedure = getProcedureCallString(
-				"findata.getgroupsformtqueue", 3);
+				"findata.getgroupsformtqueue", 5);
 		try {
 			connection.setAutoCommit(false);
 			CallableStatement statement = connection.prepareCall(procedure);
 			statement.setString(1, queue);
 			statement.setString(2, messageType);
+			statement.setInt(3, amountSearchValue);
+			statement.setString(4, searchValue);
 			if (driver.contains("oracle")) {
-				statement.registerOutParameter(3, OracleTypes.CURSOR);
+				statement.registerOutParameter(5, OracleTypes.CURSOR);
 			} else {
-				statement.registerOutParameter(3, Types.OTHER);
+				statement.registerOutParameter(5, Types.OTHER);
 			}
 			statement.execute();
-			ResultSet resultSet = (ResultSet) statement.getObject(3);
+			System.out.println(statement);
+			ResultSet resultSet = (ResultSet) statement.getObject(5);
 
 			while (resultSet.next()) {
 				groups.add(new MessagesGroup(resultSet));

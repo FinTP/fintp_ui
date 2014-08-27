@@ -114,11 +114,11 @@ public class MessagesServlet extends HttpServlet {
 		}
 		
 		if (trnSearch != null) {
-			uri = UriBuilder.fromUri(uri).queryParam("filter_trn", trnSearch)
+			uri = UriBuilder.fromUri(uri).queryParam("filter_trn_cntor", trnSearch)
 					.build();
 		}
-		if (amountSearch != 0) {
-			uri = UriBuilder.fromUri(uri).queryParam("filter_amount_exact", amountSearch)
+		if (amountSearch != -1) {
+			uri = UriBuilder.fromUri(uri).queryParam("filter_amount_exctor", amountSearch)
 					.build();
 		}
 		WebResource webResource = client.resource(uri.toString());
