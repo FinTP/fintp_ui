@@ -38,6 +38,7 @@
 				<th>Batch id</th>
 				<th>Status</th>
 				<th>Progress</th>
+				<th>User</th>
 			</tr>
 		</thead>
 		<tbody></tbody>

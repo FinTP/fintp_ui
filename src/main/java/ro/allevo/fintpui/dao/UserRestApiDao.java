@@ -13,7 +13,7 @@ public class UserRestApiDao implements UserDao {
 
 	@Autowired
 	ServletsHelper servletsHelper;
-	
+
 	@Override
 	public User[] getAllUsers() {
 		// TODO Auto-generated method stub
@@ -27,35 +27,48 @@ public class UserRestApiDao implements UserDao {
 	public User getUser(String username) {
 		// TODO Auto-generated method stub
 		RestTemplate client = new RestClient();
-		String url = servletsHelper.getUrl() + "/users/"+username;
+		String url = servletsHelper.getUrl() + "/users/" + username;
 		User entity = client.getForObject(url, User.class);
+		return entity;
+	}
+
+	@Override
+	public User getUserById(int userid) {
+		// TODO Auto-generated method stub
+		User entity = null;
+		User[] entities = this.getAllUsers();
+		for (User user : entities) {
+			if (user.getUserid() == userid)
+				entity = user;
+		}
 		return entity;
 	}
 
 	@Override
 	public void insertUser(User user) {
 		// TODO Auto-generated method stub
-		URI uri = UriBuilder.fromUri(servletsHelper.getUrl()).path("users").build();
+		URI uri = UriBuilder.fromUri(servletsHelper.getUrl()).path("users")
+				.build();
 		servletsHelper.postAPIResource(uri, user);
-		
+
 	}
 
 	@Override
 	public void updateUser(String username, User user) {
 		// TODO Auto-generated method stub
-		URI uri = UriBuilder.fromUri(servletsHelper.getUrl())
-				.path("users").path(username).build();
+		URI uri = UriBuilder.fromUri(servletsHelper.getUrl()).path("users")
+				.path(username).build();
 		servletsHelper.putAPIResource(uri, username, user);
-		
+
 	}
 
 	@Override
 	public void deleteUser(String username) {
 		// TODO Auto-generated method stub
-		URI uri = UriBuilder.fromUri(servletsHelper.getUrl())
-				.path("users").path(username).build();
+		URI uri = UriBuilder.fromUri(servletsHelper.getUrl()).path("users")
+				.path(username).build();
 		servletsHelper.deleteAPIResource(uri);
-		System.out.println(uri+"");
+		System.out.println(uri + "");
 	}
 
 }

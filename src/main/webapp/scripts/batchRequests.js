@@ -62,7 +62,7 @@ function completeBatchesTable(){
 									      value: batch.progress 
 								    });
 									$tr.append($("<td>").append($progressBar));
-									
+									$tr.append($("<td>").append(response.username));
 									$auxTbody.append($tr);
 									$header = $(".accordion").find("#"+value).prev();
 									if($header.length > 0){

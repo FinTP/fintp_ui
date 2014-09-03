@@ -203,8 +203,8 @@ public class QueuesController {
 					model.addAttribute("amountSearchValue", searchValue);
 					amountSearchValue = Integer.parseInt(searchValue);
 				} else {
-					model.addAttribute("amountSearchValue", 0);
-					amountSearchValue = 0;
+					model.addAttribute("amountSearchValue", -1);
+					amountSearchValue = -1;
 				}
 
 				for (int i = 0; i < messageTypes.size(); i++) {
@@ -218,7 +218,7 @@ public class QueuesController {
 					columnsMap.put(messageTypes.get(i), columns);
 					groupsMap.put(messageTypes.get(i), dbClient.getGroups(
 							queueName, messageTypes.get(i), amountSearchValue,
-							searchValue));
+							searchValue.toUpperCase()));
 					dbClient.getTableHeaders(messageTypes.get(i), "G",
 							groupFields);
 					groupFieldsMap.put(messageTypes.get(i), groupFields);
@@ -239,7 +239,7 @@ public class QueuesController {
 				model.addAttribute("groupFieldNames", groupFieldsMap);
 				model.addAttribute("isComposedMsgType", isComposedMsgType);
 				model.addAttribute("composedMsgId", composedMsgId);
-				model.addAttribute("trnSearchValue", searchValue);
+				model.addAttribute("trnSearchValue", searchValue.toUpperCase());
 
 				/*
 				 * System.out.println(headersMap + "headersMap");
@@ -307,8 +307,8 @@ public class QueuesController {
 					model.addAttribute("amountSearchValue", searchValue);
 					amountSearchValue = Integer.parseInt(searchValue);
 				} else {
-					model.addAttribute("amountSearchValue", 0);
-					amountSearchValue = 0;
+					model.addAttribute("amountSearchValue", -1);
+					amountSearchValue = -1;
 				}
 				for (int i = 0; i < messageTypes.size(); i++) {
 					ArrayList<String> columns = new ArrayList<>();
@@ -321,7 +321,7 @@ public class QueuesController {
 					columnsMap.put(messageTypes.get(i), columns);
 					groupsMap.put(messageTypes.get(i), dbClient.getGroups(
 							queueName, messageTypes.get(i), amountSearchValue,
-							searchValue));
+							searchValue.toUpperCase()));
 					dbClient.getTableHeaders(messageTypes.get(i), "G",
 							groupFields);
 					groupFieldsMap.put(messageTypes.get(i), groupFields);
@@ -345,13 +345,14 @@ public class QueuesController {
 				model.addAttribute("isComposedMsgType", isComposedMsgType);
 				model.addAttribute("childMsgType", chldmsgtype);
 				model.addAttribute("stmtuid", id);
-				model.addAttribute("trnSearchValue", searchValue);
+				model.addAttribute("trnSearchValue", searchValue.toUpperCase());
 
 				if (containsOnlyNumbers(searchValue)
 						&& searchValue.length() < 11) {
 					model.addAttribute("amountSearchValue", searchValue);
 				} else {
 					model.addAttribute("amountSearchValue", -1);
+					amountSearchValue = -1;
 				}
 
 				/*
