@@ -216,9 +216,15 @@ public class QueuesController {
 									dbClient.getTableHeaders(
 											messageTypes.get(i), "T", columns));
 					columnsMap.put(messageTypes.get(i), columns);
+					if (searchValue != null)
 					groupsMap.put(messageTypes.get(i), dbClient.getGroups(
 							queueName, messageTypes.get(i), amountSearchValue,
 							searchValue.toUpperCase()));
+					else
+						groupsMap.put(
+								messageTypes.get(i),
+								dbClient.getGroups(queueName,
+										messageTypes.get(i), -1, ""));
 					dbClient.getTableHeaders(messageTypes.get(i), "G",
 							groupFields);
 					groupFieldsMap.put(messageTypes.get(i), groupFields);
@@ -239,7 +245,11 @@ public class QueuesController {
 				model.addAttribute("groupFieldNames", groupFieldsMap);
 				model.addAttribute("isComposedMsgType", isComposedMsgType);
 				model.addAttribute("composedMsgId", composedMsgId);
-				model.addAttribute("trnSearchValue", searchValue.toUpperCase());
+				if (searchValue != null)
+					model.addAttribute("trnSearchValue",
+							searchValue.toUpperCase());
+				else
+					model.addAttribute("trnSearchValue", "");
 
 				/*
 				 * System.out.println(headersMap + "headersMap");
@@ -319,9 +329,15 @@ public class QueuesController {
 									dbClient.getTableHeaders(
 											messageTypes.get(i), "T", columns));
 					columnsMap.put(messageTypes.get(i), columns);
-					groupsMap.put(messageTypes.get(i), dbClient.getGroups(
-							queueName, messageTypes.get(i), amountSearchValue,
-							searchValue.toUpperCase()));
+					if (searchValue != null)
+						groupsMap.put(messageTypes.get(i), dbClient.getGroups(
+								queueName, messageTypes.get(i),
+								amountSearchValue, searchValue.toUpperCase()));
+					else
+						groupsMap.put(
+								messageTypes.get(i),
+								dbClient.getGroups(queueName,
+										messageTypes.get(i), -1, ""));
 					dbClient.getTableHeaders(messageTypes.get(i), "G",
 							groupFields);
 					groupFieldsMap.put(messageTypes.get(i), groupFields);
@@ -345,7 +361,11 @@ public class QueuesController {
 				model.addAttribute("isComposedMsgType", isComposedMsgType);
 				model.addAttribute("childMsgType", chldmsgtype);
 				model.addAttribute("stmtuid", id);
-				model.addAttribute("trnSearchValue", searchValue.toUpperCase());
+				if (searchValue != null)
+					model.addAttribute("trnSearchValue",
+							searchValue.toUpperCase());
+				else
+					model.addAttribute("trnSearchValue", "");
 
 				if (containsOnlyNumbers(searchValue)
 						&& searchValue.length() < 11) {
