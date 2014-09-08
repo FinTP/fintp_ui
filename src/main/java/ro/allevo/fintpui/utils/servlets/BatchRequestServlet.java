@@ -29,7 +29,6 @@ import ro.allevo.fintpui.dao.UserDao;
 import ro.allevo.fintpui.model.User;
 import ro.allevo.fintpui.service.UserService;
 import ro.allevo.fintpui.utils.ApplicationCacheManager;
-import ro.allevo.fintpui.utils.UserCacheManager;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
