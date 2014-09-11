@@ -12,7 +12,7 @@ public class MessageFT extends MessageInReports {
 	private final String service;
 	
 	public MessageFT(ResultSet resultSet) throws SQLException {
-		super(resultSet);
+		super(resultSet, 0);
 		valuedate = resultSet.getString("valuedate");
 		ordbank = resultSet.getString("ordbank");
 		benbank = resultSet.getString("benbank");

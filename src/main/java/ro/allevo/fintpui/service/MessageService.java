@@ -52,6 +52,8 @@ public class MessageService {
 			return messagesDao.getDebitInstrumentsMessage(id);
 		case "Direct Debit":
 			return messagesDao.getDirectDebitMessage(id);
+		case "Statements":
+			return messagesDao.getStatementMessage(id);
 		default:
 			throw new RuntimeException("Requested unexpected type of business area");
 		}

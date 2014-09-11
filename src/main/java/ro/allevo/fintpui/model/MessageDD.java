@@ -9,7 +9,7 @@ public class MessageDD extends MessageInReports {
 	private final String valuedate;
 
 	public MessageDD(ResultSet resultSet) throws SQLException {
-		super(resultSet);
+		super(resultSet, 0);
 		cdtid = resultSet.getString("cdtid");
 		valuedate = resultSet.getString("valuedate");
 	}

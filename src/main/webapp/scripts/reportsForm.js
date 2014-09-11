@@ -4,6 +4,9 @@ $(function() {
 	$("#valueDate").datepicker();
 	$("#issdate").datepicker();
 	$("#matdate").datepicker();
+	$("#OpBalanceDate").datepicker();
+	$("#ClBalanceDate").datepicker();
+	
 	$("#startTime").timepicker();
 	$("#endTime").timepicker();
 	$("input[name='interval']").change(function() {
@@ -19,23 +22,29 @@ $(function() {
 		case "Funds Transfer":
 			$(".specificDI").hide();
 	        $(".specificDD").hide();
-	        $(".specificFT").show();
-	        $(".specificFTDD").show();
+	        $(".specificST").hide();
+	        $( "tr[class*='FT']" ).show();
 	        break;
 		case "Debit Instruments":
-			$(".specificDI").show();
-	        $(".specificDD").hide();
+			$(".specificDD").hide();
 	        $(".specificFT").hide();
-	        $(".specificFTDD").hide();
+	        $(".specificST").hide();
+	        $( "tr[class*='DI']" ).show();
 	    	break;
 	    case "Direct Debit":
-	    	//TODO: add properly these classes in the reportsForm.jspx (note one obj can have multiple classes
 	    	$(".specificDI").hide();
-	        $(".specificDD").show();
 	        $(".specificFT").hide();
-	        $(".specificFTDD").show();
+	        $(".specificST").hide();
+	        $( "tr[class*='DD']" ).show();
 	    	break;
+	    case "Statements":
+			$(".specificDI").hide();
+	        $(".specificDD").hide();
+	        $(".specificFT").hide();
+	        $( "tr[class*='ST']" ).show();
+	       	break;
 	    }
+		
 	});
 	
 	$("form").submit(function(e){

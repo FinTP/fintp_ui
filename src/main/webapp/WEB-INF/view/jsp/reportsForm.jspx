@@ -30,7 +30,8 @@
 					<td>
 						<input type="radio" name="businessArea"	value="Funds Transfer" checked="checked"> Funds Transfer</input><br />
 						<input type="radio" name="businessArea" value="Debit Instruments">Debit Instruments </input><br /> 
-						<input type="radio" name="businessArea" value="Direct Debit" >Direct Debit</input>
+						<input type="radio" name="businessArea" value="Direct Debit" >Direct Debit</input><br /> 
+						<input type="radio" name="businessArea" value="Statements" >Statements</input>
 						
 					</td>
 						
@@ -108,6 +109,17 @@
 						</select>
 					</td>
 				</tr>
+				<tr style="display: none" class="specificST">
+					<td class="title"><b><spring:message code="reports.headerMsgtype"/></b></td>
+					<td><select id="messageTypesST" name="messageTypesST" class="text5">
+							<option selected="selected"></option>
+							<c:forEach var="mt" items="${messageTypesST}">
+								<option><c:out value="${mt}"/></option>
+							</c:forEach>
+						</select>
+					</td>
+				</tr>
+				
 				<tr>
 					<td class="title"><b><spring:message code="reports.headerSender"/></b></td>
 					<td><select id="sender" name="sender">
@@ -128,7 +140,7 @@
 						</select>
 					</td>
 				</tr>
-				<tr class = "specificFTDD">
+				<tr class = "specificFT specificDD">
 					<td class="title"><b><spring:message code="reports.headerValuedate"/></b></td>
 					<td><input class="text5" type="text" id="valueDate" name="valueDate"/></td>
 				</tr>
@@ -152,7 +164,7 @@
 					<td class="title"><b><spring:message code="reports.headerTrn"/></b></td>
 					<td><input class="text5" type="text" id="trn" name="trn"/></td>
 				</tr>
-				<tr>
+				<tr class="specificFT specificDI specificDD">
 					<td class="title"><b><spring:message code="reports.headerAmount"/></b></td>
 					<td>
 						<b><spring:message code="reportsForm.min"/></b><input class="autoWidth" type="text" id="minAmount" name="minAmount"/>
@@ -163,11 +175,45 @@
 					</td>
 				</tr>
 				
+				<tr style="display: none"  class = "specificST">
+					<td class="title"><b><spring:message code="reports.headerOpBalance"/></b></td>
+					<td><input class="text5" type="text" id="OpBalanceDate" name="OpBalanceDate"/></td>
+				</tr>
+				
+				<tr style="display: none"  class = "specificST">
+					<td class="title"><b><spring:message code="reports.headerClBalance"/></b></td>
+					<td><input class="text5" type="text" id="ClBalanceDate" name="ClBalanceDate"/></td>
+				</tr>
+				
 			</tbody>
 		</table>
 		<table class = "left">
 			<tbody>
 			
+			
+				<tr style="display: none" class="specificST">
+					<td class="title"><b><spring:message code="reports.headerOpBalanceAmnt"/></b></td>
+					<td>
+						<b><spring:message code="reportsForm.min"/></b><input class="autoWidth" type="text" id="minOpBalance" name="minOpBalance"/>
+						<br/>
+						<b><spring:message code="reportsForm.max"/></b>
+						<input class="autoWidth" type="text"
+						 id="maxOpBalance" name="maxOpBalance"/>
+					</td>
+				</tr>
+				
+				<tr style="display: none" class="specificST">
+					<td class="title"><b><spring:message code="reports.headerClBalanceAmnt"/></b></td>
+					<td>
+						<b><spring:message code="reportsForm.min"/></b><input class="autoWidth" type="text" id="minClBalance" name="minClBalance"/>
+						<br/>
+						<b><spring:message code="reportsForm.max"/></b>
+						<input class="autoWidth" type="text"
+						 id="maxClBalance" name="maxClBalance"/>
+					</td>
+				</tr>
+				
+				
 				<tr style="display: none" class="specificDI">
 					<td><span><b><spring:message
 									code="reports.headerDbtid" /></b></span></td>
@@ -178,6 +224,12 @@
 									code="reports.headerCdtrid" /></b></span></td>
 					<td><input type="text" id="cdtid" name="cdtid" /></td>
 				</tr>
+				
+				<tr style="display: none" class="specificST">
+					<td class="title"><b><spring:message code="reports.headerAccount"/></b></td>
+					<td><input class="text5" type="text" id="BalanceAccount" name="BalanceAccount"/></td>
+				</tr>
+				
 				<tr>
 					<td class="title"><b><spring:message code="reports.headerCurrency"/></b></td>
 					<td><select id="currency" name="currency">
@@ -188,15 +240,18 @@
 						</select>
 					</td>
 				</tr>
-				<tr>
+				
+				
+				
+				<tr class="specificFT specificDD specificDI">
 					<td class="title"><b><spring:message code="reports.headerBatchid"/></b></td>
 					<td><input class="text5" type="text" id="batchID" name="batchID"/></td>
 				</tr>
-				<tr>
+				<tr class="specificFT specificDD specificDI">
 					<td class="title"><b><spring:message code="reports.headerDbtaccount"/></b></td>
 					<td><input class="text5" type="text" id="dbtaccount" name="dbtaccount"/></td>
 				</tr>
-				<tr>
+				<tr class="specificFT specificDD specificDI">
 					<td class="title"><b><spring:message code="reports.headerDbtcustname"/></b></td>
 					<td><input class="text5" type="text" id="dbtcustname" name="dbtcustname"/></td>
 				</tr>
@@ -210,15 +265,19 @@
 						</select>
 					</td>
 				</tr>
-				<tr>
+				<tr class="specificFT specificDD specificDI">
 					<td class="title"><b><spring:message code="reports.headerCdtaccount"/></b></td>
 					<td><input class="text5" type="text" id="cdtaccount" name="cdtaccount"/></td>
 				</tr>
-				<tr>
-					<td class="title"><b><spring:message code="reports.headerCdtcustname"/></b></td>
+				
+				<tr class = "specificDD specificFT specificDI" >
+				<td class="title"><b><spring:message code="reports.headerCdtcustname"/></b></td>
 					<td><input class="text5" type="text" id="cdtcustname" name="cdtcustname"/></td>
 				</tr>
+				
+				
 				<tr class = "specificFT">
+				
 					<td class="title"><b><spring:message code="reports.headerBenbank"/></b></td>
 					<td><select id="benbank" name="benbank">
 							<option selected="selected"></option>
@@ -285,7 +344,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
+						<tr class="specificFT specificDI specificDD">
 							<td><input type="checkbox" name="insertdateCheck"
 								checked="checked" /> <spring:message code="reports.headerTime" />
 							</td>
@@ -309,7 +368,38 @@
 							<td><input type="checkbox" name="trnCheck" checked="checked" />
 								<spring:message code="reports.headerTrn" /></td>
 						</tr>
-						<tr class = "specificFTDD">
+						
+						
+						<tr style="display: none" class="specificST">
+							<td><input type="checkbox" name="OpBalanceDateCheck" checked="checked" />
+								<spring:message code="reports.headerOpBalance" /></td>
+						</tr>
+						
+						<tr style="display: none" class="specificST">
+							<td><input type="checkbox" name="ClBalanceDateCheck" checked="checked" />
+								<spring:message code="reports.headerClBalance" /></td>
+						</tr>
+						
+						<tr style="display: none" class="specificST">
+							<td><input type="checkbox" name="OpBalanceAmountCheck" checked="checked" />
+								<spring:message code="reports.headerOpBalanceAmnt" /></td>
+						</tr>
+						
+						<tr style="display: none" class="specificST">
+							<td><input type="checkbox" name="ClBalanceAmountCheck" checked="checked" />
+								<spring:message code="reports.headerClBalanceAmnt" /></td>
+						</tr>
+						
+						<tr style="display: none" class="specificST">
+							<td><input type="checkbox" name="BalanceAccountCheck" checked="checked" />
+								<spring:message code="reports.headerAccount" /></td>
+						</tr>
+						<tr style="display: none" class="specificST">
+							<td><input type="checkbox" name="StatementCheck" checked="checked" />
+								<spring:message code="reports.headerStatement" /></td>
+						</tr>
+						
+						<tr class = "specificFT specificDD">
 							<td><input type="checkbox" name="valuedateCheck"
 								checked="checked" /> <spring:message
 									code="reports.headerValuedate" /></td>
@@ -329,7 +419,7 @@
 								checked="checked" /> <spring:message
 									code="reports.headerDbtid" /></td>
 						</tr>
-						<tr>
+						<tr class="specificFT specificDI specificDD">
 							<td><input type="checkbox" name="amountCheck"
 								checked="checked" /> <spring:message code="reports.headerAmount" />
 							</td>
@@ -339,12 +429,12 @@
 								checked="checked" /> <spring:message
 									code="reports.headerCurrency" /></td>
 						</tr>
-						<tr>
+						<tr class="specificFT specificDI specificDD" >
 							<td><input type="checkbox" name="dbtaccountCheck"
 								checked="checked" /> <spring:message
 									code="reports.headerDbtaccount" /></td>
 						</tr>
-						<tr>
+						<tr class="specificFT specificDI specificDD">
 							<td><input type="checkbox" name="dbtcustnameCheck"
 								checked="checked" /> <spring:message
 									code="reports.headerDbtcustname" /></td>
@@ -359,7 +449,7 @@
 								checked="checked" /> <spring:message
 									code="reports.headerBenbank" /></td>
 						</tr>
-						<tr>
+						<tr class="specificFT specificDI specificDD">
 							<td><input type="checkbox" name="cdtaccountCheck"
 								checked="checked" /> <spring:message
 									code="reports.headerCdtaccount" /></td>
@@ -369,7 +459,7 @@
 								checked="checked" /> <spring:message
 									code="reports.headerCdtrid" /></td>
 						</tr>
-						<tr>
+						<tr class="specificFT specificDI specificDD">
 							<td><input type="checkbox" name="cdtcustnameCheck"
 								checked="checked" /> <spring:message
 									code="reports.headerCdtcustname" /></td>
@@ -389,7 +479,7 @@
 								checked="checked" /> <spring:message code="reports.headerState" />
 							</td>
 						</tr>
-						<tr>
+						<tr class="specificFT specificDI specificDD">
 							<td><input type="checkbox" name="batchidCheck"
 								checked="checked" /> <spring:message
 									code="reports.headerBatchid" /></td>

@@ -18,7 +18,7 @@ public class MessageDI extends MessageInReports{
 	private final String dbtid;
 	
 	public MessageDI(ResultSet resultSet) throws SQLException {
-		super(resultSet);
+		super(resultSet, 0);
 		matdate = resultSet.getString("matdate");
 		issdate = resultSet.getString("issdate");
 		dbtid = resultSet.getString("dbtid");

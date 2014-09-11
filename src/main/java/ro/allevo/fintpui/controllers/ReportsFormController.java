@@ -33,6 +33,8 @@ public class ReportsFormController {
 			model.addAttribute("messageTypesDD", messageTypesDD);
 			ArrayList<String> messageTypesFT = dbClient.getFTMessageTypes();
 			model.addAttribute("messageTypesFT", messageTypesFT);
+			ArrayList<String> messageTypesST = dbClient.getSTMessageTypes();
+			model.addAttribute("messageTypesST", messageTypesST);
 			model.addAttribute("states", dbClient.getStates());
 			model.addAttribute("bicCodes", dbClient.getBicCodes());
 			model.addAttribute("currencies", dbClient.getCurrencies());

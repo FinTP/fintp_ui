@@ -25,8 +25,11 @@ public abstract class MessageInReports {
 	
 	
 	
-	public MessageInReports(ResultSet resultSet) throws SQLException {
+	public MessageInReports(ResultSet resultSet, int exclude) throws SQLException {
+		
+		if (exclude!=1){
 		insertdate = resultSet.getString("insertdate");
+		
 		msgtype = resultSet.getString("msgtype");
 		sender = resultSet.getString("sender");
 		receiver = resultSet.getString("receiver");
@@ -41,7 +44,27 @@ public abstract class MessageInReports {
 		state = resultSet.getString("state");
 		batchid = resultSet.getString("batchid");
 		correlid = resultSet.getString("correlid");
-		userid = resultSet.getString("userid");
+		userid = resultSet.getString("userid");}
+		
+		else
+		{
+			insertdate="";
+			msgtype="";
+			sender="";
+			receiver ="";
+			trn ="";
+			amount="";
+			currency ="";
+			dbtaccount ="";
+			dbtcustname="";
+			cdtaccount="";
+			cdtcustname="";
+			direction="";
+			state ="";
+			batchid ="";
+			correlid ="";
+			userid="";
+		}
 		
 	}
 	

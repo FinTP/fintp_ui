@@ -73,7 +73,9 @@ public class MessageDuplicatesController {
 		ArrayList<MessageDuplicate> msgdupl = messageService
 				.getDuplicateMessageDetails(allRequestParams);
 		client.closeConnection();
-
+		String payload = "";
+		String friendlyPayload = "";
+		String friendlyPayloaddupl = "";
 		try {
 
 			final Client client = servletsHelper.getAPIClient();
@@ -86,12 +88,16 @@ public class MessageDuplicatesController {
 					.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
 			JSONObject responseEntity = clientResponse
 					.getEntity(JSONObject.class);
-
-			String payload = responseEntity.getString("payload");
-			// now, get friendly payload
-			String path = getClass().getClassLoader()
-					.getResource(NESTED_TABLES_XSLT).getPath();
-			String friendlyPayload = applyXSLT(payload, path);
+			if (dupqueue.equalsIgnoreCase("n/a")) {
+				friendlyPayload = messageService.getPayload(dupid);
+			} else {
+				payload = responseEntity.getString("payload");
+				// String payload = responseEntity.getString("payload");
+				// now, get friendly payload
+				String path = getClass().getClassLoader()
+						.getResource(NESTED_TABLES_XSLT).getPath();
+				friendlyPayload = applyXSLT(payload, path);
+			}
 
 			if (dupid.equals("") == false) {
 				final Client clientd = servletsHelper.getAPIClient();
@@ -107,11 +113,14 @@ public class MessageDuplicatesController {
 				JSONObject responseEntityd = clientResponsed
 						.getEntity(JSONObject.class);
 
+				if (dupqueue.equalsIgnoreCase("n/a")) {
+					friendlyPayloaddupl = messageService.getPayload(dupid);
+				} else {
 				String payloadd = responseEntityd.getString("payload");
 				// now, get friendly payload
 				String pathd = getClass().getClassLoader()
 						.getResource(NESTED_TABLES_XSLT).getPath();
-				String friendlyPayloaddupl = applyXSLT(payloadd, pathd);
+				friendlyPayloaddupl = applyXSLT(payloadd, pathd);}
 				model.addAttribute("duplpayload", friendlyPayloaddupl);
 			}
 			model.addAttribute("origpayload", friendlyPayload);

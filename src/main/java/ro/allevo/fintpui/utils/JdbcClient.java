@@ -21,7 +21,8 @@ public class JdbcClient {
 	private static final String FT_MESSAGES_QUERY = "select distinct friendlyname from fincfg.msgtypes where businessarea = 'Funds Transfer'";
 	private static final String DI_MESSAGES_QUERY = "select distinct friendlyname from fincfg.msgtypes where businessarea = 'Debit Instruments'";
 	private static final String DD_MESSAGES_QUERY = "select distinct friendlyname from fincfg.msgtypes where businessarea = 'Direct Debit'";
-	
+	private static final String ST_MESSAGES_QUERY = "select distinct friendlyname from fincfg.msgtypes where businessarea = 'Statements'";
+
 	private static final String BIC_CODES_QUERY = "select bic from fincfg.biccodes";
 	private static final String CURRENCIES_QUERY = "select currency from fincfg.currencies";
 	private static final String STATES_QUERY = "select status from fincfg.reportingtxstates";
@@ -114,6 +115,11 @@ public class JdbcClient {
 	public ArrayList<String> getDDMessageTypes() throws SQLException {
 		return getDistinctTypes(DD_MESSAGES_QUERY, "friendlyname");
 	}
+	
+	public ArrayList<String> getSTMessageTypes() throws SQLException {
+		return getDistinctTypes(ST_MESSAGES_QUERY, "friendlyname");
+	}
+
 
 	public ArrayList<String> getBicCodes() throws SQLException {
 		return getDistinctTypes(BIC_CODES_QUERY, "bic");

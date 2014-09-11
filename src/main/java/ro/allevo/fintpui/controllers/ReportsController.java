@@ -46,6 +46,7 @@ public class ReportsController {
 		    @RequestParam(value = "messageTypesFT", required = false) String messageTypeFT,
 		    @RequestParam(value = "messageTypesDD", required = false) String messageTypeDD,
 		    @RequestParam(value = "messageTypesDI", required = false) String messageTypeDI,
+		    @RequestParam(value = "messageTypesST", required = false) String messageTypesST,
 			@RequestParam(value = "sender", required = false) String sender,
 			@RequestParam(value = "receiver", required = false) String receiver,
 			@RequestParam(value = "trn", required = false) String reference,
