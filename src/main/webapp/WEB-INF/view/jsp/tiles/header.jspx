@@ -1,0 +1,64 @@
+<div xmlns:c="http://java.sun.com/jsp/jstl/core"  
+	xmlns:spring="http://www.springframework.org/tags" 
+	xmlns:tiles="http://tiles.apache.org/tags-tiles" 
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:security="http://www.springframework.org/security/tags"
+	id="site-header">
+		
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+
+	<c:url value="/images/banner_green.png" var="headerImage" />
+	<c:set var="selectedLocale" value="${pageContext.response.locale}" />
+	<c:set var="locales" value="${fn:split('ro,en', ',')}" scope="application" />
+	
+	<nav>
+		<ul>
+		
+			<li class="main-menu"><a href="${pageContext.servletContext.contextPath}/queues.htm">  <spring:message code="header.menuQueues"/></a>
+			</li>
+			<li class="main-menu"><a href="${pageContext.servletContext.contextPath}/reportsForm.htm"><spring:message code="header.menuReports"/></a>
+				<ul>
+					<li><a href="${pageContext.servletContext.contextPath}/reportsForm.htm"><spring:message code="header.menuMessages"/></a></li>
+					<li><a href="${pageContext.servletContext.contextPath}/batchesForm.htm"><spring:message code="header.menuBatches"/></a></li>
+				</ul>
+			</li>
+			
+			<li class="main-menu"><a
+				href="${pageContext.servletContext.contextPath}/schemas.htm">Administration</a>
+				<ul>
+					<li><a href="${pageContext.servletContext.contextPath}/schemas.htm"><spring:message code="header.menuSchemas"/></a></li>
+					<li><a href="${pageContext.servletContext.contextPath}/routingrules.htm"><spring:message code="header.menuRules"/></a></li>
+					<li><a href="${pageContext.servletContext.contextPath}/timelimits.htm"><spring:message code="header.menuTimelimits"/></a></li>
+					<li><a href="${pageContext.servletContext.contextPath}/connectors.htm"><spring:message code="header.menuConnectors"/></a></li>
+					<li><a href="${pageContext.servletContext.contextPath}/events.htm"><spring:message code="header.menuEvents"/></a></li>
+					<li><a href="${pageContext.servletContext.contextPath}/users.htm"><spring:message code="header.menuUsers"/></a></li>
+				</ul>
+			</li>
+	
+			<li class="right">
+				<div class="localeSelector">
+					<select id="languageSelector" onChange="changeLocale(this);">
+						<option value="${selectedLocale}" selected="selected">${selectedLocale}</option>
+						<c:forEach items="${locales}" var="locale">
+							<c:if test="${locale != selectedLocale}">
+								<option value="${locale}">${locale}</option>
+							</c:if>
+						</c:forEach>
+					</select>
+				</div>
+			</li>
+			<li class="right">
+				<security:authorize access="isAuthenticated()">
+					<a href="#" class="inactive"><security:authentication property="principal.username" /></a>
+					<ul>
+						<li>
+						<a href="logout.htm" title="logout"><spring:message code="header.logoutText"/></a>
+						</li>
+					</ul>
+				</security:authorize>
+				<security:authorize access="! isAuthenticated()"><spring:message code="header.notAuthenticatedText"/></security:authorize>
+			</li>
+		</ul>
+	</nav>
+</div>

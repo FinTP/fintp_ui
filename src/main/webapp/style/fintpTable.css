@@ -1,0 +1,96 @@
+.fintpTable{
+	background-color:  #efefef;
+	font-family: Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 24px;
+	margin-left: auto;
+	margin-right: auto;
+	width:75%;
+}
+
+.fintpTable td,th {
+	overflow: hidden;
+	padding-left: 3px;
+	padding-right: 3px;
+}
+
+.fintpTable td{
+	border: 1px solid #efefef;
+}
+
+.fintpTable th{
+	border: 0;
+}
+
+.centered{
+	text-align: center;
+}
+
+.fintpTable tr:nth-child(odd){ 
+	background-color:white; 
+}
+
+
+.fintpTable th {
+	background: -o-linear-gradient(bottom, #757575 5%, #b2b2b2 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #666666
+		), color-stop(1, #b2b2b2));
+	background: -moz-linear-gradient(center top, #757575 5%, #b2b2b2 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#757575",
+		endColorstr="#b2b2b2");
+	background: -o-linear-gradient(top, #757575, b2b2b2);
+	background-color: #757575;
+	text-align: center;
+	font-weight: bold;
+	color: white;
+}
+
+.pui-paginator{
+	margin-left: auto;
+	margin-right: auto;
+	width:75%;
+}
+
+
+.fintpRequestsLabel tr td{
+	padding-left: 20px;
+	padding-right: 20px;
+	
+}
+
+.routeCheckbox{
+	vertical-align: middle;
+}
+
+.batchInfo{
+	color: blue;
+}
+
+.submitButton{
+	width: inherit;
+	height: 35px;
+    margin-top: 7px;
+    font-size: 18px;
+    font-weight: bold;
+    outline: none; 
+    background:#5f6975;
+    color:#fff;
+    border: 1px solid rgba(0, 0, 0, .49);
+    padding: 2px;
+    margin:2px;
+    margin-left: auto;
+	margin-right: auto;
+}
+
+form select{
+	width: 100%;
+}
+
+form input[type='submit']{
+	width: inherit;
+}
+
+.centeredTable{
+	margin-left: auto;
+	margin-right: auto;
+}

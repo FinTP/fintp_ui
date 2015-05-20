@@ -1,0 +1,91 @@
+
+<div xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
+
+	<spring:url value="/style" var="styleUrl" />
+	<link href="${styleUrl}/fintpTable.css" rel="stylesheet" />
+	<table class="fintpTable" style="width: 35%">
+		<thead style="overflow: not-scrollable;">
+			<tr>
+				<th>Duplicate Message Reference</th>
+				<th>Status</th>
+				<th>Current Queue</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			<c:forEach var="duplicat" items="${duplicate}">
+				<c:set var="viewDuplicateUrl">
+					<c:url value="./viewDuplicates.htm">
+						<c:param name="inMsgID" value="${param.inMsgID}" />
+						<c:param name="inLiveArch" value="1" />
+						<c:param name="type" value="${param.type}" />
+						<c:param name="inQueueName" value="${param.inQueueName}" />
+						<c:param name="dupID" value="${duplicat.guid}" />
+						<c:param name="dupQueue" value="${duplicat.queuename}" />
+					</c:url>
+				</c:set>
+				<tr>
+					<td>
+					<c:if test="${duplicat.guid == param.dupID}"> <c:out value="&lt;b&gt;" escapeXml="false"/></c:if>
+					<c:choose>
+						<c:when test="${param.inMsgID==duplicat.guid}">
+						<i style="color:red"> <a href="${viewDuplicateUrl}">${duplicat.trn}</a> Original Message</i>
+						</c:when>
+						<c:otherwise><i style="color:green"> <a href="${viewDuplicateUrl}">${duplicat.trn}</a></i></c:otherwise></c:choose></td>
+					<td><c:if test="${duplicat.guid == param.dupID}"> 
+						<c:out value="&lt;b&gt;" escapeXml="false"/></c:if>
+							<a href="${viewDuplicateUrl}"><i>${duplicat.feedback}</i></a>
+					</td>
+					<td><c:if test="${duplicat.guid == param.dupID}"> 
+						<c:out value="&lt;b&gt;" escapeXml="false"/></c:if>
+							<a href="${viewDuplicateUrl}"><i>${duplicat.queuename}</i></a>
+					</td>
+					 <c:if test="${duplicat.guid == param.dupID}">  <c:out value="&lt;/b&gt;" escapeXml="false"/></c:if> 
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table>
+	<br />
+	<table class="fintpTable">
+		<thead>
+
+			<tr>
+				<th>Original Message</th>
+				<th>Duplicate Message</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><spring:message code="payloadView.messageId" />:
+					${param.inMsgID}<br /></td>
+				<td><c:choose>
+						<c:when test="${!empty duplpayload}">
+						
+						<spring:message code="payloadView.duplicateMessageId" />:
+					${param.dupID}<br /> 
+					</c:when>
+						
+					</c:choose></td>
+			</tr>
+			<tr>
+				<td>${origpayload}</td>
+				<td><c:choose>
+						<c:when test="${!empty duplpayload}">
+					${duplpayload}
+				</c:when>
+						<c:otherwise>Select a duplicate to view it's payload
+      </c:otherwise>
+					</c:choose></td>
+			</tr>
+		</tbody>
+
+	</table>
+<input
+						type="button" name="Back" value="Back"
+						onclick="window.history.back();" class="submitButton"
+						style="margin-left: 20px" />
+
+</div>

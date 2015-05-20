@@ -1,0 +1,701 @@
+<div xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
+	<spring:url value="/style" var="styleUrl" />
+	<link
+		href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css"
+		rel="stylesheet" />
+	<link href="${styleUrl}/sort.css" rel="stylesheet" />
+	<link href="${styleUrl}/paginator.css" rel="stylesheet" />
+	<link href="${styleUrl}/reports.css" rel="stylesheet" />
+	<spring:url value="/scripts/locale.js" var="locale_js_url" />
+	<script src="${locale_js_url}" type="text/javascript">
+	<!-- required for FF3 and Opera -->
+		
+	</script>
+	<spring:url var="jquery_js_url"
+		value="/scripts/jquery/jquery-1.10.1.js" />
+	<script src="${jquery_js_url}" type="text/javascript">
+	<!-- required for FF3 and Opera -->
+		
+	</script>
+	<spring:url var="jquery_ui_url" value="/scripts/jquery/jquery-ui.js" />
+	<script src="${jquery_ui_url}" type="text/javascript">
+	<!-- required for FF3 and Opera -->
+		
+	</script>
+	<spring:url var="sort_script_url" value="/scripts/sort.js" />
+	<script src="${sort_script_url}" type="text/javascript">
+	<!-- required for FF3 and Opera -->
+		
+	</script>
+	<spring:url var="prime_ui_url"
+		value="/scripts/prime-ui/prime-ui-0.9.5.js" />
+	<script src="${prime_ui_url}" type="text/javascript">
+	<!-- required for FF3 and Opera -->
+		
+	</script>
+	<spring:url var="prime_paginator_url"
+		value="/scripts/prime-ui/paginator.js" />
+	<script src="${prime_paginator_url}" type="text/javascript">
+	<!-- required for FF3 and Opera -->
+		
+	</script>
+	<spring:url var="paginator_url" value="/scripts/paginator.js" />
+	<script src="${paginator_url}" type="text/javascript">
+	<!-- required for FF3 and Opera -->
+		
+	</script>
+
+
+	<h2>
+		<spring:message code="reports.title" />
+	</h2>
+
+	<!-- SEARCH CRITERIA -->
+	<b><spring:message code="reports.criteria" /></b>
+	<spring:message code="reports.businessArea" />
+	: <b>${param.businessArea}</b>;
+	<c:choose>
+		<c:when test="${param.interval eq 'interval'}">
+			<spring:message code="reports.interval"
+				arguments="${param.startDate},${param.endDate},${param.startTime},${param.endTime}" />
+		</c:when>
+		<c:otherwise>
+			<spring:message code="reports.current" 
+			arguments="${param.startTime},${param.endTime}" />
+		</c:otherwise>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.messageTypes}">
+			<spring:message code="reports.headerMsgtype" />: <b>${param.messageTypes}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.sender}">
+			<spring:message code="reports.headerSender" />: <b>${param.sender}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.receiver}">
+			<spring:message code="reports.headerReceiver" />: <b>${param.receiver}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.trn}">
+			<spring:message code="reports.headerTrn" />: <b>${param.trn}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.valueDate}">
+			<spring:message code="reports.headerValuedate" />: <b>${param.valueDate}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.amount}">
+			<spring:message code="reports.headerAmount" />: <b>${param.amount}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.currency}">
+			<spring:message code="reports.headerCurrency" />: <b>${param.currency}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.batchID}">
+			<spring:message code="reports.headerBatchid" />: <b>${param.batchID}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.dbtaccount}">
+			<spring:message code="reports.headerDbtaccount" />: <b>${param.dbtaccount}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.dbtcustname}">
+			<spring:message code="reports.headerDbtcustname" />: <b>${param.dbtcustname}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.ordbank}">
+			<spring:message code="reports.headerOrdbank" />: <b>${param.ordbank}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.cdtaccount}">
+			<spring:message code="reports.headerCdtaccount" />: <b>${param.cdtaccount}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.cdtcustname}">
+			<spring:message code="reports.headerCdtcustname" />: <b>${param.cdtcustname}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.benbank}">
+			<spring:message code="reports.headerBenbank" />: <b>${param.benbank}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.service}">
+			<spring:message code="reports.headerService" />: <b>${param.service}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.direction}">
+			<spring:message code="reports.headerDirection" />: <b>${param.direction}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.state}">
+			<spring:message code="reports.headerState" />: <b>${param.state}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.userid}">
+			User id: <b>${param.userid}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.minAmount}">
+			<spring:message code="reportsForm.min" />: <b>${param.minAmount}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.maxAmount}">
+			<spring:message code="reportsForm.max" />: <b>${param.maxAmount}</b>; 
+		</c:when>
+	</c:choose>
+
+	<c:choose>
+		<c:when test="${!empty param.issdate}">
+			<spring:message code="reports.headerIssuancedate" />: <b>${param.issdate}</b>; 
+		</c:when>
+	</c:choose>
+
+	<c:choose>
+		<c:when test="${!empty param.matdate}">
+			<spring:message code="reports.headerMaturitydate" />: <b>${param.matdate}</b>; 
+		</c:when>
+	</c:choose>
+
+	<c:choose>
+		<c:when test="${!empty param.dbtid}">
+			<spring:message code="reports.headerDbtid" />: <b>${param.dbtid}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.cdtid}">
+			<spring:message code="reports.headerCdtid" />: <b>${param.cdtid}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.messageTypesFT}">
+			<spring:message code="reports.headerMsgtype" />: <b>${param.messageTypesFT}</b>;
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.messageTypesDD}">
+			<spring:message code="reports.headerMsgtype" />: <b>${param.messageTypesDD}</b>; 
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${!empty param.messageTypesDI}">
+			<spring:message code="reports.headerMsgtype" />: <b>${param.messageTypesDI}</b>;
+		</c:when>
+	</c:choose>
+	<br />
+
+	<!-- PAGINATOR -->
+	<b><label><spring:message code="reports.nbItems" /></label></b> <select
+		id="itemsPerPage">
+		<option>5</option>
+		<option>10</option>
+		<option selected="selected">20</option>
+		<option>25</option>
+		<option>50</option>
+		<option>100</option>
+	</select> <br /> <b>Total: </b><span id="total">${total}</span>
+	<div id="paginatorLocation">
+		<div id="paginator" />
+	</div>
+	<div style="overflow: scroll;">
+		<table class="reportsTable jtable">
+			<thead style="overflow: not-scrollable;">
+				<tr>
+					<c:choose>
+						<c:when test="${param.insertdateCheck eq 'on' and param.businessArea ne 'Statements' }">
+							<th class="sortable"><spring:message
+									code="reports.headerTime" /> <input type="hidden"
+								name="insertdate"   /></th>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.msgtypeCheck eq 'on'}">
+							<th class="sortable"><spring:message
+									code="reports.headerMsgtype" /> <input type="hidden"
+								name="msgtype"   /></th>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.senderCheck eq 'on'}">
+							<th class="sortable"><spring:message
+									code="reports.headerSender" /> <input type="hidden"
+								name="sender"   /></th>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.receiverCheck eq 'on'}">
+							<th class="sortable"><spring:message
+									code="reports.headerReceiver" /> <input type="hidden"
+								name="receiver"   /></th>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.trnCheck eq 'on'}">
+							<th class="sortable"><spring:message
+									code="reports.headerTrn" /> <input type="hidden" name="trn"
+								  /></th>
+						</c:when>
+					</c:choose>
+					
+					<c:choose>
+						<c:when test="${param.BalanceAccountCheck eq 'on' and param.businessArea eq 'Statements'}">
+							<th class="sortable"><spring:message
+									code="reports.headerAccount" /> <input type="hidden" name="accnumber"
+								  /></th>
+						</c:when>
+					</c:choose>
+					
+					<c:choose>
+						<c:when test="${param.StatementCheck eq 'on' and param.businessArea eq 'Statements'}">
+							<th class="sortable"><spring:message
+									code="reports.headerStatement" /> <input type="hidden" name="stmtnumber"
+								  /></th>
+						</c:when>
+					</c:choose>
+					
+					<c:choose>
+						<c:when test="${param.OpBalanceDateCheck eq 'on' and param.businessArea eq 'Statements'}">
+							<th class="sortable"><spring:message
+									code="reports.headerOpBalance" /> <input type="hidden" name="obdate"
+								  /></th>
+						</c:when>
+					</c:choose>
+					
+					<c:choose>
+						<c:when test="${param.OpBalanceDateCheck eq 'on' and param.businessArea eq 'Statements'}">
+							<th class="sortable"><spring:message
+									code="reports.headerOpBalanceAmnt" /> <input type="hidden" name="ibalance"
+								  /></th>
+						</c:when>
+					</c:choose>
+					
+					<c:choose>
+						<c:when test="${param.ClBalanceDateCheck eq 'on' and param.businessArea eq 'Statements'}">
+							<th class="sortable"><spring:message
+									code="reports.headerClBalance" /> <input type="hidden" name="cldate"
+								  /></th>
+						</c:when>
+					</c:choose>
+					
+					
+					<c:choose>
+						<c:when test="${param.ClBalanceDateCheck eq 'on' and param.businessArea eq 'Statements'}">
+							<th class="sortable"><spring:message
+									code="reports.headerClBalanceAmnt" /> <input type="hidden" name="fbalance"
+								  /></th>
+						</c:when>
+					</c:choose>
+					
+					<c:choose>
+						<c:when
+							test="${param.valuedateCheck eq 'on' and param.businessArea eq 'Funds Transfer' or param.businessArea eq 'Direct Debit'}">
+							<th class="sortable"><spring:message
+									code="reports.headerValuedate" /> <input type="hidden"
+								name="valuedate"   /></th>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.issuanceCheck eq 'on' and param.businessArea eq 'Debit Instruments'}">
+							<th class="sortable"><spring:message
+									code="reports.headerIssuancedate" /> <input type="hidden"
+								name="issdate"   /></th>
+								</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.maturityCheck eq 'on' and param.businessArea eq 'Debit Instruments'}">
+						
+							<th class="sortable"><spring:message
+									code="reports.headerMaturitydate" /> <input type="hidden"
+								name="matdate"   /></th>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.amountCheck eq 'on' and param.businessArea ne 'Statements'}">
+							<th class="sortable"><spring:message
+									code="reports.headerAmount" /> <input type="hidden"
+								name="amount"   /></th>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.currencyCheck eq 'on'}">
+							<th class="sortable"><spring:message
+									code="reports.headerCurrency" /> <input type="hidden"
+								name="currency"   /></th>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.dbtaccountCheck eq 'on' and param.businessArea ne 'Statements'}">
+							<th class="sortable"><spring:message
+									code="reports.headerDbtaccount" /> <input type="hidden"
+								name="dbtaccount"   /></th>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.dbtcustnameCheck eq 'on' and param.businessArea ne 'Statements'}">
+							<th class="sortable"><spring:message
+									code="reports.headerDbtcustname" /> <input type="hidden"
+								name="dbtcustname"   /></th>
+						</c:when>
+						
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.businessArea eq 'Debit Instruments'  }">
+							<th class="sortable"><spring:message
+									code="reports.headerDbtid" /> <input type="hidden"
+								name="dbtid"   /></th>
+
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when
+							test="${param.ordbankCheck eq 'on' and param.businessArea eq 'Funds Transfer'}">
+							<th class="sortable"><spring:message
+									code="reports.headerOrdbank" /> <input type="hidden"
+								name="ordbank"   /></th>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when
+							test="${param.benbankCheck eq 'on' and param.businessArea eq 'Funds Transfer'}">
+							<th class="sortable"><spring:message
+									code="reports.headerBenbank" /> <input type="hidden"
+								name="benbank"   /></th>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.cdtaccountCheck eq 'on' and param.businessArea ne 'Statements'}">
+							<th class="sortable"><spring:message
+									code="reports.headerCdtaccount" /> <input type="hidden"
+								name="cdtaccount"   /></th>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.cdtcustnameCheck eq 'on' and param.businessArea ne 'Statements'}">
+							<th class="sortable"><spring:message
+									code="reports.headerCdtcustname" /> <input type="hidden"
+								name="cdtcustname"   /></th>
+						</c:when>
+						<c:when test="${param.cdtrCheck eq 'on' and param.businessArea eq 'Direct Debit'}">
+							<th class="sortable"><spring:message
+									code="reports.headerCdtrid" /> <input type="hidden"
+								name="cdtid"   /></th>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when
+							test="${param.serviceCheck eq 'on' and param.businessArea eq 'Funds Transfer'}">
+							<th class="sortable"><spring:message
+									code="reports.headerService" /> <input type="hidden"
+								name="service"   /></th>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.directionCheck eq 'on' }">
+							<th class="sortable"><spring:message
+									code="reports.headerDirection" /> <input type="hidden"
+								name="direction"   /></th>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.stateCheck eq 'on'}">
+							<th class="sortable"><spring:message
+									code="reports.headerState" /> <input type="hidden"
+								name="state"   /></th>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${param.batchidCheck eq 'on' and param.businessArea ne 'Statements'}">
+							<th class="sortable"><spring:message
+									code="reports.headerBatchid" /> <input type="hidden"
+								name="batchid"   /></th>
+						</c:when>
+					</c:choose>
+				</tr>
+			</thead>
+			<tbody>
+
+				<c:forEach var="message" items="${messages}">
+					<c:set var="viewMessageUrl">
+						<c:url value="./viewMessage.htm">
+							<c:param name="id" value="${message.correlid}" />
+							<c:param name="businessArea" value="${param.businessArea}" />
+						</c:url>
+					</c:set>
+					<tr>
+						<c:choose>
+							<c:when test="${param.insertdateCheck eq 'on' and param.businessArea ne 'Statements'}">
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.insertdate}" />
+								</a></td>
+							</c:when>
+						</c:choose>
+						<c:choose>
+							<c:when test="${param.msgtypeCheck eq 'on'}">
+
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.msgtype}" /></a></td>
+							</c:when>
+						</c:choose>
+						<c:choose>
+							<c:when test="${param.senderCheck eq 'on'}">
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.sender}" /></a></td>
+							</c:when>
+						</c:choose>
+						<c:choose>
+							<c:when test="${param.receiverCheck eq 'on'}">
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.receiver}" /></a></td>
+							</c:when>
+						</c:choose>
+						<c:choose>
+							<c:when test="${param.trnCheck eq 'on'}">
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.trn}" /></a></td>
+							</c:when>
+						</c:choose>
+						
+						<c:choose>
+							<c:when test="${param.BalanceAccountCheck eq 'on' and param.businessArea eq 'Statements'}">
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.accnumber}" /></a></td>
+							</c:when>
+						</c:choose>
+						
+						<c:choose>
+							<c:when test="${param.StatementCheck eq 'on' and param.businessArea eq 'Statements'}">
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.stmtnumber}" /></a></td>
+							</c:when>
+						</c:choose>
+						<c:choose>
+							<c:when test="${param.OpBalanceDateCheck eq 'on' and param.businessArea eq 'Statements'}">
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.obdate}" /></a></td>
+							</c:when>
+						</c:choose>
+							<c:choose>
+							<c:when test="${param.OpBalanceAmountCheck eq 'on' and param.businessArea eq 'Statements'}">
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.ibalance}" /></a></td>
+							</c:when>
+						</c:choose>
+						
+						<c:choose>
+							<c:when test="${param.ClBalanceDateCheck eq 'on' and param.businessArea eq 'Statements'}">
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.cbdate}" /></a></td>
+							</c:when>
+						</c:choose>
+							<c:choose>
+							<c:when test="${param.ClBalanceAmountCheck eq 'on' and param.businessArea eq 'Statements'}">
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.fbalance}" /></a></td>
+							</c:when>
+						</c:choose>
+						<c:choose>
+							<c:when
+								test="${param.valuedateCheck eq 'on' and param.businessArea eq 'Funds Transfer' or param.businessArea eq 'Direct Debit'}">
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.valuedate}" /></a></td>
+							</c:when>
+						</c:choose>
+
+						<c:choose>
+							<c:when test="${param.issuanceCheck eq 'on' and param.businessArea eq 'Debit Instruments'}">
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.issdate}" /></a></td>
+							</c:when>
+						</c:choose>
+						
+						<c:choose>
+							<c:when test="${param.maturityCheck eq 'on' and param.businessArea eq 'Debit Instruments'}">					
+											
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.matdate}" /></a></td>
+							</c:when>
+						</c:choose>
+						<c:choose>
+							<c:when test="${param.amountCheck eq 'on' and param.businessArea ne 'Statements'}">
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.amount}" /></a></td>
+							</c:when>
+						</c:choose>
+						<c:choose>
+							<c:when test="${param.currencyCheck eq 'on'}">
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.currency}" /></a></td>
+							</c:when>
+						</c:choose>
+						<c:choose>
+							<c:when test="${param.dbtaccountCheck eq 'on' and param.businessArea ne 'Statements'}">
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.dbtaccount}" /></a></td>
+							</c:when>
+						</c:choose>
+						<c:choose>
+							<c:when test="${param.dbtcustnameCheck eq 'on' and param.businessArea ne 'Statements'}">
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.dbtcustname}" /></a></td>
+							</c:when>
+						</c:choose>
+						
+						<c:choose>
+							<c:when test="${param.dbtidCheck eq 'on' and param.businessArea eq 'Debit Instruments'}">
+
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.dbtid}" /></a></td>
+
+							</c:when>
+						</c:choose>
+						<c:choose>
+							<c:when
+								test="${param.ordbankCheck eq 'on'  and param.businessArea eq 'Funds Transfer'}">
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.ordbank}" /></a></td>
+							</c:when>
+						</c:choose>
+						<c:choose>
+							<c:when
+								test="${param.benbankCheck eq 'on'  and param.businessArea eq 'Funds Transfer'}">
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.benbank}" /></a></td>
+							</c:when>
+						</c:choose>
+						<c:choose>
+							<c:when test="${param.cdtaccountCheck eq 'on' and param.businessArea ne 'Statements'}">
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.cdtaccount}" /></a></td>
+							</c:when>
+						</c:choose>
+						<c:choose>
+							<c:when test="${param.cdtcustnameCheck eq 'on' and param.businessArea ne 'Statements'}">
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.cdtcustname}" /></a></td>
+							</c:when>
+						</c:choose>
+						
+						<c:choose>
+							<c:when test="${param.cdtrCheck eq 'on' and param.businessArea eq 'Debit Direct'}">
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.cdtid}" /></a></td>
+							</c:when>
+						</c:choose>
+						<c:choose>
+							<c:when
+								test="${param.serviceCheck eq 'on'  and param.businessArea eq 'Funds Transfer'}">
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.service}" /></a></td>
+							</c:when>
+						</c:choose>
+						<c:choose>
+							<c:when test="${param.directionCheck eq 'on'}">
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.direction}" /></a></td>
+							</c:when>
+						</c:choose>
+						<c:choose>
+							<c:when test="${param.stateCheck eq 'on'}">
+								<td><a href="${viewMessageUrl}"> <c:out
+											value="${message.state}" /></a></td>
+							</c:when>
+						</c:choose>
+						<c:choose>
+							<c:when test="${param.batchidCheck eq 'on' and param.businessArea ne 'Statements'}">
+								<td width="100%"><a href="${viewMessageUrl}"> <c:out
+											value="${message.batchid}" />
+								</a></td>
+							</c:when>
+						</c:choose>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
+	<form action="reports.htm" method="get" id="mainForm">
+		<input name="businessArea" type="hidden" value="${param.businessArea}" />
+		<input name="interval" type="hidden" value="${param.interval}" /> <input
+			name="startDate" type="hidden" value="${param.startDate}" /> <input
+			name="endDate" type="hidden" value="${param.endDate}" /> <input
+			name="startTime" type="hidden" value="${param.startTime}" /> <input
+			name="endTime" type="hidden" value="${param.endTime}" /> <input
+			name="messageTypes" type="hidden" value="${param.messageTypes}" /> <input
+			name="sender" type="hidden" value="${param.sender}" /> <input
+			name="receiver" type="hidden" value="${param.receiver}" /> <input
+			name="trn" type="hidden" value="${param.trn}" /> <input
+			name="valueDate" type="hidden" value="${param.valueDate}" /> <input
+			name="issdate" type="hidden" value="${param.issdate}" /> <input
+			name="matdate" type="hidden" value="${param.matdate}" /> <input
+			name="dbtid" type="hidden" value="${param.dbtid}" /> <input
+			name="minAmount" type="hidden" value="${param.minAmount}" /> <input
+			name="maxAmount" type="hidden" value="${param.maxAmount}" /> <input
+			name="currency" type="hidden" value="${param.currency}" /> <input
+			name="dbtaccount" type="hidden" value="${param.dbtaccount}" /> <input
+			name="dbtcustname" type="hidden" value="${param.dbtcustname}" /> <input
+			name="cdtid" type="hidden" value="${param.cdtid}" /> <input
+			name="cdtaccount" type="hidden" value="${param.cdtaccount}" /> <input
+			name="cdtcustname" type="hidden" value="${param.cdtcustname}" /> <input
+			name="benbank" type="hidden" value="${param.benbank}" /> <input
+			name="ordbank" type="hidden" value="${param.ordbank}" /> <input
+			name="service" type="hidden" value="${param.service}" /> <input
+			name="direction" type="hidden" value="${param.direction}" /> <input
+			name="state" type="hidden" value="${param.state}" /> <input
+			name="batchID" type="hidden" value="${param.batchID}" /> <input
+			name="userid" type="hidden" value="${param.userid}" /> <input
+			name="orderField" id="orderField" type="hidden" value="${orderField}" />
+		<input name="order" id="order" type="hidden" value="${order}" /> <input
+			name="limit" id="limit" type="hidden" value="${limit}" /> <input
+			name="offset" id="offset" type="hidden" value="${offset}" /> <input
+			name="insertdateCheck" type="hidden" value="${param.insertdateCheck}" />
+		<input name="msgtypeCheck" type="hidden" value="${param.msgtypeCheck}" />
+		<input name="senderCheck" type="hidden" value="${param.senderCheck}" />
+		<input name="receiverCheck" type="hidden"
+			value="${param.receiverCheck}" /> <input name="trnCheck"
+			type="hidden" value="${param.trnCheck}" /> <input
+			name="valuedateCheck" type="hidden" value="${param.valuedateCheck}" />
+		<input name="amountCheck" type="hidden" value="${param.amountCheck}" />
+		<input name="currencyCheck" type="hidden"
+			value="${param.currencyCheck}" /> <input name="dbtaccountCheck"
+			type="hidden" value="${param.dbtaccountCheck}" /> <input
+			name="dbtcustnameCheck" type="hidden"
+			value="${param.dbtcustnameCheck}" /> <input name="cdtaccountCheck"
+			type="hidden" value="${param.cdtaccountCheck}" /> <input
+			name="cdtcustnameCheck" type="hidden"
+			value="${param.cdtcustnameCheck}" /> <input name="benbankCheck"
+			type="hidden" value="${param.benbankCheck}" /> <input
+			name="ordbankCheck" type="hidden" value="${param.ordbankCheck}" /> <input
+			name="serviceCheck" type="hidden" value="${param.serviceCheck}" /> <input
+			name="directionCheck" type="hidden" value="${param.directionCheck}" />
+		<input name="stateCheck" type="hidden" value="${param.stateCheck}" />
+		<input name="batchidCheck" type="hidden" value="${param.batchidCheck}" />
+		<input name="cdtrCheck" type="hidden" value="${param.cdtrCheck}" />
+		<input name="dbtidCheck" type="hidden" value="${param.dbtidCheck}" />
+			<input name="messageTypesDI" type="hidden" value="${param.messageTypesDI}" />
+			<input name="messageTypesDD" type="hidden" value="${param.messageTypesDD}" />
+			<input name="messageTypesFT" type="hidden" value="${param.messageTypesFT}" />
+			<input name="messageTypesST" type="hidden" value="${param.messageTypesST}" />
+	</form>
+</div>

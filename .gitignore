@@ -1,0 +1,14 @@
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# Maven directory of complied classes#
+target/
+
+#Eclipse IDE generated files#
+.settings/
+.classpath
+.project

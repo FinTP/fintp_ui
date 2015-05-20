@@ -1,0 +1,81 @@
+<div xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	xmlns:jsp="http://java.sun.com/JSP/Page" class="content">
+
+	<spring:url value="/style" var="styleUrl" />
+	<link href="${styleUrl}/fintpTable.css" rel="stylesheet" />
+	<link href="${styleUrl}/jquery/jquery-ui-1.10.4.custom.css"
+		rel="stylesheet" />
+
+	<spring:url value="/scripts/locale.js" var="locale_js_url" />
+	<spring:url var="jquery_js_url"
+		value="/scripts/jquery/jquery-1.10.1.js" />
+	<spring:url var="jquery_ui_url" value="/scripts/jquery/jquery-ui.js" />
+ 	<spring:url var="schema_add_url" value="/scripts/routingschemas_add.js" />
+	<script src="${locale_js_url}" type="text/javascript">
+	<!-- required for FF3 and Opera -->
+	</script>
+	<script src="${jquery_js_url}" type="text/javascript">
+	<!-- required for FF3 and Opera -->
+	</script>
+	<script src="${jquery_ui_url}" type="text/javascript">
+	<!-- required for FF3 and Opera -->
+	</script>
+	<script src="${schema_add_url}" type="text/javascript">
+	<!-- required for FF3 and Opera -->
+	</script>
+	
+	<form:form method="post"
+		action="${pageContext.servletContext.contextPath}/schemas/insert.htm"
+		modelAttribute="schema">
+		<table class="centeredTable" style="width: auto;">
+			<tbody>
+				<tr>
+					<td>Name:</td>
+					<td><form:input path="name" /></td>
+				</tr>
+				<tr>
+					<td>Description:</td>
+					<td><form:textarea path="description"/></td>
+				</tr>
+				<tr>
+					<td>Start limit: </td>
+					<td><form:select path="startlimit">
+							<form:options items="${timelimits}"/>
+						</form:select>
+					</td>
+				</tr>
+				<tr>
+					<td>Stop limit: </td>
+					<td><form:select path="stoplimit">
+							<form:options items="${timelimits}"/>
+						</form:select>
+					</td>
+				</tr>
+				<tr>
+					<td>Session code: </td>
+					<td><form:input path="sessioncode"/></td>
+				</tr>
+				<tr>
+					<td>Copy all rules from schema: </td>
+					<td>
+						<form:select path="schemaCopy">
+							<form:option value=""/>
+							<form:options items="${schemas}"/>
+						</form:select>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><input type="submit" value="Create" class="submitButton" /><input type="button" name="Cancel" value="Cancel"
+onclick="window.history.back();" class="submitButton" style="margin-left:20px" /></td>
+				</tr>
+
+			</tbody>
+		</table>
+
+	</form:form>
+
+</div>
